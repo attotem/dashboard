@@ -15,7 +15,7 @@ function Dashboard() {
     return (
         <>
             <Header
-                text={"Welcome back, Iliia"} /> <dashboard className="ml-5">
+                text={"Welcome back"} /> <dashboard className="ml-5">
 
 
 
