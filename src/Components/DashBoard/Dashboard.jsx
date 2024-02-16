@@ -15,12 +15,11 @@ function Dashboard() {
     return (
         <>
             <Header
-                text={"Welcome back, Luciano"} />
-            <dashboard className="ml-5">
+                text={"Welcome back, Iliia"} /> <dashboard className="ml-5">
 
 
 
-                <div className='d-flex justify-content-between info_container '>
+                {/* <div className='d-flex justify-content-between info_container '>
                     <Card
                         icon={PeopleOutlineIcon}
                         title={'Total Users'}
@@ -46,7 +45,7 @@ function Dashboard() {
                         total={'87,394'}
                         persents={"1.51"}
                     />
-                </div>
+                </div> */}
 
                 <Linechart />
 

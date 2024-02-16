@@ -123,26 +123,7 @@ const MyProSidebar = () => {
                             setSelected={setSelected} s
                         />
 
-                        {/* <SubMenu
-                            icon={<BusinessCenterRoundedIcon />}
-                            label="Ai category">
 
-                            <Item
-                                title="All categories"
-                                to="/categories"
-                                selected={selected}
-                                setSelected={setSelected}
-                            />
-
-                            < Item
-                                title="Create category"
-                                to="/category_create"
-                                selected={selected}
-                                setSelected={setSelected}
-                            />
-
-
-                        </SubMenu> */}
 
 
                         <Item
@@ -166,13 +147,39 @@ const MyProSidebar = () => {
                             selected={selected}
                             setSelected={setSelected}
                         />
-                        <Item
+                        {/* <Item
                             title="Drivers"
                             to="/drivers"
                             icon={<PeopleRoundedIcon />}
                             selected={selected}
                             setSelected={setSelected}
-                        />
+                        /> */}
+
+                        <SubMenu
+                            icon={<PeopleRoundedIcon />}
+                            label="Drivers">
+
+
+                            < Item
+                                title="All drivers"
+                                to="/drivers"
+                                selected={selected}
+                                setSelected={setSelected}
+                            />
+                            < Item
+                                title="Create driver"
+                                to="/driver_create"
+                                selected={selected}
+                                setSelected={setSelected}
+                            />
+
+
+
+                        </SubMenu>
+
+
+
+
                         <Item
                             title="Payments"
                             to="/payments"

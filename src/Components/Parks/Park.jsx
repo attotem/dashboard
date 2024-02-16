@@ -8,7 +8,7 @@ const Park = ({ brandLogo, brandName, distance, name }) => {
                 <div className="card-body text-center">
                     <img src={brandLogo} alt={brandName} className="card-img-top" style={{ width: '50px' }} />
                     <h5 className="card-title">{name}</h5>
-                    <p className="card-text">{distance} km</p>
+                    {/* <p className="card-text">{distance} </p> */}
                 </div>
             </div>
         </div>
