@@ -15,6 +15,11 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import LogoutIcon from '@mui/icons-material/Logout';
 import logo from "./logo.svg"
 
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import DirectionsCarFilledRoundedIcon from '@mui/icons-material/DirectionsCarFilledRounded';
+import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
+import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
+import PaymentIcon from '@mui/icons-material/Payment';
 
 const Item = ({ title, to, icon, selected, setSelected, newColor }) => {
     const theme = useTheme();
@@ -27,16 +32,19 @@ const Item = ({ title, to, icon, selected, setSelected, newColor }) => {
     }
 
     return (
-        <MenuItem
-            active={selected === title}
-            style={{ color: itemColor }}
-            onClick={() => setSelected(title)}
-            icon={icon}>
+        <div className={selected === title ? "selected" : ""}>
+            <MenuItem
+                active={selected === title}
+                style={{ color: itemColor }}
+                onClick={() => setSelected(title)}
+                icon={icon}>
 
-            <Link to={to} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <Typography>{title}</Typography>
-            </Link>
-        </MenuItem>
+                <Link to={to} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Typography>{title}</Typography>
+                </Link>
+            </MenuItem>
+        </div>
+
     );
 };
 
@@ -105,17 +113,17 @@ const MyProSidebar = () => {
                         <img src={logo} alt="Logo" />
                     </Box> */}
 
-                    <Box paddingLeft={collapsed ? undefined : "10%"}
+                    <Box
                     >
                         <Item
-                            title="Analytics"
+                            title="Dashboard"
                             to="/dashboard"
-                            icon={<SignalCellularAltRoundedIcon />}
+                            icon={<HomeRoundedIcon />}
                             selected={selected}
-                            setSelected={setSelected}
+                            setSelected={setSelected} s
                         />
 
-                        <SubMenu
+                        {/* <SubMenu
                             icon={<BusinessCenterRoundedIcon />}
                             label="Ai category">
 
@@ -134,27 +142,41 @@ const MyProSidebar = () => {
                             />
 
 
-                        </SubMenu>
+                        </SubMenu> */}
 
 
                         <Item
-                            title="Users"
-                            to="/users"
-                            icon={<PeopleAltRoundedIcon />}
+                            title="Cars"
+                            to="/cars"
+                            icon={<DirectionsCarFilledRoundedIcon />}
                             selected={selected}
                             setSelected={setSelected}
                         />
                         <Item
-                            title="FAQ"
-                            to="/faq"
-                            icon={<LiveHelpRoundedIcon />}
+                            title="Calendar"
+                            to="/calendar"
+                            icon={<CalendarMonthRoundedIcon />}
                             selected={selected}
                             setSelected={setSelected}
                         />
                         <Item
-                            title="Setting"
-                            to="/setting"
-                            icon={<SettingsRoundedIcon />}
+                            title="Parks"
+                            to="/parks"
+                            icon={<CalendarMonthRoundedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Item
+                            title="Drivers"
+                            to="/drivers"
+                            icon={<PeopleRoundedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Item
+                            title="Payments"
+                            to="/payments"
+                            icon={<PaymentIcon />}
                             selected={selected}
                             setSelected={setSelected}
                         />
@@ -166,21 +188,7 @@ const MyProSidebar = () => {
                         bottom={0}
 
                     >
-                        <Item
-                            title="Help Centre"
-                            to="/help"
-                            icon={<HelpIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
 
-                        <Item
-                            title="Contact us"
-                            to="/contact"
-                            icon={<PhoneIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
                         <Item
                             title="Log out"
                             to="/login"

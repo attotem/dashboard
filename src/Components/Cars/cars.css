@@ -1,0 +1,21 @@
+.card-img-top{
+    width: 10rem !important;
+}
+.car_status {
+    width: 15px;
+    background: green;
+    height: 15px;
+    position: absolute;
+    top: 1rem ;
+    right: 1rem;
+    border-radius: 50%;
+}
+.card {
+    border: none;
+    border-radius: 20px;
+}
+.card-title{
+    font-weight: 900;
+    font-size: 1.5rem;
+
+}

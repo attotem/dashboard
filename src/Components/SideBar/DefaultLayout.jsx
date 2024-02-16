@@ -12,9 +12,9 @@ const DefaultLayout = ({ children }) => {
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <MyProSidebarProvider>
-                    <div style={{ height: "100%", width: "100%" }}>
-                        <main
-                            style={{ padding: "1rem 3rem" }}>
+                    <div style={{ height: "100vh", width: "100%", background: "#EFF2F4" }}>
+                        {/* <main style={{ padding: "1rem 1rem" }}> */}
+                        <main>
                             {children}
                         </main>
                     </div>

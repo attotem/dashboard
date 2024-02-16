@@ -77,3 +77,24 @@ code {
     margin-bottom: -2rem;
     margin-left: 2rem;
 }
+
+
+
+.selected{
+  background: #E9F5FE !important;
+  position: relative;
+
+}
+
+.selected::after {
+  content: '';
+  display: block;
+  width: 3px;
+  height: 1.4rem;
+  background-color: #0C7FDA;
+  border-radius: 30%;
+  position: absolute;
+  top: 50%;
+  right: 0px;
+  transform: translateY(-50%);
+}

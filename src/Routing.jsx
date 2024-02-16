@@ -1,25 +1,20 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import Login from "./Components/Login/login";
 import DefaultLayout from "./Components/SideBar/DefaultLayout";
-import Category from "./Components/AI_category/create_category"
-import SignUp from "./Components/SingUp/singup"
-import Chart from "./Components/DashBoard/linechart"
 import Dashboard from "./Components/DashBoard/Dashboard";
-import All_categories from "./Components/AI_category/all_categories";
+import Cars from "./Components/Cars/Cars";
+import Drivers from "./Components/Drivers/Drivers";
+import Parks from "./Components/Parks/Parks";
+
 const Routing = () => {
   return (
     <Routes>
-      <Route path="/" element={<Navigate replace to="/login" />} />
-      <Route path="/login" element={<Login />} />
-
-      <Route path="/category_create" element={<DefaultLayout><Category /></DefaultLayout>} />
-      <Route path="/categories" element={<DefaultLayout><All_categories /></DefaultLayout>} />
-
-      <Route path="/another-route" element={<DefaultLayout><div>ne 123</div></DefaultLayout>} />
-
-      <Route path="/singup" element={<SignUp />} />
-
       <Route path="/dashboard" element={<DefaultLayout><Dashboard /></DefaultLayout>} />
+
+      <Route path="/cars" element={<DefaultLayout><Cars /></DefaultLayout>} />
+
+      <Route path="/drivers" element={<DefaultLayout><Drivers /></DefaultLayout>} />
+
+      <Route path="/parks" element={<DefaultLayout><Parks /></DefaultLayout>} />
 
       <Route path="*" element={<DefaultLayout><div>No such directory</div></DefaultLayout>} />
     </Routes>
