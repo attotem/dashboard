@@ -1,53 +1,116 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../Header/header';
-import User from './User'; 
+import bcrypt from 'bcryptjs';
+import { Container, Form, Button, InputGroup, FormControl } from 'react-bootstrap';
+import { EyeSlashFill, EyeFill } from 'react-bootstrap-icons';
+function AddUser() {
+    const [email, setEmail] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
 
-function AllUsers() {
-    const [usersData, setUsersData] = useState([]);
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const hashedPassword = bcrypt.hashSync(password, 10);
 
-    useEffect(() => {
-        fetch("https://ttestt.shop/cars/api/getAll_users", {
-            method: "GET",
-            cache: "no-cache"
+        const userData = {
+            email: email,
+            first_name: firstName,
+            last_name: lastName,
+            hashed_password: hashedPassword,
+            is_superuser: false,
+        };
+
+        fetch("https://ttestt.shop/cars/api/add_user", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData)
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
-                setUsersData(data);
+                console.log(data);
+                alert('User successfully added!');
             })
             .catch(error => {
-                console.error("Error fetching data:", error);
+                console.error("Ошибка при отправке формы:", error);
+                alert('Error: Could not add user.');
             });
-    }, []);
+    };
 
     return (
         <>
             <Header />
-            <div className="container mt-5">
-                <h2>All Users</h2>
-                <div className="table-responsive">
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Email</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {usersData.map((user, index) => (
-                                <User key={index}
-                                    first_name={user.first_name}
-                                    last_name={user.last_name}
-                                    email={user.email}
-                                />
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <Container>
+                <Form onSubmit={handleSubmit} className='w-75'>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control
+                            type="email"
+                            placeholder="Enter Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3">
+                        <Form.Label>First Name</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Enter First Name"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                        />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3">
+                        <Form.Label>Last Name</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Enter Last Name"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                        />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3">
+                        <Form.Label>Password</Form.Label>
+                        <InputGroup>
+                            <FormControl
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Enter Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <Button variant="outline-secondary" onClick={togglePasswordVisibility}>
+                                {showPassword ? <EyeSlashFill /> : <EyeFill />}
+                            </Button>
+                        </InputGroup>
+                    </Form.Group>
+
+                    <div className="d-flex justify-content-between">
+                        <Button variant="outline-secondary" type="button" className='cancel_create'>
+                            Cancel
+                        </Button>
+                        <Button variant="primary" type="submit" className='submit_create'>
+                            Submit
+                        </Button>
+                    </div>
+                </Form>
+            </Container>
         </>
     );
 }
 
-export default AllUsers;
+export default AddUser;
