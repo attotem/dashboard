@@ -4,7 +4,13 @@ import Dashboard from "./Components/DashBoard/Dashboard";
 import Cars from "./Components/Cars/Cars";
 import Drivers from "./Components/Drivers/Drivers";
 import Parks from "./Components/Parks/Parks";
-import Create_driver from "./Components/Drivers/create_driver";
+import AddDriver from "./Components/Drivers/create_driver";
+import AddUser from "./Components/Users/AddUser";
+import AddCar from "./Components/Cars/AddCar";
+import AddPark from "./Components/Parks/Create_park";
+import AllUsers from "./Components/Users/AllUsers";
+
+
 const Routing = () => {
   return (
     <Routes>
@@ -14,7 +20,15 @@ const Routing = () => {
 
       <Route path="/drivers" element={<DefaultLayout><Drivers /></DefaultLayout>} />
 
-      <Route path="/driver_create" element={<DefaultLayout><Create_driver /></DefaultLayout>} />
+      <Route path="/users" element={<DefaultLayout><AllUsers /></DefaultLayout>} />
+
+      <Route path="/add_user" element={<DefaultLayout><AddUser /></DefaultLayout>} />
+
+      <Route path="/add_car" element={<DefaultLayout><AddCar /></DefaultLayout>} />
+
+      <Route path="/add_park" element={<DefaultLayout><AddPark /></DefaultLayout>} />
+
+      <Route path="/driver_create" element={<DefaultLayout><AddDriver /></DefaultLayout>} />
 
       <Route path="/parks" element={<DefaultLayout><Parks /></DefaultLayout>} />
 

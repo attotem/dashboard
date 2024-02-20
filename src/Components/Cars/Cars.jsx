@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CarsCard from './CarsCard';
 import image1 from "./image1.png"
@@ -12,7 +12,21 @@ function Cars() {
         { brandLogo: image1, brandName: 'Audi RS7', distance: '75000', statusColor: 'green' },
     ];
 
-    
+    useEffect(() => {
+        fetch("https://ttestt.shop/cars/api/getAll_park_cars?park_id=1", {
+            method: "GET",
+            cache: "no-cache"
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+            });
+    }, []);
+
+
     return (
         <>
             <div className="container">

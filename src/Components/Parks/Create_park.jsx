@@ -1,104 +1,103 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../Header/header';
-import bcrypt from 'bcryptjs';
 
-function Create_park() {
-    const [Email, setEmail] = useState('');
-    const [First_name, setFirst_name] = useState('');
-    const [Last_name, setLast_name] = useState('');
-    const [Password, setPassword] = useState('');
+function AddPark() {
+    const [parkData, setParkData] = useState({
+        name: "",
+        owner: ""
+    });
+    const [users, setUsers] = useState([]); // Состояние для хранения списка пользователей
+
+    useEffect(() => {
+        fetch("https://ttestt.shop/cars/api/getAll_users", {
+            method: "GET",
+            cache: "no-cache"
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                setUsers(data); // Сохраняем список пользователей в состояние
+            })
+            .catch(error => {
+                console.error("Error fetching users:", error);
+            });
+    }, []);
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setParkData(prevData => ({
+            ...prevData,
+            [name]: value
+        }));
+    };
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(Email)
-        console.log(First_name)
-        console.log(Last_name)
-        console.log(Password)
 
-        // fetch("https://dashboard-dmitrykarpov.pythonanywhere.com/create_category/", {
-        //     method: "POST",
-        //     mode: "cors",
-        //     cache: "no-cache",
-        //     body: formData
-        // })
-        //     .then(response => response.json())
-        //     .then(data => {
-
-        //     })
-        //     .catch(error => { console.error("Ошибка при получении данных:", error); });
+        fetch("https://ttestt.shop/cars/api/add_park", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(parkData)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                alert('Park successfully added!');
+            })
+            .catch(error => {
+                console.error("Ошибка при отправке формы:", error);
+                alert('Error: Could not add park.');
+            });
     };
 
     return (
         <>
             <Header />
             <Container>
-                {/* <div className='title'>Create a new driver</div> */}
                 <Form onSubmit={handleSubmit} className='w-75'>
-
-                    <Form.Group className="mb-3" controlId="formAssistantName">
-                        <Form.Label className='m-0'>
-                            Email
-                        </Form.Label>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Name</Form.Label>
                         <Form.Control
                             type="text"
-                            placeholder="Enter Email"
-                            value={Email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            name="name"
+                            placeholder="Enter Park Name"
+                            value={parkData.name}
+                            onChange={handleChange}
                         />
                     </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formAssistantName">
-                        <Form.Label className='m-0'>
-                            First_name
-                        </Form.Label>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Owner</Form.Label>
                         <Form.Control
-                            type="text"
-                            placeholder="Enter First_name"
-                            value={First_name}
-                            onChange={(e) => setFirst_name(e.target.value)}
-                        />
+                            as="select"
+                            name="owner"
+                            value={parkData.owner}
+                            onChange={handleChange}
+                            required
+                        >
+                            <option value="" disabled>Select Owner</option>
+                            {users.map(user => (
+                                <option key={user.id} value={user.id}>
+                                    {user.first_name} {user.last_name}
+                                </option>
+                            ))}
+                        </Form.Control>
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formAssistantName">
-                        <Form.Label className='m-0'>
-                            Last_name
-                        </Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter Last_name "
-                            value={Last_name}
-                            onChange={(e) => setLast_name(e.target.value)}
-                        />
-                    </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formAssistantName">
-                        <Form.Label className='m-0'>
-                            Password
-                        </Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter Password"
-                            value={Password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </Form.Group>
-
-                    <div className="d-flex justify-content-between">
-                        <Button variant="outline" type="button" className='cancel_create'>
-                            Cancel
-                        </Button>
-                        <Button variant="primary" type="submit" className='submit_create'>
-                            Submit
-                        </Button>
-                    </div>
+                    <Button variant="primary" type="submit">Submit</Button>
                 </Form>
             </Container>
-
         </>
-
     );
 }
 
-export default Create_park;
+export default AddPark;

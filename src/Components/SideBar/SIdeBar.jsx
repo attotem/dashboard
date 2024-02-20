@@ -5,22 +5,14 @@ import { useSidebarContext } from "./sidebarContext";
 import { Link } from "react-router-dom";
 import { tokens } from "./Theme";
 import { useTheme, Box, Typography } from "@mui/material";
-import SignalCellularAltRoundedIcon from '@mui/icons-material/SignalCellularAltRounded';
-import BusinessCenterRoundedIcon from '@mui/icons-material/BusinessCenterRounded';
-import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
-import LiveHelpRoundedIcon from '@mui/icons-material/LiveHelpRounded';
-import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
-import HelpIcon from '@mui/icons-material/Help';
-import PhoneIcon from '@mui/icons-material/Phone';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
-import logo from "./logo.svg"
-
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import DirectionsCarFilledRoundedIcon from '@mui/icons-material/DirectionsCarFilledRounded';
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
 import PaymentIcon from '@mui/icons-material/Payment';
-
+import WarehouseIcon from '@mui/icons-material/Warehouse';
 const Item = ({ title, to, icon, selected, setSelected, newColor }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -123,16 +115,50 @@ const MyProSidebar = () => {
                             setSelected={setSelected} s
                         />
 
-
-
-
-                        <Item
-                            title="Cars"
-                            to="/cars"
+                        <SubMenu
                             icon={<DirectionsCarFilledRoundedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
+                            label="Cars">
+
+
+                            < Item
+                                title="All cars"
+                                to="/cars"
+                                selected={selected}
+                                setSelected={setSelected}
+                            />
+
+                            < Item
+                                title="Create car"
+                                to="/add_car"
+                                selected={selected}
+                                setSelected={setSelected}
+                            />
+
+                        </SubMenu>
+
+                        <SubMenu
+                            icon={<WarehouseIcon />}
+                            label="Parks">
+
+
+                            < Item
+                                title="All parks"
+                                to="/parks"
+                                selected={selected}
+                                setSelected={setSelected}
+                            />
+
+                            < Item
+                                title="Create park"
+                                to="/add_park"
+                                selected={selected}
+                                setSelected={setSelected}
+                            />
+
+                        </SubMenu>
+
+
+
                         <Item
                             title="Calendar"
                             to="/calendar"
@@ -140,20 +166,6 @@ const MyProSidebar = () => {
                             selected={selected}
                             setSelected={setSelected}
                         />
-                        <Item
-                            title="Parks"
-                            to="/parks"
-                            icon={<CalendarMonthRoundedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-                        {/* <Item
-                            title="Drivers"
-                            to="/drivers"
-                            icon={<PeopleRoundedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        /> */}
 
                         <SubMenu
                             icon={<PeopleRoundedIcon />}
@@ -166,6 +178,7 @@ const MyProSidebar = () => {
                                 selected={selected}
                                 setSelected={setSelected}
                             />
+
                             < Item
                                 title="Create driver"
                                 to="/driver_create"
@@ -178,7 +191,24 @@ const MyProSidebar = () => {
                         </SubMenu>
 
 
+                        <SubMenu
+                            icon={<AccountCircleIcon />}
+                            label="Users">
 
+                            < Item
+                                title="All users"
+                                to="/users"
+                                selected={selected}
+                                setSelected={setSelected}
+                            />
+                            < Item
+                                title="Add user"
+                                to="/add_user"
+                                selected={selected}
+                                setSelected={setSelected}
+                            />
+
+                        </SubMenu>
 
                         <Item
                             title="Payments"
@@ -187,7 +217,6 @@ const MyProSidebar = () => {
                             selected={selected}
                             setSelected={setSelected}
                         />
-
                     </Box>
 
                     <Box paddingLeft={collapsed ? undefined : "10%"}
@@ -195,7 +224,6 @@ const MyProSidebar = () => {
                         bottom={0}
 
                     >
-
                         <Item
                             title="Log out"
                             to="/login"
