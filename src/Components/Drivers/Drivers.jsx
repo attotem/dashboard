@@ -4,11 +4,15 @@ import Driver from './Driver';
 
 function Drivers() {
     const [customersData, setCustomersData] = useState([]);
-
+    const cookie = document.cookie
+    let sessionId = cookie.split("=")[1];
     useEffect(() => {
         fetch("https://ttestt.shop/cars/api/getAll_drivers?park_id=1", {
             method: "GET",
-            cache: "no-cache"
+            cache: "no-cache",
+            headers: {
+                "Authorization": `Bearer ${sessionId}`
+            }
         })
             .then(response => response.json())
             .then(data => {
@@ -40,7 +44,14 @@ function Drivers() {
                                 <Driver key={index}
                                     first_name={customer.first_name}
                                     last_name={customer.last_name}
+                                    experience={customer.experience}
+                                    categories={customer.categories}
+                                    park_id={customer.park_id}
+                                    post={customer.post}
+                                    salary={customer.salary}
+                                    tg={customer.tg}
                                     phone_number={customer.phone_number}
+
                                 />
                             ))}
                         </tbody>

@@ -4,11 +4,15 @@ import Park from './Park';
 function Parks() {
 
     const [customersData, setCustomersData] = useState([]);
-
+    const cookie = document.cookie
+    let sessionId = cookie.split("=")[1];
     useEffect(() => {
         fetch("https://ttestt.shop/cars/api/getAll_parks?user_id=3", {
             method: "GET",
-            cache: "no-cache"
+            cache: "no-cache",
+            headers: {
+                "Authorization": `Bearer ${sessionId}`
+            }
         })
             .then(response => response.json())
             .then(data => {

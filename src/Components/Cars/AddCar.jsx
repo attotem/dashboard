@@ -55,11 +55,14 @@ function AddCar() {
 
         console.log(JSON.stringify(carData))
 
-
+        const cookie = document.cookie
+        let sessionId = cookie.split("=")[1];
         fetch("https://ttestt.shop/cars/api/add_car", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
+                "Authorization": `Bearer ${sessionId}`
+
             },
             body: JSON.stringify(carData)
         })

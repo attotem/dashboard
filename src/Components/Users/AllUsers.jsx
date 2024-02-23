@@ -5,10 +5,19 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function AllUsers() {
     const [users, setUsers] = useState([]);
 
+    console.log(document.cookie)
+
+    const cookie = document.cookie
+    let sessionId = cookie.split("=")[1];
     useEffect(() => {
         fetch("https://ttestt.shop/cars/api/getAll_users", {
             method: "GET",
-            cache: "no-cache"
+            cache: "no-cache",
+            credentials: 'include',
+            headers: {
+                "Authorization": `Bearer ${sessionId}`
+            }
+
         })
             .then(response => response.json())
             .then(data => {

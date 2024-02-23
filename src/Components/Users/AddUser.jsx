@@ -32,6 +32,7 @@ function AddUser() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(userData)
+            
         })
             .then(response => {
                 if (!response.ok) {

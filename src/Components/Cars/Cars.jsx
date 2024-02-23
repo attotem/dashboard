@@ -3,52 +3,22 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import CarsCard from './CarsCard';
 import Header from '../Header/header'
 import image1 from "./image1.png"
-// function Cars() {
 
-//     const cars = [
-//         { brandLogo: image1, brandName: 'Audi RS7', distance: '75000', statusColor: 'green' },
-//         { brandLogo: image1, brandName: 'Audi RS7', distance: '75000', statusColor: 'green' },
-//         { brandLogo: image1, brandName: 'Audi RS7', distance: '75000', statusColor: 'green' },
-//         { brandLogo: image1, brandName: 'Audi RS7', distance: '75000', statusColor: 'green' },
-//         { brandLogo: image1, brandName: 'Audi RS7', distance: '75000', statusColor: 'green' },
-//     ];
-
-//     useEffect(() => {
-//         fetch("https://ttestt.shop/cars/api/getAll_park_cars?park_id=1", {
-//             method: "GET",
-//             cache: "no-cache"
-//         })
-//             .then(response => response.json())
-//             .then(data => {
-//                 console.log(data)
-//             })
-//             .catch(error => {
-//                 console.error("Error fetching data:", error);
-//             });
-//     }, []);
-
-
-// return (
-//     <>
-//         <div className="container">
-//             <div className="row row-cols-1 row-cols-md-4 g-4">
-//                 {cars.map((car, index) => (
-//                     <CarsCard key={index} {...car} />
-//                 ))}
-//             </div>
-//         </div>
-//     </>
-
-// )
-// }
 
 function Cars() {
     const [customersData, setCustomersData] = useState([]);
 
+
+    const cookie = document.cookie
+    let sessionId = cookie.split("=")[1];
+
     useEffect(() => {
         fetch("https://ttestt.shop/cars/api/getAll_park_cars?park_id=1", {
             method: "GET",
-            cache: "no-cache"
+            cache: "no-cache",
+            headers: {
+                "Authorization": `Bearer ${sessionId}`
+            }
         })
             .then(response => response.json())
             .then(data => {
