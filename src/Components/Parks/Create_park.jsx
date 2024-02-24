@@ -8,7 +8,7 @@ function AddPark() {
         name: "",
         owner: ""
     });
-    const [users, setUsers] = useState([]); // Состояние для хранения списка пользователей
+    const [users, setUsers] = useState([]);
     const cookie = document.cookie
     let sessionId = cookie.split("=")[1];
     useEffect(() => {
@@ -22,7 +22,7 @@ function AddPark() {
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                setUsers(data); // Сохраняем список пользователей в состояние
+                setUsers(data);
             })
             .catch(error => {
                 console.error("Error fetching users:", error);
@@ -44,6 +44,8 @@ function AddPark() {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
+                "Authorization": `Bearer ${sessionId}`
+
             },
             body: JSON.stringify(parkData)
         })

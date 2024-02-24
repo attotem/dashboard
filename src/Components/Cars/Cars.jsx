@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CarsCard from './CarsCard';
-import Header from '../Header/header'
-import image1 from "./image1.png"
-
 
 function Cars() {
     const [customersData, setCustomersData] = useState([]);
@@ -22,12 +19,8 @@ function Cars() {
         })
             .then(response => response.json())
             .then(data => {
-                let new_data = []
-                for (let i = 0; i < data.length; i++) {
-                    new_data.push({ brandLogo: image1, brandName: data[i].brand, distance: data[i].kms, statusColor: 'green' })
-                }
-                console.log(new_data)
-                setCustomersData(new_data);
+                console.log(data)
+                setCustomersData(data);
             })
             .catch(error => {
                 console.error("Error fetching data:", error);

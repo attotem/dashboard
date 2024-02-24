@@ -5,7 +5,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function AllUsers() {
     const [users, setUsers] = useState([]);
 
-    console.log(document.cookie)
 
     const cookie = document.cookie
     let sessionId = cookie.split("=")[1];
@@ -21,6 +20,7 @@ function AllUsers() {
         })
             .then(response => response.json())
             .then(data => {
+                console.log(data)
                 setUsers(data);
             })
             .catch(error => {
@@ -31,11 +31,24 @@ function AllUsers() {
     return (
         <div className="container mt-5">
             <h2>All Users</h2>
-            <div className="row row-cols-1 row-cols-md-3 g-4">
-                {users.map((user, index) => (
-                    <User key={index} {...user} />
-                ))}
-            </div>
+
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th className='table_header'>First name</th>
+                        <th className='table_header'>Last name</th>
+                        <th className='table_header'>Phone number</th>
+                        <th className='table_header'></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {users.map((user, index) => (
+                        <User key={index} {...user} />
+                    ))}
+                </tbody>
+            </table>
+
+
         </div>
     );
 }

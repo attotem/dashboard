@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./cars.css";
+import { useNavigate } from 'react-router-dom';
 
 const CarsCard = ({
     brandLogo,
@@ -37,20 +38,27 @@ const CarsCard = ({
     tire_type_change,
     air_conditioning_change,
     service_interval_id,
-    park_id
+    park_id,
+    id
 }) => {
     const [showModal, setShowModal] = useState(false);
 
     const handleShow = () => setShowModal(true);
     const handleClose = () => setShowModal(false);
 
+    const navigate = useNavigate();
+
+
+    function EditCar() {
+        navigate(`/edit_car/${id}`)
+    }
     return (
         <div className="col">
             <div className="card" onClick={handleShow}>
                 <div className="card-body text-center">
                     <img src={brandLogo} alt={brandName} className="card-img-top" style={{ width: '50px' }} />
                     <h5 className="card-title">{brandName}</h5>
-                    <p className="card-text">{distance} km</p>
+                    <p className="card-text">{kms} km</p>
                     <div className={`car_status ${statusColor}`}></div>
                 </div>
             </div>
@@ -67,8 +75,9 @@ const CarsCard = ({
                     <p>Engine: {engine}</p>
                     <p>Transmission: {transmission}</p>
                 </Modal.Body>
-                <Modal.Footer>
+                <Modal.Footer className='d-flex justify-content-between'>
                     <button onClick={handleClose}>Close</button>
+                    <button onClick={EditCar}>Edit car</button>
                 </Modal.Footer>
             </Modal>
         </div>
