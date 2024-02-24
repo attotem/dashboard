@@ -51,7 +51,7 @@ function Drivers() {
                                     salary={customer.salary}
                                     tg={customer.tg}
                                     phone_number={customer.phone_number}
-
+                                    id={customer.id}
                                 />
                             ))}
                         </tbody>

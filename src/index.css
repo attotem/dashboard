@@ -111,3 +111,29 @@ code {
 .modal {
   z-index: 20000 !important;
 } 
+
+
+.cancel_modal {
+  font-size: 1rem;
+  background: none;
+  border: none;
+  color: #ff6565;
+}
+
+.edit_modal{
+    font-size: 1rem;
+    background: none;
+    border: 1px solid;
+    color: #007fff;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.edit_modal:hover{
+    font-size: 1rem;
+    background: #007fff;;
+    border: 1px solid;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+}

@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Form, Button } from 'react-bootstrap';
+import { Container, Form, Button, FormGroup } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../Header/header';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 function EditCar() {
+    let { carId } = useParams();
+    const navigate = useNavigate();
     const [carData, setCarData] = useState({
         brand: "",
         model: "",
-        year: 0,
+        year: "",
         VIN_number: "",
-        kms: 0,
+        kms: "",
         engine: "",
         transmission: "",
         fuel_type: "",
@@ -18,30 +20,28 @@ function EditCar() {
         insurance_info: "",
         tire_size: "",
         color: "",
-        kms_per_day: 0,
+        kms_per_day: "",
         driver_id: null,
-        tire_type: 0,
-        oil_change: 0,
-        air_filter_change: 0,
-        cabin_filter_change: 0,
-        fuel_filter_change: 0,
-        brake_pads_change: 0,
-        brake_disks_change: 0,
-        valvetrain_change: 0,
-        spark_plugs_change: 0,
-        pendant_change: 0,
-        tire_change: 0,
-        brake_fluid_change: 0,
-        antifreeze_change: 0,
+        tire_type: "",
+        oil_change: "",
+        air_filter_change: "",
+        cabin_filter_change: "",
+        fuel_filter_change: "",
+        brake_pads_change: "",
+        brake_disks_change: "",
+        valvetrain_change: "",
+        spark_plugs_change: "",
+        pendant_change: "",
+        tire_change: "",
+        brake_fluid_change: "",
+        antifreeze_change: "",
         tire_type_change: "",
         air_conditioning_change: "",
-        service_interval_id: 1,
-        park_id: 0,
+        service_interval_id: "",
+        park_id: "",
     });
     const [changedData, setChangedData] = useState({});
-    let { carId } = useParams();
-    const cookie = document.cookie;
-    let sessionId = cookie.split("=")[1];
+    const sessionId = document.cookie.split("=")[1];
 
     useEffect(() => {
         fetch("https://ttestt.shop/cars/api/getAll_park_cars?park_id=1", {
@@ -56,38 +56,40 @@ function EditCar() {
 
                 for (let i = 0; i < data.length; i++) {
                     if (data[i].id == carId) {
-                        setCarData(data[i])
-                        console.log(data[i])
+                        setCarData(data[i]);
                     }
                 }
+
             })
             .catch(error => {
-                console.error("Error fetching data:", error);
+                console.error("Error fetching car data:", error);
             });
-    }, []);
+    }, [carId, sessionId]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        const updatedValue = name === "driver_id" && value === "" ? null : value;
         setCarData(prevData => ({
             ...prevData,
             [name]: value
         }));
         setChangedData(prevData => ({
             ...prevData,
-            [name]: updatedValue 
+            [name]: value
         }));
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        fetch(`https://ttestt.shop/cars/api/update_car/${carId}`, {
-            method: "PUT",
+
+        console.log({ id: carId, fields: changedData })
+
+        fetch(`https://ttestt.shop/cars/api/update_car`, {
+            method: "POST",
             headers: {
                 'Content-Type': 'application/json',
                 "Authorization": `Bearer ${sessionId}`
             },
-            body: JSON.stringify(changedData) 
+            body: JSON.stringify({ id: carId, fields: changedData }),
         })
             .then(response => {
                 if (!response.ok) {
@@ -95,9 +97,9 @@ function EditCar() {
                 }
                 return response.json();
             })
-            .then(data => {
-                console.log(data);
+            .then(() => {
                 alert('Car successfully updated!');
+                navigate(-1);
             })
             .catch(error => {
                 console.error("Error updating car:", error);
@@ -105,9 +107,12 @@ function EditCar() {
             });
     };
 
+    const handleCancel = () => {
+        navigate(-1);
+    };
+
     return (
         <>
-            <Header />
             <Container>
                 <Form onSubmit={handleSubmit} className='w-75'>
                     {Object.keys(carData).map(key => (
@@ -122,7 +127,10 @@ function EditCar() {
                             />
                         </Form.Group>
                     ))}
-                    <Button variant="primary" type="submit">Update Car</Button>
+                    <div className="d-flex justify-content-between">
+                        <Button variant="secondary" onClick={handleCancel}>Cancel</Button>
+                        <Button variant="primary" type="submit">Save Changes</Button>
+                    </div>
                 </Form>
             </Container>
         </>

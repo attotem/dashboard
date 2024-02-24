@@ -1,43 +1,19 @@
 import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from 'react-router-dom';
 
-const User = ({ first_name, last_name, email }) => {
+const User = ({ first_name, last_name, email, id }) => {
     const [showModal, setShowModal] = useState(false);
 
     const handleShow = () => setShowModal(true);
     const handleClose = () => setShowModal(false);
 
+    const navigate = useNavigate();
+    function EditUser() {
+        navigate(`/edit_user/${id}`)
+    }
 
-
-    const [editableFirstName, setEditableFirstName] = useState(first_name);
-    const [editableLastName, setEditableLastName] = useState(last_name);
-    const [editableEmail, setEditableEmail] = useState(email);
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const updatedUser = {
-            first_name: editableFirstName,
-            last_name: editableLastName,
-            email: editableEmail,
-        };
-
-        fetch("https://ttestt.shop/cars/api/update_user", {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(updatedUser),
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log("Success:", data);
-                handleClose();
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
-    };
     return (
         <>
             <tr onClick={handleShow}>
@@ -58,8 +34,9 @@ const User = ({ first_name, last_name, email }) => {
                     <p>First Name: {first_name}</p>
                     <p>Last Name: {last_name}</p>
                 </Modal.Body>
-                <Modal.Footer>
-                    <button onClick={handleClose}>Close</button>
+                <Modal.Footer className='d-flex justify-content-between'>
+                    <button className="cancel_modal" onClick={handleClose}>Close</button>
+                    <button className='edit_modal' onClick={EditUser}>Edit user</button>
                 </Modal.Footer>
             </Modal>
         </>

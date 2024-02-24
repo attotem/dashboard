@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 function EditPark({ parkId, onSave, show, onHide }) {
-    const sessionId = document.cookie.split("=")[1];
-
+    const navigate = useNavigate();
     const [parkData, setParkData] = useState({ name: "", owner: "" });
+    const [changedData, setChangedData] = useState({});
+    const sessionId = document.cookie.split("=")[1];
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
@@ -51,26 +53,37 @@ function EditPark({ parkId, onSave, show, onHide }) {
             });
     };
 
-    // const handleClose = () => setShow(false);
-    // const handleShow = () => setShow(true);
-
     const handleChange = (event) => {
-        const { name, value } = event.target;
+        const { name, value, type, checked } = event.target;
+        const updatedValue = type === 'checkbox' ? checked : value;
+
         setParkData(prevData => ({
             ...prevData,
-            [name]: value
+            [name]: updatedValue
+        }));
+
+        setChangedData(prevData => ({
+            ...prevData,
+            [name]: updatedValue
         }));
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        fetch(`https://ttestt.shop/cars/api/update_park/${parkId}`, {
-            method: "PUT",
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        const updatedParkData = {
+            id: parkId,
+            fields: changedData,
+        };
+
+        console.log(updatedParkData);
+        fetch(`https://ttestt.shop/cars/api/update_park`, {
+            method: "POST",
             headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${sessionId}`
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${sessionId}`,
             },
-            body: JSON.stringify(parkData),
+            body: JSON.stringify(updatedParkData),
         })
             .then(response => {
                 if (!response.ok) {
@@ -80,13 +93,15 @@ function EditPark({ parkId, onSave, show, onHide }) {
             })
             .then(data => {
                 console.log(data);
-                onSave();
-                // handleClose();
+                alert('Park data updated successfully');
+                navigate(-1);
             })
             .catch(error => {
                 console.error("Error updating park:", error);
+                alert('Error: Could not update park data.');
             });
     };
+
 
     return (
         <>

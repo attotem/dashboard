@@ -76,8 +76,8 @@ const CarsCard = ({
                     <p>Transmission: {transmission}</p>
                 </Modal.Body>
                 <Modal.Footer className='d-flex justify-content-between'>
-                    <button onClick={handleClose}>Close</button>
-                    <button onClick={EditCar}>Edit car</button>
+                    <button className="cancel_modal" onClick={handleClose}>Close</button>
+                    <button className='edit_modal' onClick={EditCar}>Edit car</button>
                 </Modal.Footer>
             </Modal>
         </div>

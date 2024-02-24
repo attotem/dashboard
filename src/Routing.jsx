@@ -12,6 +12,8 @@ import AllUsers from "./Components/Users/AllUsers";
 import CustomFormValidation from "./Components/Login/login"
 import EditCar from "./Components/Cars/Edit_car";
 import EditPark from "./Components/Parks/EditPark";
+import EditDriver from "./Components/Drivers/EditDriver";
+import EditUser from "./Components/Users/EditUser";
 const Routing = () => {
   return (
     <Routes>
@@ -26,6 +28,10 @@ const Routing = () => {
       <Route path="/edit_car/:carId" element={<DefaultLayout><EditCar /></DefaultLayout>} />
 
       <Route path="/edit_park/:paekId" element={<DefaultLayout><EditPark /></DefaultLayout>} />
+
+      <Route path="/edit_driver/:driverId" element={<DefaultLayout><EditDriver /></DefaultLayout>} />
+
+      <Route path="/edit_user/:userId" element={<DefaultLayout><EditUser /></DefaultLayout>} />
 
       <Route path="/drivers" element={<DefaultLayout><Drivers /></DefaultLayout>} />
 

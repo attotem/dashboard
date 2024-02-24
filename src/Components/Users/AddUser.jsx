@@ -4,6 +4,7 @@ import Header from '../Header/header';
 import bcrypt from 'bcryptjs';
 import { Container, Form, Button, InputGroup, FormControl } from 'react-bootstrap';
 import { EyeSlashFill, EyeFill } from 'react-bootstrap-icons';
+
 function AddUser() {
     const [email, setEmail] = useState('');
     const [firstName, setFirstName] = useState('');
@@ -14,6 +15,9 @@ function AddUser() {
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
+
+    const cookie = document.cookie;
+    const sessionId = cookie.split("=")[1];
     const handleSubmit = (event) => {
         event.preventDefault();
         const hashedPassword = bcrypt.hashSync(password, 10);
@@ -30,9 +34,12 @@ function AddUser() {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
+                "Authorization": `Bearer ${sessionId}`
+
             },
+
             body: JSON.stringify(userData)
-            
+
         })
             .then(response => {
                 if (!response.ok) {
@@ -101,9 +108,6 @@ function AddUser() {
                     </Form.Group>
 
                     <div className="d-flex justify-content-between">
-                        <Button variant="outline-secondary" type="button" className='cancel_create'>
-                            Cancel
-                        </Button>
                         <Button variant="primary" type="submit" className='submit_create'>
                             Submit
                         </Button>

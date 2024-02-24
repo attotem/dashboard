@@ -37,8 +37,6 @@ function CustomFormValidation() {
   const userData = {
     id: userId,
   };
-
-
     const submit = () => {
       fetch("https://ttestt.shop/cars/api/login", {
           method: "POST",
