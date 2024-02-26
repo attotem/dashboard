@@ -14,44 +14,44 @@ import EditCar from "./Components/Cars/Edit_car";
 import EditPark from "./Components/Parks/EditPark";
 import EditDriver from "./Components/Drivers/EditDriver";
 import EditUser from "./Components/Users/EditUser";
+
+import { useAuth } from "./AuthProvider";
+
 const Routing = () => {
+  const { isAuthenticated } = useAuth();
   return (
     <Routes>
-
       <Route path="/login" element={<CustomFormValidation />} />
 
+      <Route path="/dashboard" element={isAuthenticated ? <DefaultLayout><Dashboard /></DefaultLayout> : <Navigate to="/login" />} />
 
-      <Route path="/dashboard" element={<DefaultLayout><Dashboard /></DefaultLayout>} />
+      <Route path="/cars" element={isAuthenticated ? <DefaultLayout><Cars /></DefaultLayout> : <Navigate to="/login" />} />
 
-      <Route path="/cars" element={<DefaultLayout><Cars /></DefaultLayout>} />
+      <Route path="/edit_car/:carId" element={isAuthenticated ? <DefaultLayout><EditCar /></DefaultLayout> : <Navigate to="/login" />} />
 
-      <Route path="/edit_car/:carId" element={<DefaultLayout><EditCar /></DefaultLayout>} />
+      <Route path="/edit_park/:paekId" element={isAuthenticated ? <DefaultLayout><EditPark /></DefaultLayout> : <Navigate to="/login" />} />
 
-      <Route path="/edit_park/:paekId" element={<DefaultLayout><EditPark /></DefaultLayout>} />
+      <Route path="/edit_driver/:driverId" element={isAuthenticated ? <DefaultLayout><EditDriver /></DefaultLayout> : <Navigate to="/login" />} />
 
-      <Route path="/edit_driver/:driverId" element={<DefaultLayout><EditDriver /></DefaultLayout>} />
+      <Route path="/edit_user/:userId" element={isAuthenticated ? <DefaultLayout><EditUser /></DefaultLayout> : <Navigate to="/login" />} />
 
-      <Route path="/edit_user/:userId" element={<DefaultLayout><EditUser /></DefaultLayout>} />
+      <Route path="/drivers" element={isAuthenticated ? <DefaultLayout><Drivers /></DefaultLayout> : <Navigate to="/login" />} />
 
-      <Route path="/drivers" element={<DefaultLayout><Drivers /></DefaultLayout>} />
+      <Route path="/users" element={isAuthenticated ? <DefaultLayout><AllUsers /></DefaultLayout> : <Navigate to="/login" />} />
 
-      <Route path="/users" element={<DefaultLayout><AllUsers /></DefaultLayout>} />
+      <Route path="/add_user" element={isAuthenticated ? <DefaultLayout><AddUser /></DefaultLayout> : <Navigate to="/login" />} />
 
-      <Route path="/add_user" element={<DefaultLayout><AddUser /></DefaultLayout>} />
+      <Route path="/add_car" element={isAuthenticated ? <DefaultLayout><AddCar /></DefaultLayout> : <Navigate to="/login" />} />
 
-      <Route path="/add_car" element={<DefaultLayout><AddCar /></DefaultLayout>} />
+      <Route path="/add_park" element={isAuthenticated ? <DefaultLayout><AddPark /></DefaultLayout> : <Navigate to="/login" />} />
 
-      <Route path="/add_park" element={<DefaultLayout><AddPark /></DefaultLayout>} />
+      <Route path="/driver_create" element={isAuthenticated ? <DefaultLayout><AddDriver /></DefaultLayout> : <Navigate to="/login" />} />
 
-      <Route path="/driver_create" element={<DefaultLayout><AddDriver /></DefaultLayout>} />
+      <Route path="/parks" element={isAuthenticated ? <DefaultLayout><Parks /></DefaultLayout> : <Navigate to="/login" />} />
 
-      <Route path="/parks" element={<DefaultLayout><Parks /></DefaultLayout>} />
-
-      <Route path="*" element={<DefaultLayout><div>No such directory</div></DefaultLayout>} />
+      <Route path="*" element={isAuthenticated ? <DefaultLayout>No directory</DefaultLayout> : <Navigate to="/login" />} />
     </Routes>
   );
 };
-
-
 
 export default Routing;

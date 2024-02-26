@@ -53,6 +53,8 @@ function AddDriver() {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
+                "Authorization": `Bearer ${sessionId}`
+
             },
             body: JSON.stringify(driverData)
         })

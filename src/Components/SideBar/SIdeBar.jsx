@@ -115,26 +115,16 @@ const MyProSidebar = () => {
                             setSelected={setSelected} s
                         />
 
-                        <SubMenu
+
+
+                        < Item
+                            title="Cars"
+                            to="/cars"
+                            selected={selected}
+                            setSelected={setSelected}
                             icon={<DirectionsCarFilledRoundedIcon />}
-                            label="Cars">
 
-
-                            < Item
-                                title="All cars"
-                                to="/cars"
-                                selected={selected}
-                                setSelected={setSelected}
-                            />
-
-                            < Item
-                                title="Create car"
-                                to="/add_car"
-                                selected={selected}
-                                setSelected={setSelected}
-                            />
-
-                        </SubMenu>
+                        />
 
                         <SubMenu
                             icon={<WarehouseIcon />}

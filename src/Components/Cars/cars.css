@@ -19,3 +19,20 @@
     font-size: 1.5rem;
 
 }
+.nameInfoCar   {
+    font-size: 1rem;
+    padding-bottom: 5px;
+}
+.infoCar {
+    font-size: 1rem;
+    margin-left: 8px;
+    font-weight: 600;
+    padding-bottom: 5px;
+
+}
+.header_cars {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
