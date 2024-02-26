@@ -191,7 +191,7 @@ const MyProSidebar = () => {
                         </SubMenu>
 
 
-                        <SubMenu
+                        {/* <SubMenu
                             icon={<AccountCircleIcon />}
                             label="Users">
 
@@ -208,7 +208,7 @@ const MyProSidebar = () => {
                                 setSelected={setSelected}
                             />
 
-                        </SubMenu>
+                        </SubMenu> */}
 
                         <Item
                             title="Payments"

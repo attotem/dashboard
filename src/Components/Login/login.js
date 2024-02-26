@@ -8,10 +8,10 @@ import {useCookies } from 'react-cookie'
 
 const defaultState = {
   name: null,
-  email: null,
+  park_name: null,
   password: null,
   nameError: null,
-  emailError: null,
+  park_nameError: null,
   passwordError: null,
 };
 
@@ -38,6 +38,7 @@ function CustomFormValidation() {
     id: userId,
   };
     const submit = () => {
+      console.log(state.park_name)
       fetch("https://ttestt.shop/cars/api/login", {
           method: "POST",
           mode: "cors",
@@ -47,7 +48,7 @@ function CustomFormValidation() {
               "Content-Type": "application/json"
           },
           body: JSON.stringify({
-              email: state.email, 
+            park_name: state.park_name, 
           })
       })
       .then(response => response.json())
@@ -108,18 +109,15 @@ function CustomFormValidation() {
                     <form>
                       <div className="form-floating mb-3">
                         <input
-                          type="email"
-                          className={`form-control ${
-                            state.emailError ? 'invalid' : ''
-                          }`}
+                          type="park_name"
+                          className={`form-control`}
                           id="floatingInput"
-                          name="email"
+                          name="park_name"
                           placeholder="name@example.com"
-                          value={state.email || ''}
                           onChange={handleInputChange}
                         />
-                        <label htmlFor="floatingInput">Email address</label>
-                        <span className="text-danger">{state.emailError}</span>
+                        <label htmlFor="floatingInput">Park name</label>
+                        {/* <span className="text-danger">{state.park_name}</span> */}
                       </div>
                       <div className="form-floating mb-3">
                         <input

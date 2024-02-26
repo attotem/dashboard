@@ -1,33 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../Header/header';
+import bcrypt from 'bcryptjs';
 
 function AddPark() {
     const [parkData, setParkData] = useState({
         name: "",
-        owner: ""
+        password: "" // Используйте 'password' для хранения ввода от пользователя
     });
-    const [users, setUsers] = useState([]);
-    const cookie = document.cookie
+    const cookie = document.cookie;
     let sessionId = cookie.split("=")[1];
-    useEffect(() => {
-        fetch("https://ttestt.shop/cars/api/getAll_users", {
-            method: "GET",
-            cache: "no-cache",
-            headers: {
-                "Authorization": `Bearer ${sessionId}`
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                setUsers(data);
-            })
-            .catch(error => {
-                console.error("Error fetching users:", error);
-            });
-    }, []);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -40,6 +23,12 @@ function AddPark() {
     const handleSubmit = (event) => {
         event.preventDefault();
 
+        const hashedPassword = bcrypt.hashSync(parkData.password, 10);
+        const submissionData = {
+            name: parkData.name,
+            hashed_password: hashedPassword
+        };
+
         fetch("https://ttestt.shop/cars/api/add_park", {
             method: "POST",
             headers: {
@@ -47,7 +36,7 @@ function AddPark() {
                 "Authorization": `Bearer ${sessionId}`
 
             },
-            body: JSON.stringify(parkData)
+            body: JSON.stringify(submissionData)
         })
             .then(response => {
                 if (!response.ok) {
@@ -81,23 +70,16 @@ function AddPark() {
                         />
                     </Form.Group>
                     <Form.Group className="mb-3">
-                        <Form.Label>Owner</Form.Label>
+                        <Form.Label>Password</Form.Label>
                         <Form.Control
-                            as="select"
-                            name="owner"
-                            value={parkData.owner}
+                            type="password"
+                            name="password"
+                            placeholder="Enter Password"
+                            value={parkData.password}
                             onChange={handleChange}
                             required
-                        >
-                            <option value="" disabled>Select Owner</option>
-                            {users.map(user => (
-                                <option key={user.id} value={user.id}>
-                                    {user.first_name} {user.last_name}
-                                </option>
-                            ))}
-                        </Form.Control>
+                        />
                     </Form.Group>
-
 
                     <Button variant="primary" type="submit">Submit</Button>
                 </Form>

@@ -121,7 +121,7 @@ function EditPark({ parkId, onSave, show, onHide }) {
                                 onChange={handleChange}
                             />
                         </Form.Group>
-                        <Form.Group className="mb-3">
+                        {/* <Form.Group className="mb-3">
                             <Form.Label>Owner</Form.Label>
                             <Form.Control
                                 as="select"
@@ -130,14 +130,9 @@ function EditPark({ parkId, onSave, show, onHide }) {
                                 onChange={handleChange}
                                 required
                             >
-                                <option value="">Select Owner</option>
-                                {users.map(user => (
-                                    <option key={user.id} value={user.id}>
-                                        {user.first_name} {user.last_name}
-                                    </option>
-                                ))}
+                                
                             </Form.Control>
-                        </Form.Group>
+                        </Form.Group> */}
                         <Button variant="primary" type="submit">
                             Save Changes
                         </Button>
