@@ -59,6 +59,15 @@ function CustomFormValidation() {
           if (bcrypt.compareSync(state.password, data.hashed_password)){
             setUserId(data.id)
             Add_session();
+            
+            localStorage.setItem('id', data.id);
+            localStorage.setItem('isSuperuser', data.is_superuser);
+            console.log(data.id)
+            const storedUserId = localStorage.getItem('id');
+            const storedIsSuperuser = localStorage.getItem('isSuperuser');
+
+        console.log(storedUserId)
+        console.log(storedIsSuperuser)
           }
           else{
               console.log("Authentication failed message") 
@@ -86,6 +95,7 @@ function CustomFormValidation() {
           console.log(data)
           
           setCookie('session_id', data, { path: '/', expires: expiration }); 
+
           navigate("/dashboard")
 
       })

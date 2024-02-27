@@ -7,7 +7,9 @@ function Drivers() {
     const cookie = document.cookie
     let sessionId = cookie.split("=")[1];
     useEffect(() => {
-        fetch("https://ttestt.shop/cars/api/getAll_drivers?park_id=1", {
+        const storedUserId = localStorage.getItem('id');
+
+        fetch(`https://ttestt.shop/cars/api/getAll_drivers?park_id=${storedUserId}`, {
             method: "GET",
             cache: "no-cache",
             headers: {

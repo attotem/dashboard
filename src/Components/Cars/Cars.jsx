@@ -8,13 +8,16 @@ import { useNavigate } from 'react-router-dom';
 function Cars() {
     const [customersData, setCustomersData] = useState([]);
     const navigate = useNavigate();
-    
+
 
     const cookie = document.cookie
     let sessionId = cookie.split("=")[1];
 
     useEffect(() => {
-        fetch("https://ttestt.shop/cars/api/getAll_park_cars?park_id=1", {
+
+        const storedUserId = localStorage.getItem('id');
+
+        fetch(`https://ttestt.shop/cars/api/getAll_park_cars?park_id=${storedUserId}`, {
             method: "GET",
             cache: "no-cache",
             headers: {
