@@ -210,17 +210,17 @@ const MyProSidebar = () => {
                                 selected={selected}
                                 setSelected={setSelected}
                             />
-                            < Item
-                                icon={<PeopleRoundedIcon />}
-                                title="Drivers"
-                                to="/drivers"
-                                selected={selected}
-                                setSelected={setSelected}
-                            />
+
 
                         </> : <></>}
 
-
+                        < Item
+                            icon={<PeopleRoundedIcon />}
+                            title="Drivers"
+                            to="/drivers"
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
 
                         <Item
                             title="Calendar"
