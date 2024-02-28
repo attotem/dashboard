@@ -14,9 +14,10 @@ import EditCar from "./Components/Cars/Edit_car";
 import EditPark from "./Components/Parks/EditPark";
 import EditDriver from "./Components/Drivers/EditDriver";
 import EditUser from "./Components/Users/EditUser";
-
+import ImageDropComponent from "./ImageDropComponent";
 import { useAuth } from "./AuthProvider";
-
+import ParksAdmin from "./Components/Parks/Admin/ParksAdmin";
+import EditServiceInterval from "./Components/Cars/EditInfo";
 const Routing = () => {
   const { isAuthenticated } = useAuth();
   return (
@@ -35,6 +36,8 @@ const Routing = () => {
 
       <Route path="/edit_user/:userId" element={isAuthenticated ? <DefaultLayout><EditUser /></DefaultLayout> : <Navigate to="/login" />} />
 
+      <Route path="/edit_info/:carId" element={isAuthenticated ? <DefaultLayout><EditServiceInterval /></DefaultLayout> : <Navigate to="/login" />} />
+
       <Route path="/drivers" element={isAuthenticated ? <DefaultLayout><Drivers /></DefaultLayout> : <Navigate to="/login" />} />
 
       <Route path="/users" element={isAuthenticated ? <DefaultLayout><AllUsers /></DefaultLayout> : <Navigate to="/login" />} />
@@ -48,6 +51,10 @@ const Routing = () => {
       <Route path="/driver_create" element={isAuthenticated ? <DefaultLayout><AddDriver /></DefaultLayout> : <Navigate to="/login" />} />
 
       <Route path="/parks" element={isAuthenticated ? <DefaultLayout><Parks /></DefaultLayout> : <Navigate to="/login" />} />
+
+      <Route path="/choose_driver_park" element={isAuthenticated ? <DefaultLayout><ParksAdmin /></DefaultLayout> : <Navigate to="/login" />} />
+
+      <Route path="/123" element={<ImageDropComponent />} />
 
       <Route path="*" element={isAuthenticated ? <DefaultLayout>No directory</DefaultLayout> : <Navigate to="/login" />} />
     </Routes>

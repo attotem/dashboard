@@ -63,7 +63,7 @@ export const tokens = (mode) => ({
                 100: "#ffffff",
             },
             secondary : {
-                100: "#7C8DB5",
+                100: "#0C0E10",
             }
         }
         : 
@@ -126,7 +126,8 @@ export const tokens = (mode) => ({
             white : {
                 100: "#ffffff",
             },
-            secondary : "#7C8DB5",
+            secondary : "#0C0E10",
+            selected : "#B6332E",
         })
 });
 

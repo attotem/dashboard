@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../Header/header';
-
+import ImageDropComponent from '../../ImageDropComponent';
+import { useNavigate } from 'react-router-dom';
 function AddCar() {
     const [carData, setCarData] = useState({
         brand: "",
@@ -36,9 +37,35 @@ function AddCar() {
         antifreeze_change: 0,
         tire_type_change: "",
         air_conditioning_change: "",
-        service_interval_id: 1,
         park_id: 0,
     });
+    const [selectedFile, setSelectedFile] = useState(null);
+
+    const [serviceInterval, setServiceInterval] = useState({
+        oil_change: 0,
+        air_filter_change: 0,
+        cabin_filter_change: 0,
+        fuel_filter_change: 0,
+        brake_pads_change: 0,
+        brake_disks_change: 0,
+        valvetrain_change: 0,
+        spark_plugs_change: 0,
+        pendant_change: 0,
+        tire_change: 0,
+        brake_fluid_change: 0,
+        antifreeze_change: 0,
+        tire_type_change_0: "",
+        tire_type_change_1: "",
+        air_conditioning_change: ""
+    });
+
+    const handleServiceIntervalChange = (event) => {
+        const { name, value } = event.target;
+        setServiceInterval(prevInterval => ({
+            ...prevInterval,
+            [name]: value
+        }));
+    };
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -49,22 +76,35 @@ function AddCar() {
         }));
     };
 
+    // const handleFileChange = (file) => {
+    //     const reader = new FileReader();
+    //     reader.readAsDataURL(file);
+    //     reader.onload = () => {
+    //         setSelectedFile(reader.result);
+    //     };
+    //     reader.onerror = (error) => {
+    //         console.error('Error converting file to base64:', error);
+    //     };
+    // };
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        console.log(JSON.stringify(carData))
+        const combinedData = {
+            car: { ...carData },
+            serviceInterval: { ...serviceInterval }
+        };
 
-        const cookie = document.cookie
+        console.log(combinedData)
+        const cookie = document.cookie;
         let sessionId = cookie.split("=")[1];
         fetch("https://ttestt.shop/cars/api/add_car", {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json',
-                "Authorization": `Bearer ${sessionId}`
-
+                "Authorization": `Bearer ${sessionId}`,
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify(carData)
+            body: JSON.stringify(combinedData)
         })
             .then(response => {
                 if (!response.ok) {
@@ -74,17 +114,19 @@ function AddCar() {
             })
             .then(data => {
                 console.log(data);
-                alert('Car successfully added!');
+                alert('Car with service interval successfully added!');
             })
             .catch(error => {
-                console.error("Ошибка при отправке формы:", error);
-                alert('Error: Could not add car.');
+                console.error("Error while submitting the form:", error);
+                alert('Error: Could not add car with service interval.');
             });
     };
-
+    const navigate = useNavigate();
+    const handleCancel = () => {
+        navigate(-1);
+    };
     return (
         <>
-            <Header />
             <Container>
                 <Form onSubmit={handleSubmit} className='w-75'>
                     {Object.keys(carData).map(key => (
@@ -99,8 +141,33 @@ function AddCar() {
                             />
                         </Form.Group>
                     ))}
+                    <h3>Service Interval</h3>
+                    {Object.keys(serviceInterval).map(key => (
+                        <Form.Group className="mb-3" key={key}>
+                            <Form.Label>{key.split('_').join(' ').replace(/\b\w/g, l => l.toUpperCase())}</Form.Label>
+                            <Form.Control
+                                type={typeof serviceInterval[key] === "number" ? "number" : "text"}
+                                name={key}
+                                value={serviceInterval[key]}
+                                onChange={handleServiceIntervalChange}
+                            />
+                        </Form.Group>
+                    ))}
 
-                    <Button variant="primary" type="submit">Submit</Button>
+
+                    {/* <Form.Group className="mb-3">
+                        <Form.Label>Drop image 123</Form.Label>
+                        <ImageDropComponent onFileChange={handleFileChange} />
+                    </Form.Group> */}
+
+                    <div className="d-flex justify-content-between">
+                        <Button variant="outline-secondary" type="button" onClick={handleCancel} className='cancel_create'>
+                            Cancel
+                        </Button>
+                        <Button style={{ background: "rgb(182, 51, 46)", border: "none" }} type="submit">
+                            Submit
+                        </Button>
+                    </div>
                 </Form>
             </Container>
         </>

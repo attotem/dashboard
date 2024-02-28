@@ -14,9 +14,9 @@ function Dashboard() {
 
     return (
         <>
-            <Header
-                text={"Welcome back"} /> <dashboard className="ml-5">
-
+            {/* <Header text={"Welcome back"} /> */}
+            <dashboard className="ml-5">
+                {/* <h3>Welcome back</h3> */}
                 {/* <div className='d-flex justify-content-between info_container '>
                     <Card
                         icon={PeopleOutlineIcon}

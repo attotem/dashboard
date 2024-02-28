@@ -1,8 +1,6 @@
 body {
   margin: 0;
-  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif; */
+ 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Poppins' !important;
@@ -22,7 +20,7 @@ code {
 }
 .css-16jesut >.ps-menu-button {
  font-size: 1.2rem !important;
- color:#7C8DB5 !important
+ color:#0C0E10 !important
 }
 .Chart_wrapper {
   border: 1px solid rgb(124 141 181 / 50%);
@@ -80,10 +78,9 @@ code {
 
 
 
-.selected{
-  background: #E9F5FE !important;
+.selected {
+  background: #b6332e0f!important;
   position: relative;
-
 }
 
 .selected::after {
@@ -91,7 +88,7 @@ code {
   display: block;
   width: 3px;
   height: 1.4rem;
-  background-color: #0C7FDA;
+  background-color: #B6332E;
   border-radius: 30%;
   position: absolute;
   top: 50%;
@@ -124,16 +121,21 @@ code {
     font-size: 1rem;
     background: none;
     border: 1px solid;
-    color: #007fff;
+    color: rgb(182, 51, 46);
     padding: 5px;
     border-radius: 5px;
 }
 
 .edit_modal:hover{
     font-size: 1rem;
-    background: #007fff;;
+    background: rgb(182, 51, 46);;
     border: 1px solid;
     color: white;
     padding: 5px;
     border-radius: 5px;
+}
+.image_drop{
+  height: 100px !important;
+  width: 100px !important;
+  color: #c8c8c8;
 }

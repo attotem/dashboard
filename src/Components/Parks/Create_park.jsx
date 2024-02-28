@@ -3,8 +3,13 @@ import { Container, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../Header/header';
 import bcrypt from 'bcryptjs';
+import { useNavigate } from 'react-router-dom';
 
 function AddPark() {
+
+
+    const [selectedFile, setSelectedFile] = useState(null);
+
     const [parkData, setParkData] = useState({
         name: "",
         password: "" // Используйте 'password' для хранения ввода от пользователя
@@ -53,10 +58,12 @@ function AddPark() {
                 alert('Error: Could not add park.');
             });
     };
-
+    const navigate = useNavigate();
+    const handleCancel = () => {
+        navigate(-1);
+    };
     return (
         <>
-            <Header />
             <Container>
                 <Form onSubmit={handleSubmit} className='w-75'>
                     <Form.Group className="mb-3">
@@ -81,7 +88,14 @@ function AddPark() {
                         />
                     </Form.Group>
 
-                    <Button variant="primary" type="submit">Submit</Button>
+                    <div className="d-flex justify-content-between">
+                        <Button variant="outline-secondary" type="button" onClick={handleCancel} className='cancel_create'>
+                            Cancel
+                        </Button>
+                        <Button style={{ background: "rgb(182, 51, 46)", border: "none" }} type="submit">
+                            Submit
+                        </Button>
+                    </div>
                 </Form>
             </Container>
         </>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../Header/header';
+import { useNavigate } from 'react-router-dom';
 
 function AddDriver() {
     const [firstName, setFirstName] = useState('');
@@ -17,7 +18,7 @@ function AddDriver() {
     const cookie = document.cookie
     let sessionId = cookie.split("=")[1];
     useEffect(() => {
-        fetch("https://ttestt.shop/cars/api/getAll_parks?user_id=3", {
+        fetch("https://ttestt.shop/cars/api/getAll_parks", {
             method: "GET",
             cache: "no-cache",
             headers: {
@@ -73,13 +74,16 @@ function AddDriver() {
                 alert('Error: Could not add driver.');
             });
     };
+    const navigate = useNavigate();
+    const handleCancel = () => {
+        navigate(-1);
+    };
+    const storedIsSuperuser = localStorage.getItem('isSuperuser');
 
     return (
         <>
-            <Header />
             <Container>
                 <Form onSubmit={handleSubmit} className='w-75'>
-                    {/* Имя */}
                     <Form.Group className="mb-3">
                         <Form.Label>First Name</Form.Label>
                         <Form.Control
@@ -90,7 +94,6 @@ function AddDriver() {
                         />
                     </Form.Group>
 
-                    {/* Фамилия */}
                     <Form.Group className="mb-3">
                         <Form.Label>Last Name</Form.Label>
                         <Form.Control
@@ -101,7 +104,6 @@ function AddDriver() {
                         />
                     </Form.Group>
 
-                    {/* Должность */}
                     <Form.Group className="mb-3">
                         <Form.Label>Post</Form.Label>
                         <Form.Control
@@ -112,7 +114,6 @@ function AddDriver() {
                         />
                     </Form.Group>
 
-                    {/* Зарплата */}
                     <Form.Group className="mb-3">
                         <Form.Label>Salary</Form.Label>
                         <Form.Control
@@ -123,7 +124,6 @@ function AddDriver() {
                         />
                     </Form.Group>
 
-                    {/* Опыт */}
                     <Form.Group className="mb-3">
                         <Form.Label>Experience</Form.Label>
                         <Form.Control
@@ -168,29 +168,33 @@ function AddDriver() {
                     </Form.Group>
 
                     {/* ID парка */}
-                    <Form.Group className="mb-3">
-                        <Form.Label>Park</Form.Label>
-                        <Form.Control
-                            as="select"
-                            value={parkId}
-                            onChange={(e) => setParkId(e.target.value)}
-                            required
-                        >
-                            <option value="" disabled>Select Par</option>
-                            {parks.map(park => (
-                                <option key={park.id} value={park.id}>
-                                    {park.name}
-                                </option>
-                            ))}
-                        </Form.Control>
-                    </Form.Group>
+                    {storedIsSuperuser == 1 ? <>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Park</Form.Label>
+                            <Form.Control
+                                as="select"
+                                value={parkId}
+                                onChange={(e) => setParkId(e.target.value)}
+                                required
+                            >
 
-                    {/* Кнопки */}
+                                <option value="" disabled>Select Par</option>
+                                {parks.map(park => (
+                                    <option key={park.id} value={park.id}>
+                                        {park.name}
+                                    </option>
+                                ))}
+
+
+                            </Form.Control>
+                        </Form.Group>
+                    </> : <></>}
+
                     <div className="d-flex justify-content-between">
-                        <Button variant="outline-secondary" type="button" className='cancel_create'>
+                        <Button variant="outline-secondary" type="button" onClick={handleCancel} className='cancel_create'>
                             Cancel
                         </Button>
-                        <Button variant="primary" type="submit" className='submit_create'>
+                        <Button style={{ background: "rgb(182, 51, 46)", border: "none" }} type="submit">
                             Submit
                         </Button>
                     </div>

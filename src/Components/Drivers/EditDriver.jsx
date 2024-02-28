@@ -172,9 +172,14 @@ function EditDriver() {
                         </Form.Control>
                     </Form.Group>
 
+
+
+
                     <div className="d-flex justify-content-between">
                         <Button variant="secondary" onClick={handleCancel}>Cancel</Button>
-                        <Button variant="primary" type="submit">Save Changes</Button>
+                        <Button variant="primary" style={{ background: "rgb(182, 51, 46)", border: "none" }} type="submit">
+                            Save Changes
+                        </Button>
                     </div>
                 </Form>
             </Container>

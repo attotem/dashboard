@@ -1,8 +1,18 @@
-.status_active{
+.status_active {
     border-radius: 5px;
-    background: #16c09847;
-    color: #008767;
+    background: rgb(182 51 46 / 78%);
+    color: aliceblue;
     padding: 5px;
-    border: 1px solid #00B087;
+    border: none;
     text-align: center;
+}
+.add_button{
+    
+    font-size: 0.7rem;
+    font-weight: 600;
+    background: rgb(182, 51, 46);
+    width: min-content;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    
 }

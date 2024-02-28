@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, Sidebar, MenuItem, SubMenu } from "react-pro-sidebar";
 import { useProSidebar } from "react-pro-sidebar";
 import { useSidebarContext } from "./sidebarContext";
@@ -13,32 +13,41 @@ import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
 import PaymentIcon from '@mui/icons-material/Payment';
 import WarehouseIcon from '@mui/icons-material/Warehouse';
+import logo from "./logo.png"
+import { useNavigate } from "react-router-dom";
+
 const Item = ({ title, to, icon, selected, setSelected, newColor }) => {
+    const navigate = useNavigate();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    let itemColor = selected === title ? colors.blueAccent[100] : colors.secondary;
+    let itemColor = selected === title ? colors.selected : colors.secondary;
 
     if (newColor && newColor !== "") {
         itemColor = newColor;
     }
+
+    const handleItemClick = () => {
+        setSelected(title);
+        navigate(to);
+    };
+
 
     return (
         <div className={selected === title ? "selected" : ""}>
             <MenuItem
                 active={selected === title}
                 style={{ color: itemColor }}
-                onClick={() => setSelected(title)}
+                onClick={handleItemClick}
                 icon={icon}>
 
-                <Link to={to} style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <Typography>{title}</Typography>
-                </Link>
+                <Typography>{title}</Typography>
+
             </MenuItem>
         </div>
-
     );
 };
+
 
 const MyProSidebar = () => {
     const theme = useTheme();
@@ -46,6 +55,57 @@ const MyProSidebar = () => {
     const [selected, setSelected] = useState("");
     const { sidebarRTL, sidebarImage } = useSidebarContext();
     const { collapsed } = useProSidebar();
+    const storedIsSuperuser = localStorage.getItem('isSuperuser');
+    const [selectedPark, setSelectedPark] = useState('');
+
+    const [parks, setParks] = useState([]);
+    const cookie = document.cookie;
+    let sessionId = cookie.split("=")[1];
+    useEffect(() => {
+        fetch("https://ttestt.shop/cars/api/getAll_parks", {
+            method: "GET",
+            cache: "no-cache",
+            headers: {
+                "Authorization": `Bearer ${sessionId}`
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                setParks(data);
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+            });
+    }, [sessionId]);
+
+    const handleParkSelect = (id) => {
+        fetch("https://ttestt.shop/cars/api/update_session", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${sessionId}`
+            },
+            cache: "no-cache",
+            body: JSON.stringify({ id })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+            });
+    };
+    const handleParkChange = (event) => {
+        const parkId = event.target.value;
+        setSelectedPark(parkId);
+        handleParkSelect(parkId);
+    };
+
+
+
+
     return (
         <Box
             sx={{
@@ -90,23 +150,41 @@ const MyProSidebar = () => {
                 backgroundColor={colors.white}
                 image={sidebarImage}
             >
+
                 <Menu iconshape="square">
-                    {/* <Box
+                    <Box
                         sx={{
-                            paddingLeft: collapsed ? undefined : "10%",
                             marginBottom: "1rem",
                             marginTop: "1rem",
                             textAlign: "center",
                             "& img": {
-                                width: "50%",
+                                width: "100%",
                             },
                         }}
                     >
                         <img src={logo} alt="Logo" />
-                    </Box> */}
+                    </Box>
 
                     <Box
                     >
+
+                        {storedIsSuperuser === '1' && (
+                            <Box sx={{ padding: theme.spacing(2) }}>
+                                <select
+                                    value={selectedPark}
+                                    onChange={handleParkChange}
+                                    style={{ width: '100%', padding: '10px', marginBottom: '1rem', zIndex: "10000" }}
+                                >
+                                    <option value="">Select a park</option>
+                                    {parks.map((park) => (
+                                        <option key={park.id} value={park.id}>
+                                            {park.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </Box>
+                        )}
+
                         <Item
                             title="Dashboard"
                             to="/dashboard"
@@ -114,8 +192,6 @@ const MyProSidebar = () => {
                             selected={selected}
                             setSelected={setSelected} s
                         />
-
-
 
                         < Item
                             title="Cars"
@@ -126,26 +202,23 @@ const MyProSidebar = () => {
 
                         />
 
-                        <SubMenu
-                            icon={<WarehouseIcon />}
-                            label="Parks">
-
-
+                        {storedIsSuperuser == 1 ? <>
                             < Item
-                                title="All parks"
+                                title="Parks"
+                                icon={<WarehouseIcon />}
                                 to="/parks"
                                 selected={selected}
                                 setSelected={setSelected}
                             />
-
                             < Item
-                                title="Create park"
-                                to="/add_park"
+                                icon={<PeopleRoundedIcon />}
+                                title="Drivers"
+                                to="/drivers"
                                 selected={selected}
                                 setSelected={setSelected}
                             />
 
-                        </SubMenu>
+                        </> : <></>}
 
 
 
@@ -157,7 +230,10 @@ const MyProSidebar = () => {
                             setSelected={setSelected}
                         />
 
-                        <SubMenu
+
+
+
+                        {/* <SubMenu
                             icon={<PeopleRoundedIcon />}
                             label="Drivers">
 
@@ -178,7 +254,7 @@ const MyProSidebar = () => {
 
 
 
-                        </SubMenu>
+                        </SubMenu> */}
 
 
                         {/* <SubMenu

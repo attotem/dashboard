@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, FormGroup } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Header from '../Header/header';
 import { useParams, useNavigate } from 'react-router-dom';
 
 function EditCar() {
@@ -129,7 +128,9 @@ function EditCar() {
                     ))}
                     <div className="d-flex justify-content-between">
                         <Button variant="secondary" onClick={handleCancel}>Cancel</Button>
-                        <Button variant="primary" type="submit">Save Changes</Button>
+                        <Button variant="primary" style={{ background: "rgb(182, 51, 46)", border: "none" }} type="submit">
+                            Save Changes
+                        </Button>
                     </div>
                 </Form>
             </Container>

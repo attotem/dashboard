@@ -23,7 +23,7 @@ function CustomFormValidation() {
     ...defaultState,
   });
   
-  const [userId, setUserId] = useState(0);
+  const [UserId, setUserId] = useState(0);
 
   const handleInputChange = (event) => {
     const target = event.target;
@@ -35,10 +35,9 @@ function CustomFormValidation() {
     });
   };
 
-  const userData = {
-    id: userId,
-  };
+ 
     const submit = () => {
+      
       console.log(state.park_name)
       fetch("https://ttestt.shop/cars/api/login", {
           method: "POST",
@@ -57,17 +56,10 @@ function CustomFormValidation() {
 
           console.log(data)
           if (bcrypt.compareSync(state.password, data.hashed_password)){
-            setUserId(data.id)
-            Add_session();
-            
-            localStorage.setItem('id', data.id);
-            localStorage.setItem('isSuperuser', data.is_superuser);
             console.log(data.id)
-            const storedUserId = localStorage.getItem('id');
-            const storedIsSuperuser = localStorage.getItem('isSuperuser');
-
-        console.log(storedUserId)
-        console.log(storedIsSuperuser)
+            setUserId(data.id)
+            localStorage.setItem('isSuperuser', data.is_superuser);
+            Add_session(data.id);  
           }
           else{
               console.log("Authentication failed message") 
@@ -79,9 +71,17 @@ function CustomFormValidation() {
 
 
   const expiration = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000); 
+  const storedIsSuperuser = localStorage.getItem('isSuperuser');
 
-  function Add_session()
+  function Add_session(id)
   {
+
+    const userData = {
+      id: id,
+      is_superuser : storedIsSuperuser
+    };
+    console.log("userData")
+    console.log(userData)
     fetch("https://ttestt.shop/cars/api/add_session", {
       method: "POST",
       headers: {
@@ -92,12 +92,10 @@ function CustomFormValidation() {
     })
       .then(response => response.json())
       .then(data => {
-          console.log(data)
-          
+        
           setCookie('session_id', data, { path: '/', expires: expiration }); 
 
           navigate("/dashboard")
-
       })
       .catch(error => {
           console.error("Error fetching data:", error);
@@ -128,7 +126,6 @@ function CustomFormValidation() {
                           onChange={handleInputChange}
                         />
                         <label htmlFor="floatingInput">Park name</label>
-                        {/* <span className="text-danger">{state.park_name}</span> */}
                       </div>
                       <div className="form-floating mb-3">
                         <input
@@ -145,20 +142,7 @@ function CustomFormValidation() {
                         <label htmlFor="floatingPassword">Password</label>
                         <span className="text-danger">{state.passwordError}</span>
                       </div>
-                      <div className="form-check mb-3">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          value=""
-                          id="rememberPasswordCheck"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="rememberPasswordCheck"
-                        >
-                          Remember password
-                        </label>
-                      </div>
+                      
 
                       <div className="d-grid">
                         <button

@@ -34,7 +34,7 @@ function EditPark({ parkId, onSave, show, onHide }) {
     };
 
     const fetchParkData = () => {
-        fetch(`https://ttestt.shop/cars/api/getAll_parks?user_id=3`, {
+        fetch(`https://ttestt.shop/cars/api/getAll_parks`, {
             method: "GET",
             cache: "no-cache",
             headers: {
@@ -133,9 +133,11 @@ function EditPark({ parkId, onSave, show, onHide }) {
                                 
                             </Form.Control>
                         </Form.Group> */}
-                        <Button variant="primary" type="submit">
+                        <Button variant="primary" style={{ background: "rgb(182, 51, 46)", border: "none" }} type="submit">
                             Save Changes
                         </Button>
+
+                        
                     </Form>
                 </Modal.Body>
             </Modal>

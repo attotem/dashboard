@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../Header/header'
 import Driver from './Driver';
+import AddIcon from '@mui/icons-material/Add';
+import { useNavigate } from 'react-router-dom';
 
 function Drivers() {
     const [customersData, setCustomersData] = useState([]);
     const cookie = document.cookie
     let sessionId = cookie.split("=")[1];
+
+
+
     useEffect(() => {
         const storedUserId = localStorage.getItem('id');
 
-        fetch(`https://ttestt.shop/cars/api/getAll_drivers?park_id=${storedUserId}`, {
+        fetch(`https://ttestt.shop/cars/api/getAll_drivers`, {
             method: "GET",
             cache: "no-cache",
             headers: {
@@ -26,11 +31,23 @@ function Drivers() {
             });
     }, []);
 
+    function handleNavigate() {
+        navigate(`/driver_create`)
+
+    }
+    const navigate = useNavigate();
+
+
+
     return (
         <>
-            <Header />
             <div className="container mt-5">
-                <h2>All Drivers</h2>
+                <div className='d-flex justify-content-between'>
+                    <h2>All Drivers</h2>
+                    <div className='add_button' onClick={handleNavigate}>
+                        <AddIcon style={{ fontSize: '2rem', color: "white", fontWeight: "600" }} />
+                    </div>
+                </div>
                 <div className="table-responsive">
                     <table className="table">
                         <thead>
