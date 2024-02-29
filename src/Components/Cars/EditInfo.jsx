@@ -1,69 +1,50 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Form, Button, FormGroup } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Form, Button } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 
-function EditServiceInterval() {
-    let { intervalId } = useParams(); // Получаем ID интервала из URL
+function EditCar() {
+    let { carId } = useParams();
     const navigate = useNavigate();
-    const [serviceInterval, setServiceInterval] = useState({
-        air_conditioning_change: "",
-        air_filter_change: "",
-        antifreeze_change: "",
-        brake_disks_change: "",
-        brake_fluid_change: "",
-        brake_pads_change: "",
-        cabin_filter_change: "",
-        fuel_filter_change: "",
-        oil_change: "",
-        pendant_change: "",
-        spark_plugs_change: "",
-        tire_change: "",
-        tire_type_change_0: "",
-        tire_type_change_1: "",
-        valvetrain_change: "",
-    });
-    const [changedFields, setChangedFields] = useState({});
-    const sessionId = document.cookie.split("=")[1];
+
+    const [serviceIntervalData, setServiceIntervalData] = useState(null);
+    const [changedServiceIntervalData, setChangedServiceIntervalData] = useState({});
 
     useEffect(() => {
-        fetch(`https://ttestt.shop/cars/api/get_service_interval?id=${intervalId}`, {
+        fetch(`https://ttestt.shop/cars/api/get_car?id=${carId}`, {
             method: "GET",
-            cache: "no-cache",
             headers: {
-                "Authorization": `Bearer ${sessionId}`
+                "Authorization": `Bearer ${document.cookie.split("=")[1]}`
             }
         })
             .then(response => response.json())
             .then(data => {
-                setServiceInterval(data.serviceInterval); // Установка начальных значений
+                setServiceIntervalData(data.serviceInterval);
             })
-            .catch(error => {
-                console.error("Error fetching data:", error);
-            });
-    }, [intervalId, sessionId]);
+            .catch(error => console.error("Error fetching car data:", error));
+    }, [carId]);
 
-    const handleChange = (event) => {
+
+    const handleChangeServiceIntervalData = (event) => {
         const { name, value } = event.target;
-        setServiceInterval(prevData => ({
-            ...prevData,
-            [name]: value
-        }));
-        setChangedFields(prevFields => ({
-            ...prevFields,
-            [name]: value
-        }));
+        setServiceIntervalData(prev => ({ ...prev, [name]: value }));
+        setChangedServiceIntervalData(prev => ({ ...prev, [name]: value }));
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
+        const updatedData = {
+            id: carId,
+            fields: changedServiceIntervalData,
+        };
+
         fetch(`https://ttestt.shop/cars/api/update_service_interval`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
-                "Authorization": `Bearer ${sessionId}`
+                "Authorization": `Bearer ${document.cookie.split("=")[1]}`
             },
-            body: JSON.stringify({ id: intervalId, fields: changedFields }),
+            body: JSON.stringify(updatedData)
         })
             .then(response => {
                 if (!response.ok) {
@@ -72,43 +53,42 @@ function EditServiceInterval() {
                 return response.json();
             })
             .then(() => {
-                alert('Service interval successfully updated!');
-                navigate(-1); // Возвращаем пользователя назад после обновления
+                alert('Car successfully updated!');
+                navigate(-1);
             })
             .catch(error => {
-                console.error("Error updating service interval:", error);
-                alert('Error: Could not update service interval.');
+                console.error("Error updating car:", error);
+                alert('Error: Could not update car.');
             });
     };
 
-    const handleCancel = () => {
-        navigate(-1); // Отмена и возврат назад
-    };
+    if (!serviceIntervalData) return <div>Loading...</div>;
 
     return (
-        <Container>
-            <Form onSubmit={handleSubmit} className='w-75'>
-                {Object.keys(serviceInterval).map(key => (
-                    <FormGroup className="mb-3" key={key}>
-                        <Form.Label>{key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name={key}
-                            placeholder={`Enter ${key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}`}
-                            value={serviceInterval[key]}
-                            onChange={handleChange}
-                        />
-                    </FormGroup>
-                ))}
-                <div className="d-flex justify-content-between">
-                    <Button variant="secondary" onClick={handleCancel}>Cancel</Button>
-                    <Button variant="primary" style={{ background: "rgb(182, 51, 46)", border: "none" }} type="submit">
-                        Save Changes
-                    </Button>
-                </div>
-            </Form>
-        </Container>
+        <>
+            <Container>
+                <Form onSubmit={handleSubmit} className='w-75'>
+                    <h3>Service Interval Information</h3>
+                    {Object.keys(serviceIntervalData).map(key => (
+                        <Form.Group className="mb-3" key={key}>
+                            <Form.Label>{key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name={key}
+                                value={serviceIntervalData[key]}
+                                onChange={handleChangeServiceIntervalData}
+                            />
+                        </Form.Group>
+                    ))}
+
+                    <div className="d-flex justify-content-between">
+                        <Button variant="secondary" onClick={() => navigate(-1)}>Cancel</Button>
+                        <Button variant="primary" type="submit">Save Changes</Button>
+                    </div>
+                </Form>
+            </Container>
+        </>
     );
 }
 
-export default EditServiceInterval;
+export default EditCar;

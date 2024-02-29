@@ -1,141 +1,105 @@
-// import React, { useState, useEffect } from 'react';
-// import { Container, Form, Button, FormGroup } from 'react-bootstrap';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import { useParams, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Container, Form, Button } from 'react-bootstrap';
+import { useParams, useNavigate } from 'react-router-dom';
 
-// function EditCar() {
-//     let { carId } = useParams();
-//     const navigate = useNavigate();
-//     const [carData, setCarData] = useState({
-//         brand: "",
-//         model: "",
-//         year: "",
-//         VIN_number: "",
-//         kms: "",
-//         engine: "",
-//         transmission: "",
-//         fuel_type: "",
-//         ti_expiration: "",
-//         insurance_info: "",
-//         tire_size: "",
-//         color: "",
-//         kms_per_day: "",
-//         driver_id: null,
-//         tire_type: "",
-//         oil_change: "",
-//         air_filter_change: "",
-//         cabin_filter_change: "",
-//         fuel_filter_change: "",
-//         brake_pads_change: "",
-//         brake_disks_change: "",
-//         valvetrain_change: "",
-//         spark_plugs_change: "",
-//         pendant_change: "",
-//         tire_change: "",
-//         brake_fluid_change: "",
-//         antifreeze_change: "",
-//         tire_type_change: "",
-//         air_conditioning_change: "",
-//         service_interval_id: "",
-//         park_id: "",
-//     });
-//     const [changedData, setChangedData] = useState({});
-//     const sessionId = document.cookie.split("=")[1];
+function EditCar() {
+    let { carId } = useParams();
+    const navigate = useNavigate();
 
-//     useEffect(() => {
-//         fetch("https://ttestt.shop/cars/api/getAll_park_cars?park_id=1", {
-//             method: "GET",
-//             cache: "no-cache",
-//             headers: {
-//                 "Authorization": `Bearer ${sessionId}`
-//             }
-//         })
-//             .then(response => response.json())
-//             .then(data => {
+    // Состояния для данных автомобиля и сервисного интервала
+    const [carData, setCarData] = useState(null);
+    const [serviceIntervalData, setServiceIntervalData] = useState(null);
 
-//                 for (let i = 0; i < data.length; i++) {
-//                     if (data[i].id == carId) {
-//                         setCarData(data[i]);
-//                     }
-//                 }
+    // Для отслеживания изменений
+    const [changedCarData, setChangedCarData] = useState({});
+    const [changedServiceIntervalData, setChangedServiceIntervalData] = useState({});
 
-//             })
-//             .catch(error => {
-//                 console.error("Error fetching car data:", error);
-//             });
-//     }, [carId, sessionId]);
+    useEffect(() => {
+        fetch(`https://ttestt.shop/cars/api/get_car?id=${carId}`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${document.cookie.split("=")[1]}`
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                setCarData(data.car);
+                setServiceIntervalData(data.serviceInterval);
+            })
+            .catch(error => console.error("Error fetching car data:", error));
+    }, [carId]);
 
-//     const handleChange = (event) => {
-//         const { name, value } = event.target;
-//         setCarData(prevData => ({
-//             ...prevData,
-//             [name]: value
-//         }));
-//         setChangedData(prevData => ({
-//             ...prevData,
-//             [name]: value
-//         }));
-//     };
+    const handleChangeCarData = (event) => {
+        const { name, value } = event.target;
+        setCarData(prev => ({ ...prev, [name]: value }));
+        setChangedCarData(prev => ({ ...prev, [name]: value }));
+    };
 
-//     const handleSubmit = (event) => {
-//         event.preventDefault();
+    const handleChangeServiceIntervalData = (event) => {
+        const { name, value } = event.target;
+        setServiceIntervalData(prev => ({ ...prev, [name]: value }));
+        setChangedServiceIntervalData(prev => ({ ...prev, [name]: value }));
+    };
 
-//         console.log({ id: carId, fields: changedData })
+    const handleSubmit = (event) => {
+        event.preventDefault();
 
-//         fetch(`https://ttestt.shop/cars/api/update_car`, {
-//             method: "POST",
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 "Authorization": `Bearer ${sessionId}`
-//             },
-//             body: JSON.stringify({ id: carId, fields: changedData }),
-//         })
-//             .then(response => {
-//                 if (!response.ok) {
-//                     throw new Error('Network response was not ok');
-//                 }
-//                 return response.json();
-//             })
-//             .then(() => {
-//                 alert('Car successfully updated!');
-//                 navigate(-1);
-//             })
-//             .catch(error => {
-//                 console.error("Error updating car:", error);
-//                 alert('Error: Could not update car.');
-//             });
-//     };
+        const updatedData = {
+            id: carId,
+            fields: changedCarData,
+        };
 
-//     const handleCancel = () => {
-//         navigate(-1);
-//     };
+        fetch(`https://ttestt.shop/cars/api/update_car`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${document.cookie.split("=")[1]}`
+            },
+            body: JSON.stringify(updatedData)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(() => {
+                alert('Car successfully updated!');
+                navigate(-1);
+            })
+            .catch(error => {
+                console.error("Error updating car:", error);
+                alert('Error: Could not update car.');
+            });
+    };
 
-//     return (
-//         <>
-//             <Container>
-//                 <Form onSubmit={handleSubmit} className='w-75'>
-//                     {Object.keys(carData).map(key => (
-//                         <Form.Group className="mb-3" key={key}>
-//                             <Form.Label>{key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</Form.Label>
-//                             <Form.Control
-//                                 type="text"
-//                                 name={key}
-//                                 placeholder={`Enter ${key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}`}
-//                                 value={carData[key]}
-//                                 onChange={handleChange}
-//                             />
-//                         </Form.Group>
-//                     ))}
-//                     <div className="d-flex justify-content-between">
-//                         <Button variant="secondary" onClick={handleCancel}>Cancel</Button>
-//                         <Button variant="primary" style={{ background: "rgb(182, 51, 46)", border: "none" }} type="submit">
-//                             Save Changes
-//                         </Button>
-//                     </div>
-//                 </Form>
-//             </Container>
-//         </>
-//     );
-// }
+    if (!carData || !serviceIntervalData) return <div>Loading...</div>;
 
-// export default EditCar;
+    return (
+        <>
+            <Container>
+                <Form onSubmit={handleSubmit} className='w-75'>
+                    <h3>Car Information</h3>
+                    {Object.keys(carData).map(key => (
+                        <Form.Group className="mb-3" key={key}>
+                            <Form.Label>{key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name={key}
+                                value={carData[key]}
+                                onChange={handleChangeCarData}
+                            />
+                        </Form.Group>
+                    ))}
+
+                    <div className="d-flex justify-content-between">
+                        <Button variant="secondary" onClick={() => navigate(-1)}>Cancel</Button>
+                        <Button variant="primary" type="submit">Save Changes</Button>
+                    </div>
+                </Form>
+            </Container>
+        </>
+    );
+}
+
+export default EditCar;

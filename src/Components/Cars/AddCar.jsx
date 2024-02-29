@@ -76,17 +76,6 @@ function AddCar() {
         }));
     };
 
-    // const handleFileChange = (file) => {
-    //     const reader = new FileReader();
-    //     reader.readAsDataURL(file);
-    //     reader.onload = () => {
-    //         setSelectedFile(reader.result);
-    //     };
-    //     reader.onerror = (error) => {
-    //         console.error('Error converting file to base64:', error);
-    //     };
-    // };
-
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -141,6 +130,7 @@ function AddCar() {
                             />
                         </Form.Group>
                     ))}
+                    
                     <h3>Service Interval</h3>
                     {Object.keys(serviceInterval).map(key => (
                         <Form.Group className="mb-3" key={key}>

@@ -3,11 +3,13 @@ import Header from '../Header/header'
 import Driver from './Driver';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
+import { useSelectedPark } from '../../SelectedParkContext';
 
 function Drivers() {
     const [customersData, setCustomersData] = useState([]);
     const cookie = document.cookie
     let sessionId = cookie.split("=")[1];
+    const { selectedParkId } = useSelectedPark();
 
 
 
@@ -29,7 +31,7 @@ function Drivers() {
             .catch(error => {
                 console.error("Error fetching data:", error);
             });
-    }, []);
+    }, [selectedParkId]);
 
     function handleNavigate() {
         navigate(`/driver_create`)

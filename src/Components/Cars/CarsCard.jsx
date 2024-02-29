@@ -103,7 +103,7 @@ const CarsCard = ({
                                     <button className='edit_modal' onClick={EditCar}>Edit car</button>
 
                                 </> : <>
-                                    {/* <button className='edit_modal' onClick={() => EditInfo(carInfo.serviceInterval.id)}>Edit info</button> */}
+                                    <button className='edit_modal' onClick={() => EditInfo(carInfo.serviceInterval.id)}>Edit info</button>
 
                                 </>}
                         </Modal.Footer>

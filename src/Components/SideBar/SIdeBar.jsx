@@ -15,7 +15,7 @@ import PaymentIcon from '@mui/icons-material/Payment';
 import WarehouseIcon from '@mui/icons-material/Warehouse';
 import logo from "./logo.png"
 import { useNavigate } from "react-router-dom";
-
+import { useSelectedPark } from "../../SelectedParkContext";
 const Item = ({ title, to, icon, selected, setSelected, newColor }) => {
     const navigate = useNavigate();
     const theme = useTheme();
@@ -61,6 +61,11 @@ const MyProSidebar = () => {
     const [parks, setParks] = useState([]);
     const cookie = document.cookie;
     let sessionId = cookie.split("=")[1];
+    const { setSelectedParkId } = useSelectedPark();
+
+
+    console.log(sessionId)
+
     useEffect(() => {
         fetch("https://ttestt.shop/cars/api/getAll_parks", {
             method: "GET",
@@ -71,6 +76,7 @@ const MyProSidebar = () => {
         })
             .then(response => response.json())
             .then(data => {
+                console.log(data)
                 setParks(data);
             })
             .catch(error => {
@@ -101,6 +107,7 @@ const MyProSidebar = () => {
         const parkId = event.target.value;
         setSelectedPark(parkId);
         handleParkSelect(parkId);
+        setSelectedParkId(parkId);
     };
 
 

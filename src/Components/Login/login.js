@@ -24,8 +24,16 @@ function CustomFormValidation() {
   });
   
   const [UserId, setUserId] = useState(0);
+  const [passwordError, setpasswordError] = useState(false);
+  const [usernameError, setusernameError] = useState(false);
 
   const handleInputChange = (event) => {
+    if(passwordError){
+      setpasswordError(false)
+    }
+    if(usernameError){
+      setusernameError(false)
+    }
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -53,16 +61,19 @@ function CustomFormValidation() {
       })
       .then(response => response.json())
       .then(data => {
-
-          console.log(data)
+        console.log(data)
+          if(data.detail == "Invalid username")
+          {
+            setusernameError(true)
+          }
           if (bcrypt.compareSync(state.password, data.hashed_password)){
-            console.log(data.id)
             setUserId(data.id)
             localStorage.setItem('isSuperuser', data.is_superuser);
             Add_session(data.id);  
           }
           else{
               console.log("Authentication failed message") 
+              setpasswordError(true)
           }
       })
       .catch(error => {console.error("Error fetching data:", error);}) 
@@ -92,11 +103,12 @@ function CustomFormValidation() {
     })
       .then(response => response.json())
       .then(data => {
-        
+          console.log("seession id")
+          console.log(data)
           setCookie('session_id', data, { path: '/', expires: expiration }); 
-
-          navigate("/dashboard")
-      })
+          console.log("123")
+          navigate("/dashboard");
+        })
       .catch(error => {
           console.error("Error fetching data:", error);
       });
@@ -119,7 +131,9 @@ function CustomFormValidation() {
                       <div className="form-floating mb-3">
                         <input
                           type="park_name"
-                          className={`form-control`}
+                          className={`form-control ${
+                            usernameError ? 'invalid' : ''
+                          }`}                          
                           id="floatingInput"
                           name="park_name"
                           placeholder="name@example.com"
@@ -131,7 +145,7 @@ function CustomFormValidation() {
                         <input
                           type="password"
                           className={`form-control ${
-                            state.passwordError ? 'invalid' : ''
+                            passwordError ? 'invalid' : ''
                           }`}
                           id="floatingPassword"
                           name="password"
@@ -140,7 +154,6 @@ function CustomFormValidation() {
                           onChange={handleInputChange}
                         />
                         <label htmlFor="floatingPassword">Password</label>
-                        <span className="text-danger">{state.passwordError}</span>
                       </div>
                       
 

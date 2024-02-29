@@ -5,6 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import ParksAdmin from '../Parks/Admin/ParksAdmin';
+import { useSelectedPark } from '../../SelectedParkContext';
 
 function Cars() {
     const cookie = document.cookie
@@ -13,6 +14,8 @@ function Cars() {
     const [parkData, setparkData] = useState([]);
     const navigate = useNavigate();
     const storedIsSuperuser = localStorage.getItem('isSuperuser');
+
+    const { selectedParkId } = useSelectedPark();
 
 
     useEffect(() => {
@@ -31,7 +34,7 @@ function Cars() {
             .catch(error => {
                 console.error("Error fetching data:", error);
             });
-    }, []);
+    }, [selectedParkId]);
 
 
     function AddCar() {
