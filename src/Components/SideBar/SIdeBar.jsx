@@ -200,6 +200,9 @@ const MyProSidebar = () => {
                             setSelected={setSelected} s
                         />
 
+
+
+
                         < Item
                             title="Cars"
                             to="/cars"
@@ -229,10 +232,31 @@ const MyProSidebar = () => {
                             setSelected={setSelected}
                         />
 
+                        <SubMenu
+                            icon={<CalendarMonthRoundedIcon />}
+                            label="Calendar">
+
+                            < Item
+                                title="Upcoming"
+                                to="/payments"
+                                selected={selected}
+                                setSelected={setSelected}
+                            />
+
+                            < Item
+                                title="History"
+                                to="/payments_history"
+                                selected={selected}
+                                setSelected={setSelected}
+                            />
+
+                        </SubMenu>
+
                         <Item
                             title="Calendar"
                             to="/calendar"
-                            icon={<CalendarMonthRoundedIcon />}
+                            icon={<PaymentIcon />}
+
                             selected={selected}
                             setSelected={setSelected}
                         />
@@ -240,28 +264,7 @@ const MyProSidebar = () => {
 
 
 
-                        {/* <SubMenu
-                            icon={<PeopleRoundedIcon />}
-                            label="Drivers">
 
-
-                            < Item
-                                title="All drivers"
-                                to="/drivers"
-                                selected={selected}
-                                setSelected={setSelected}
-                            />
-
-                            < Item
-                                title="Create driver"
-                                to="/driver_create"
-                                selected={selected}
-                                setSelected={setSelected}
-                            />
-
-
-
-                        </SubMenu> */}
 
 
                         {/* <SubMenu
@@ -283,14 +286,17 @@ const MyProSidebar = () => {
 
                         </SubMenu> */}
 
-                        <Item
+                        {/* <Item
                             title="Payments"
                             to="/payments"
                             icon={<PaymentIcon />}
                             selected={selected}
                             setSelected={setSelected}
-                        />
+                        /> */}
                     </Box>
+
+
+
 
                     <Box paddingLeft={collapsed ? undefined : "10%"}
                         position={"absolute"}

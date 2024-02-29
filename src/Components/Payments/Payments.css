@@ -1,0 +1,8 @@
+.info_card_calendar{
+    min-width: 100%;
+}
+.card_calendar{
+    padding: 20px;
+    background: white;
+    border-radius: 15px;    
+}

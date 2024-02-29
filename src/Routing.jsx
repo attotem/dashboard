@@ -18,6 +18,9 @@ import ImageDropComponent from "./ImageDropComponent";
 import { useAuth } from "./AuthProvider";
 import ParksAdmin from "./Components/Parks/Admin/ParksAdmin";
 import EditServiceInterval from "./Components/Cars/EditInfo";
+import PaymentsHistory from "./Components/Payments/PaymentsHistory";
+import Upcoming from "./Components/Payments/Upcoming";
+
 const Routing = () => {
   const { isAuthenticated } = useAuth();
   return (
@@ -47,6 +50,10 @@ const Routing = () => {
       <Route path="/add_car" element={isAuthenticated ? <DefaultLayout><AddCar /></DefaultLayout> : <Navigate to="/login" />} />
 
       <Route path="/add_park" element={isAuthenticated ? <DefaultLayout><AddPark /></DefaultLayout> : <Navigate to="/login" />} />
+
+      <Route path="/payments_history" element={isAuthenticated ? <DefaultLayout><PaymentsHistory /></DefaultLayout> : <Navigate to="/login" />} />
+
+      <Route path="/payments" element={isAuthenticated ? <DefaultLayout><Upcoming /></DefaultLayout> : <Navigate to="/login" />} />
 
       <Route path="/driver_create" element={isAuthenticated ? <DefaultLayout><AddDriver /></DefaultLayout> : <Navigate to="/login" />} />
 
