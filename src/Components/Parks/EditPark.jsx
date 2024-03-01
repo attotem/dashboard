@@ -1,37 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 function EditPark({ parkId, onSave, show, onHide }) {
     const navigate = useNavigate();
     const [parkData, setParkData] = useState({ name: "", owner: "" });
     const [changedData, setChangedData] = useState({});
+    const [trigger, settrigger] = useState(true);
     const sessionId = document.cookie.split("=")[1];
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
         if (show) {
-            fetchUsers();
             fetchParkData();
         }
-    }, [parkId, show]);
+    }, [parkId, show, trigger]);
 
-    const fetchUsers = () => {
-        fetch("https://ttestt.shop/cars/api/getAll_users", {
-            method: "GET",
-            cache: "no-cache",
-            headers: {
-                "Authorization": `Bearer ${sessionId}`
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                setUsers(data);
-            })
-            .catch(error => {
-                console.error("Error fetching users:", error);
-            });
-    };
 
     const fetchParkData = () => {
         fetch(`https://ttestt.shop/cars/api/getAll_parks`, {
@@ -94,11 +79,30 @@ function EditPark({ parkId, onSave, show, onHide }) {
             .then(data => {
                 console.log(data);
                 alert('Park data updated successfully');
-                navigate(-1);
             })
             .catch(error => {
                 console.error("Error updating park:", error);
                 alert('Error: Could not update park data.');
+            });
+    };
+
+    function DeletePark() {
+        settrigger(false)
+        fetch(`https://ttestt.shop/cars/api/remove_park`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${sessionId}`,
+            },
+            body: JSON.stringify({ id: parkId }),
+        })
+            .then(response => {
+
+            })
+            .then(data => {
+            })
+            .catch(error => {
+
             });
     };
 
@@ -133,11 +137,18 @@ function EditPark({ parkId, onSave, show, onHide }) {
                                 
                             </Form.Control>
                         </Form.Group> */}
-                        <Button variant="primary" style={{ background: "rgb(182, 51, 46)", border: "none" }} type="submit">
-                            Save Changes
-                        </Button>
 
-                        
+
+                        <div className='d-flex justify-content-between'>
+                            <button className="cancel_modal" onClick={DeletePark}><DeleteForeverIcon /></button>
+
+                            <Button variant="primary" style={{ background: "rgb(182, 51, 46)", border: "none" }} type="submit">
+                                Save Changes
+                            </Button>
+                        </div>
+
+
+
                     </Form>
                 </Modal.Body>
             </Modal>

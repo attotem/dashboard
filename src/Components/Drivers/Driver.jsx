@@ -3,6 +3,7 @@ import { Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./driver.css";
 import { useNavigate } from 'react-router-dom';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const Driver = ({ first_name, phone_number, last_name, experience, categories, park_id, post, salary, tg, id }) => {
   const [showModal, setShowModal] = useState(false);
@@ -15,6 +16,27 @@ const Driver = ({ first_name, phone_number, last_name, experience, categories, p
   function EditDriver() {
     navigate(`/edit_driver/${id}`)
   }
+  const cookie = document.cookie
+  let sessionId = cookie.split("=")[1];
+  function DeleteDriver() {
+    fetch(`https://ttestt.shop/cars/api/remove_driver`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        "Authorization": `Bearer ${sessionId}`,
+      },
+      body: JSON.stringify({ id: id }),
+    })
+      .then(response => {
+
+      })
+      .then(data => {
+      })
+      .catch(error => {
+
+      });
+  };
+
   return (
     <>
       <tr className='TableRow' >
@@ -39,7 +61,7 @@ const Driver = ({ first_name, phone_number, last_name, experience, categories, p
           <p>Park id: {park_id}</p>
         </Modal.Body>
         <Modal.Footer className='d-flex justify-content-between'>
-          <button className="cancel_modal" onClick={handleClose}>Close</button>
+          <button className="cancel_modal" onClick={DeleteDriver}><DeleteForeverIcon /></button>
           <button className='edit_modal' onClick={EditDriver}>Edit driver</button>
         </Modal.Footer>
       </Modal>

@@ -116,6 +116,12 @@ code {
   border: none;
   color: #ff6565;
 }
+.cancel_modal svg{
+  
+    width: 30px;
+    height: 30px;
+
+}
 
 .edit_modal{
     font-size: 1rem;

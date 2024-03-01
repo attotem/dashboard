@@ -26,7 +26,7 @@ function Upcoming() {
     // ];
 
     useEffect(() => {
-        fetch(`https://ttestt.shop/cars/api/invoices/upcoming/park`, {
+        fetch(`https://ttestt.shop/cars/api/services/upcoming/car`, {
             method: "GET",
             cache: "no-cache",
             headers: {

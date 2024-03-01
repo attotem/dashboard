@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import EditPark from './EditPark';
 import { useNavigate } from 'react-router-dom';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+
 const Park = ({ brandLogo, brandName, distance, name, id, SuperUser }) => {
     const navigate = useNavigate();
 

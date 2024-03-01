@@ -4,6 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./cars.css";
 import { useNavigate } from 'react-router-dom';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+
 const CarsCard = ({
     brand,
     id,
@@ -13,7 +15,7 @@ const CarsCard = ({
 }) => {
     const [showModal, setShowModal] = useState(false);
     const [carInfo, setCarInfo] = useState(null);
-    const [Info, setInfo] = useState(false);
+    const [Info, setInfo] = useState(true);
 
     const handleClose = () => setShowModal(false);
     const navigate = useNavigate();
@@ -39,6 +41,25 @@ const CarsCard = ({
                 console.log(data);
                 setCarInfo(data);
 
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+            });
+    }
+    function DeleteCar() {
+        setShowModal(false);
+        fetch(`https://ttestt.shop/cars/api/remove_car`, {
+            method: "POST",
+            cache: "no-cache",
+            headers: {
+                "Authorization": `Bearer ${sessionId}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ id: id })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
             })
             .catch(error => {
                 console.error("Error fetching data:", error);
@@ -77,13 +98,25 @@ const CarsCard = ({
                                 <Modal.Title>{carInfo.car.brand} {carInfo.car.model}</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                <div onClick={swap} className='Switch_container'><SwapHorizIcon /></div>
+                                {Info ?
+                                    <>
+                                        <div onClick={swap} className='Switch_container'>Switch to service interval <SwapHorizIcon /></div>
+
+                                    </> : <>
+                                        <div onClick={swap} className='Switch_container'>Switch to car information <SwapHorizIcon /></div>
+
+                                    </>}
+
+
                                 <div className="row">
                                     {Info ?
                                         <>
                                             <h3>Car Info</h3>
                                             <div className="col-md-6">
-                                                {renderCarInfo(carInfo.car)}
+                                                {renderCarInfo(carInfo.car).slice(0, Math.ceil(Object.keys(carInfo.car).length / 2))}
+                                            </div>
+                                            <div className="col-md-6">
+                                                {renderCarInfo(carInfo.car).slice(Math.ceil(Object.keys(carInfo.car).length / 2))}
                                             </div>
                                         </> : <>
                                             <h3>Service interval</h3>
@@ -96,7 +129,7 @@ const CarsCard = ({
                             </Modal.Body>
                         </>
                         <Modal.Footer className='d-flex justify-content-between'>
-                            <button className="cancel_modal" onClick={handleClose}>Close</button>
+                            <button className="cancel_modal" onClick={DeleteCar}><DeleteForeverIcon /></button>
 
                             {Info ?
                                 <>

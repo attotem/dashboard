@@ -16,7 +16,8 @@ import WarehouseIcon from '@mui/icons-material/Warehouse';
 import logo from "./logo.png"
 import { useNavigate } from "react-router-dom";
 import { useSelectedPark } from "../../SelectedParkContext";
-const Item = ({ title, to, icon, selected, setSelected, newColor }) => {
+import { Remove } from "@mui/icons-material";
+const Item = ({ title, to, icon, selected, setSelected, newColor, onclick }) => {
     const navigate = useNavigate();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -34,7 +35,7 @@ const Item = ({ title, to, icon, selected, setSelected, newColor }) => {
 
 
     return (
-        <div className={selected === title ? "selected" : ""}>
+        <div className={selected === title ? "selected" : ""} onClick={onclick}>
             <MenuItem
                 active={selected === title}
                 style={{ color: itemColor }}
@@ -83,6 +84,7 @@ const MyProSidebar = () => {
                 console.error("Error fetching data:", error);
             });
     }, [sessionId]);
+    const navigate = useNavigate();
 
     const handleParkSelect = (id) => {
         fetch("https://ttestt.shop/cars/api/update_session", {
@@ -110,7 +112,23 @@ const MyProSidebar = () => {
         setSelectedParkId(parkId);
     };
 
+    function RemoveSession() {
+        fetch(`https://ttestt.shop/cars/api/remove_session`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${sessionId}`,
+            }
+        })
+            .then(response => {
 
+            })
+            .then(data => {
+            })
+            .catch(error => {
+
+            });
+        navigate("/login")
+    }
 
 
     return (
@@ -182,7 +200,7 @@ const MyProSidebar = () => {
                                     onChange={handleParkChange}
                                     style={{ width: '100%', padding: '10px', marginBottom: '1rem', zIndex: "10000" }}
                                 >
-                                    <option value="">Select a park</option>
+                                    <option value="" disabled >Select a park</option>
                                     {parks.map((park) => (
                                         <option key={park.id} value={park.id}>
                                             {park.name}
@@ -233,8 +251,8 @@ const MyProSidebar = () => {
                         />
 
                         <SubMenu
-                            icon={<CalendarMonthRoundedIcon />}
-                            label="Calendar">
+                            icon={<PaymentIcon />}
+                            label="Payments">
 
                             < Item
                                 title="Upcoming"
@@ -242,6 +260,14 @@ const MyProSidebar = () => {
                                 selected={selected}
                                 setSelected={setSelected}
                             />
+
+
+
+                        </SubMenu>
+
+                        <SubMenu
+                            icon={<CalendarMonthRoundedIcon />}
+                            label="Calendar">
 
                             < Item
                                 title="History"
@@ -252,67 +278,29 @@ const MyProSidebar = () => {
 
                         </SubMenu>
 
-                        <Item
-                            title="Calendar"
-                            to="/calendar"
-                            icon={<PaymentIcon />}
-
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-
-
-
-
-
-
-
-                        {/* <SubMenu
-                            icon={<AccountCircleIcon />}
-                            label="Users">
-
-                            < Item
-                                title="All users"
-                                to="/users"
-                                selected={selected}
-                                setSelected={setSelected}
-                            />
-                            < Item
-                                title="Add user"
-                                to="/add_user"
-                                selected={selected}
-                                setSelected={setSelected}
-                            />
-
-                        </SubMenu> */}
-
-                        {/* <Item
-                            title="Payments"
-                            to="/payments"
-                            icon={<PaymentIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        /> */}
                     </Box>
 
 
 
+                    <div onclick={RemoveSession}>
 
-                    <Box paddingLeft={collapsed ? undefined : "10%"}
-                        position={"absolute"}
-                        bottom={0}
+                        <Box paddingLeft={collapsed ? undefined : "10%"}
+                            position={"absolute"}
+                            bottom={0}
 
-                    >
-                        <Item
-                            title="Log out"
-                            to="/login"
-                            icon={<LogoutIcon />}
-                            setSelected={setSelected}
-                            newColor="red"
-                        />
+                        >
+                            <Item
+                                title="Log out"
+                                icon={<LogoutIcon />}
+                                setSelected={setSelected}
+                                newColor="red"
+                                onclick={RemoveSession}
+                            />
 
 
-                    </Box>
+
+                        </Box>
+                    </div>
 
                 </Menu>
 
