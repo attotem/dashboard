@@ -31,7 +31,6 @@ function PaymentsHistory() {
     return (
         <>
             <div className="container mt-5">
-                <h2>All Drivers</h2>
                 <div className="table-responsive">
                     <table className="table">
                         <thead>
