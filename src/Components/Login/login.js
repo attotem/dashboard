@@ -104,7 +104,6 @@ function CustomFormValidation() {
       .then(response => response.json())
       .then(data => {
           console.log("seession id")
-          console.log(data)
           setCookie('session_id', data, { path: '/', expires: expiration }); 
           console.log("123")
           navigate("/dashboard");

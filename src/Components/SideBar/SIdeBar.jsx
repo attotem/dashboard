@@ -17,6 +17,8 @@ import logo from "./logo.png"
 import { useNavigate } from "react-router-dom";
 import { useSelectedPark } from "../../SelectedParkContext";
 import { Remove } from "@mui/icons-material";
+import { useCookies } from 'react-cookie'
+
 const Item = ({ title, to, icon, selected, setSelected, newColor, onclick }) => {
     const navigate = useNavigate();
     const theme = useTheme();
@@ -111,8 +113,14 @@ const MyProSidebar = () => {
         handleParkSelect(parkId);
         setSelectedParkId(parkId);
     };
-
+    function deleteCookie(name) {
+        document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
     function RemoveSession() {
+
+
+
+        deleteCookie('session_id');
         fetch(`https://ttestt.shop/cars/api/remove_session`, {
             method: "POST",
             headers: {
@@ -218,9 +226,6 @@ const MyProSidebar = () => {
                             setSelected={setSelected} s
                         />
 
-
-
-
                         < Item
                             title="Cars"
                             to="/cars"
@@ -255,13 +260,11 @@ const MyProSidebar = () => {
                             label="Payments">
 
                             < Item
-                                title="Upcoming"
-                                to="/payments"
+                                title="History"
+                                to="/payments_history"
                                 selected={selected}
                                 setSelected={setSelected}
                             />
-
-
 
                         </SubMenu>
 
@@ -270,8 +273,8 @@ const MyProSidebar = () => {
                             label="Calendar">
 
                             < Item
-                                title="History"
-                                to="/payments_history"
+                                title="Upcoming"
+                                to="/payments"
                                 selected={selected}
                                 setSelected={setSelected}
                             />
