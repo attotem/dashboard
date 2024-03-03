@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Header from '../Header/header';
 import { useNavigate } from 'react-router-dom';
 
 function AddDriver() {
@@ -78,7 +77,6 @@ function AddDriver() {
     const handleCancel = () => {
         navigate(-1);
     };
-    const storedIsSuperuser = localStorage.getItem('isSuperuser');
 
     return (
         <>
@@ -167,29 +165,6 @@ function AddDriver() {
                         />
                     </Form.Group>
 
-                    {/* ID парка */}
-                    {/*                     {storedIsSuperuser == 1 ? <>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Park</Form.Label>
-                            <Form.Control
-                                as="select"
-                                value={parkId}
-                                onChange={(e) => setParkId(e.target.value)}
-                                required
-                            >
-
-                                <option value="" disabled>Select Par</option>
-                                {parks.map(park => (
-                                    <option key={park.id} value={park.id}>
-                                        {park.name}
-                                    </option>
-                                ))}
-
-
-                            </Form.Control>
-                        </Form.Group>
-                    </> : <></>}
- */}
                     <div className="d-flex justify-content-between">
                         <Button variant="outline-secondary" type="button" onClick={handleCancel} className='cancel_create'>
                             Cancel
