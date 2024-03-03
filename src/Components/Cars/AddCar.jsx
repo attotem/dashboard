@@ -37,7 +37,7 @@ function AddCar() {
         antifreeze_change: 0,
         tire_type_change: "",
         air_conditioning_change: "",
-        park_id: 0,
+        // park_id: 0,
     });
     const [selectedFile, setSelectedFile] = useState(null);
 
@@ -130,7 +130,7 @@ function AddCar() {
                             />
                         </Form.Group>
                     ))}
-                    
+
                     <h3>Service Interval</h3>
                     {Object.keys(serviceInterval).map(key => (
                         <Form.Group className="mb-3" key={key}>

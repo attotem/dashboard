@@ -168,7 +168,7 @@ function AddDriver() {
                     </Form.Group>
 
                     {/* ID парка */}
-                    {storedIsSuperuser == 1 ? <>
+                    {/*                     {storedIsSuperuser == 1 ? <>
                         <Form.Group className="mb-3">
                             <Form.Label>Park</Form.Label>
                             <Form.Control
@@ -189,7 +189,7 @@ function AddDriver() {
                             </Form.Control>
                         </Form.Group>
                     </> : <></>}
-
+ */}
                     <div className="d-flex justify-content-between">
                         <Button variant="outline-secondary" type="button" onClick={handleCancel} className='cancel_create'>
                             Cancel
