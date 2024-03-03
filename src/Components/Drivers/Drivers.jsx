@@ -14,8 +14,6 @@ function Drivers() {
 
 
     useEffect(() => {
-        const storedUserId = localStorage.getItem('id');
-
         fetch(`https://ttestt.shop/cars/api/getAll_drivers`, {
             method: "GET",
             cache: "no-cache",

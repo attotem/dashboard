@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../Header/header';
 import ImageDropComponent from '../../ImageDropComponent';
 import { useNavigate } from 'react-router-dom';
 function AddCar() {
+    const [driversData, setDriversData] = useState([]);
     const [carData, setCarData] = useState({
         brand: "",
         model: "",
@@ -20,9 +21,7 @@ function AddCar() {
         color: "",
         kms_per_day: 0,
         driver_id: null,
-        // not required
         tire_type: 0,
-        // 1 or 0 
         oil_change: 0,
         air_filter_change: 0,
         cabin_filter_change: 0,
@@ -37,9 +36,7 @@ function AddCar() {
         antifreeze_change: 0,
         tire_type_change: "",
         air_conditioning_change: "",
-        // park_id: 0,
     });
-    const [selectedFile, setSelectedFile] = useState(null);
 
     const [serviceInterval, setServiceInterval] = useState({
         oil_change: 0,
@@ -66,15 +63,35 @@ function AddCar() {
             [name]: value
         }));
     };
-
+    const cookie = document.cookie;
+    let sessionId = cookie.split("=")[1];
+    useEffect(() => {
+        fetch(`https://ttestt.shop/cars/api/getAll_drivers`, {
+            method: "GET",
+            cache: "no-cache",
+            headers: {
+                "Authorization": `Bearer ${sessionId}`
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                setDriversData(data);
+                console.log(data);
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+            });
+    }, [])
     const handleChange = (event) => {
         const { name, value } = event.target;
         const updatedValue = name === "driver_id" && value === "" ? null : value;
+        const finalValue = name === "tire_type" ? Number(value) : updatedValue;
         setCarData(prevData => ({
             ...prevData,
-            [name]: updatedValue
+            [name]: finalValue
         }));
     };
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -85,8 +102,7 @@ function AddCar() {
         };
 
         console.log(combinedData)
-        const cookie = document.cookie;
-        let sessionId = cookie.split("=")[1];
+
         fetch("https://ttestt.shop/cars/api/add_car", {
             method: "POST",
             headers: {
@@ -118,18 +134,54 @@ function AddCar() {
         <>
             <Container>
                 <Form onSubmit={handleSubmit} className='w-75'>
-                    {Object.keys(carData).map(key => (
-                        <Form.Group className="mb-3" key={key}>
-                            <Form.Label>{key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name={key}
-                                placeholder={`Enter ${key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}`}
-                                value={carData[key]}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
-                    ))}
+                    {Object.keys(carData).map(key => {
+                        if (key === "tire_type") {
+                            return (
+                                <Form.Group className="mb-3" key={key}>
+                                    <Form.Label>Tire Type</Form.Label>
+                                    <Form.Select
+                                        name={key}
+                                        value={carData[key]}
+                                        onChange={handleChange}
+                                    >
+                                        <option value="0">Winter</option>
+                                        <option value="1">Summer</option>
+                                    </Form.Select>
+                                </Form.Group>
+                            );
+                        } else if (key === "driver_id") {
+                            return ( // Додайте return тут
+                                <Form.Group className="mb-3" key={key}>
+                                    <Form.Label>Driver</Form.Label>
+                                    <Form.Select
+                                        name={key}
+                                        value={carData[key]}
+                                        onChange={handleChange}
+                                    >
+                                        <option value="">Select a driver</option>
+                                        {driversData.map((driver) => (
+                                            <option key={driver.id} value={driver.id}>
+                                                {driver.first_name} {driver.last_name}
+                                            </option>
+                                        ))}
+                                    </Form.Select>
+                                </Form.Group>
+                            );
+                        } else {
+                            return (
+                                <Form.Group className="mb-3" key={key}>
+                                    <Form.Label>{key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name={key}
+                                        placeholder={`Enter ${key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}`}
+                                        value={carData[key]}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
+                            );
+                        }
+                    })}
 
                     <h3>Service Interval</h3>
                     {Object.keys(serviceInterval).map(key => (
@@ -145,10 +197,6 @@ function AddCar() {
                     ))}
 
 
-                    {/* <Form.Group className="mb-3">
-                        <Form.Label>Drop image 123</Form.Label>
-                        <ImageDropComponent onFileChange={handleFileChange} />
-                    </Form.Group> */}
 
                     <div className="d-flex justify-content-between">
                         <Button variant="outline-secondary" type="button" onClick={handleCancel} className='cancel_create'>

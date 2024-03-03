@@ -24,6 +24,7 @@ function CustomFormValidation() {
   });
   
   const [UserId, setUserId] = useState(0);
+  const [is_superuser, setis_superuser] = useState(false);
   const [passwordError, setpasswordError] = useState(false);
   const [usernameError, setusernameError] = useState(false);
 
@@ -66,15 +67,17 @@ function CustomFormValidation() {
           {
             setusernameError(true)
           }
+          else{
+            console.log("Authentication failed message") 
+            setpasswordError(true)
+          } 
           if (bcrypt.compareSync(state.password, data.hashed_password)){
             setUserId(data.id)
             localStorage.setItem('isSuperuser', data.is_superuser);
+            setis_superuser(data.is_superuser)
             Add_session(data.id);  
           }
-          else{
-              console.log("Authentication failed message") 
-              setpasswordError(true)
-          }
+         
       })
       .catch(error => {console.error("Error fetching data:", error);}) 
   };
@@ -82,14 +85,14 @@ function CustomFormValidation() {
 
 
   const expiration = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000); 
-  const storedIsSuperuser = localStorage.getItem('isSuperuser');
+
 
   function Add_session(id)
   {
 
     const userData = {
       id: id,
-      is_superuser : storedIsSuperuser
+      is_superuser : is_superuser
     };
     console.log("userData")
     console.log(userData)

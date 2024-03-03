@@ -58,7 +58,9 @@ const MyProSidebar = () => {
     const [selected, setSelected] = useState("");
     const { sidebarRTL, sidebarImage } = useSidebarContext();
     const { collapsed } = useProSidebar();
-    const storedIsSuperuser = localStorage.getItem('isSuperuser');
+    // const storedIsSuperuser = localStorage.getItem('isSuperuser');
+    const storedIsSuperuser = JSON.parse(localStorage.getItem('isSuperuser'));
+
     const [selectedPark, setSelectedPark] = useState('');
 
     const [parks, setParks] = useState([]);
