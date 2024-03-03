@@ -201,7 +201,7 @@ const MyProSidebar = () => {
                     <Box
                     >
 
-                        {storedIsSuperuser === '1' && (
+                        {storedIsSuperuser && (
                             <Box sx={{ padding: theme.spacing(2) }}>
                                 <select
                                     value={selectedPark}
@@ -235,7 +235,7 @@ const MyProSidebar = () => {
 
                         />
 
-                        {storedIsSuperuser == 1 ? <>
+                        {storedIsSuperuser ? <>
                             < Item
                                 title="Parks"
                                 icon={<WarehouseIcon />}
