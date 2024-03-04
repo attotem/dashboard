@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Avatar from '@mui/material/Avatar';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -6,6 +6,32 @@ import './header.css';
 import avatar from "./avatar.jpg";
 
 function Header({ text }) {
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const notificationRef = useRef(null); // Ref for the notification menu
+
+  const toggleNotifications = () => {
+    setIsNotificationsOpen(!isNotificationsOpen);
+  };
+
+  // Click outside handler
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+        setIsNotificationsOpen(false);
+      }
+    };
+
+    // Add when the notification menu is open
+    if (isNotificationsOpen) {
+      document.addEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      // Clean up
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [isNotificationsOpen]);
+
   return (
     <div className="container-fluid pb-3">
       <div className="row align-items-center">
@@ -14,16 +40,35 @@ function Header({ text }) {
         </div>
 
         <div className="col-auto">
-          <div className="btn-group">
-            <button type="button" className="btn" data-bs-toggle="dropdown" aria-expanded="false">
+          <div className="btn-group" ref={notificationRef}>
+            <button type="button" className="btn" onClick={toggleNotifications}>
               <span className="notification-icon"><NotificationsNoneIcon /></span>
             </button>
-            <ul className="dropdown-menu">
-              <li><a className="dropdown-item" href="#">Notification 1</a></li>
-              <li><a className="dropdown-item" href="#">Notification 2</a></li>
-              <li><hr className="dropdown-divider" /></li>
-              <li><a className="dropdown-item" href="#">All Notifications</a></li>
-            </ul>
+            {isNotificationsOpen && (
+              <div className="notification-menu">
+                <ul>
+                  <li><a href="#">
+                    <div className='notification_container'>
+                      <div>Car: SomeCar</div>
+                      <div>Issuse: SomeIssue</div>
+                    </div>
+
+                  </a></li>
+                  <li><a href="#">
+                    <div className='notification_container'>
+                      <div>Car: SomeCar</div>
+                      <div>Issuse: SomeIssue</div>
+                    </div></a></li>
+                  <li><hr /></li>
+                  <li><a href="#">
+                    <div className='notification_container'>
+                      <div>Car: SomeCar</div>
+                      <div>Issuse: SomeIssue</div>
+                    </div>
+                  </a></li>
+                </ul>
+              </div>
+            )}
           </div>
 
           <div className="btn-group">

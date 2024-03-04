@@ -270,18 +270,13 @@ const MyProSidebar = () => {
 
                         </SubMenu>
 
-                        <SubMenu
+                        < Item
                             icon={<CalendarMonthRoundedIcon />}
-                            label="Calendar">
-
-                            < Item
-                                title="Upcoming"
-                                to="/payments"
-                                selected={selected}
-                                setSelected={setSelected}
-                            />
-
-                        </SubMenu>
+                            title="Calendar"
+                            to="/calendar"
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
 
                     </Box>
 

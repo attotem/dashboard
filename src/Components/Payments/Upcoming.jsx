@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelectedPark } from '../../SelectedParkContext';
 import Payment from './Payment';
 import { Container, Row, Col } from 'react-bootstrap';
-
+import HistoryIcon from '@mui/icons-material/History';
 
 
 function Upcoming() {
@@ -43,12 +43,10 @@ function Upcoming() {
             });
     }, [selectedParkId]);
 
-
-    // function AddCar() {
-    //     navigate(`/add_car`)
-    // }
     return (
         <>
+
+            <div onClick={() => navigate("/payments_history")} className='d-flex w-100 justify-content-end icon align-items-center'><div className='history_calendar'>History</div> <HistoryIcon /></div>
 
             <Container>
                 <Row>

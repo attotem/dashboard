@@ -11,9 +11,6 @@ const Park = ({ brandLogo, brandName, distance, name, id, SuperUser }) => {
 
     return (
         <div className="col">
-
-
-
             <div className="card" onClick={() => setShowEditModal(true)}>
                 <div className="card-body text-center">
                     <img src={brandLogo} alt={brandName} className="card-img-top" style={{ width: '50px' }} />

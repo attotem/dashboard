@@ -11,9 +11,7 @@ function Cars() {
     const cookie = document.cookie
     let sessionId = cookie.split("=")[1];
     const [customersData, setCustomersData] = useState([]);
-    const [parkData, setparkData] = useState([]);
     const navigate = useNavigate();
-    const storedIsSuperuser = localStorage.getItem('isSuperuser');
 
     const { selectedParkId } = useSelectedPark();
 

@@ -1,15 +1,19 @@
-body {
+/* body {
   margin: 0;
  
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Poppins' !important;
-}
+} */
+body {
+  margin: 0;
 
-code {
+  font-family: 'Trueno', sans-serif !important;
+}
+/* code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
+} */
 .css-honxw6 {
   width: 7px !important;
   height: 7px !important;

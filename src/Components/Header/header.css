@@ -1,3 +1,35 @@
 .search-icon, .notification-icon {
     padding: 0 12px;
   }
+  .notification-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 250px;
+    height: 100%;
+    background: white;
+    border: 1px solid #e1e1e1;
+    z-index: 1050;
+    transition: right 0.3s ease-in-out;
+}
+  
+  .notification-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .notification-menu li a {
+    display: block;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    color: black;
+    text-decoration: none;
+  }
+  
+  .notification-menu li hr {
+    margin: 0;
+  }
+  .notification_container{
+    font-size: 1.1rem;
+  }
