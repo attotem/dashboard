@@ -84,13 +84,15 @@ const CarsCard = ({
     return (
         <div className="col">
             <div className="card" onClick={ShowInfo} >
-                {/* <div className='car_status car_green'>Car is serviced</div> */}
                 {status == "serviced" ? <div className='car_status car_yellow'>Serviced</div> : null}
                 {status == "need service" ? <div className='car_status car_yellow'>Need service</div> : null}
-                {status == "urgently serviced" ? <div className='car_status car_red '> Urgently service </div> : null}
+                {status == "urgently service" ? <div className='car_status car_red '> Urgently service </div> : null}
 
                 <div className="card-body text-center">
-                    <img src={image} alt={brand} className="card-img-top" style={{ width: '50px' }} />
+                    <div className='image_container'>
+                        <img src={image} alt={brand} className="card-img-top" />
+
+                    </div>
                     <h5 className="card-title">{brand}</h5>
                     <p className="card-text">{kms} km</p>
                 </div>

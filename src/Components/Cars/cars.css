@@ -1,6 +1,4 @@
-.card-img-top{
-    width: 10rem !important;
-}
+
 
 .car_status {
     position: absolute;
@@ -10,6 +8,34 @@
     opacity: 0.7;
     font-weight: 600;
 }
+.image_container {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    border: none;
+    border-radius: 20px;
+    position: relative;
+    width: 100%; /* Adjust based on your layout */
+    height: 100%; /* Or a fixed height */
+    margin-bottom: 20px; /* Consistent spacing between cards */
+}
+
+.card-img-top {
+    max-height: 100px; 
+    width: auto
+}
+
+.card-title, .card-text {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
 
 .car_green{
     color: green;
