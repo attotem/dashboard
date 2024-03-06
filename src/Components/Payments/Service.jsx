@@ -37,9 +37,21 @@ const Service = ({ id, deadline, car_brand, car_model, name, quantity, status })
                     Details
                 </div>
                 :
+                null}
+
+            {status == "enroll" ?
                 <div className='button_enroll'>
                     Enroll
-                </div>}
+                </div>
+                :
+                null}
+
+            {status == "urgently" ?
+                <div className='button_urgently'>
+                    Urgently
+                </div>
+                :
+                null}
 
         </div >
     );

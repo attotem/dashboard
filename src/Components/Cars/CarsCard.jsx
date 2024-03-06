@@ -86,7 +86,7 @@ const CarsCard = ({
     return (
         <div className="col">
             <div className="card" onClick={ShowInfo} >
-                {status == "serviced" ? <div className='car_status car_yellow'>Serviced</div> : null}
+                {status == "serviced" ? <div className='car_status car_green'>Serviced</div> : null}
                 {status == "need service" ? <div className='car_status car_yellow'>Need service</div> : null}
                 {status == "urgently service" ? <div className='car_status car_red '> Urgently service </div> : null}
 
@@ -97,7 +97,7 @@ const CarsCard = ({
                     </div>
                     <h5 className="card-title">{brand} {model}</h5>
                     <h5 className="card-title"></h5>
-                    <p className="card-text">{kms} km</p>
+                    <p className="card-text" style={{ fontSize: "1rem" }} >{kms} kms</p>
                 </div>
             </div>
 
