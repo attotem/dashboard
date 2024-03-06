@@ -68,7 +68,9 @@ const CarsCard = ({
     }
 
     const renderCarInfo = (car) => {
-        return Object.entries(car).map(([key, value], index) => (
+        const filteredEntries = Object.entries(car).filter(([key, value]) => !['id', 'image', 'driver_id'].includes(key));
+
+        return filteredEntries.map(([key, value], index) => (
             <div className="d-flex" key={index}>
                 <div className="nameInfoCar">{key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}:</div>
                 <div className="infoCar">{value}</div>
@@ -93,7 +95,8 @@ const CarsCard = ({
                         <img src={image} alt={brand} className="card-img-top" />
 
                     </div>
-                    <h5 className="card-title">{brand}</h5>
+                    <h5 className="card-title">{brand} {model}</h5>
+                    <h5 className="card-title"></h5>
                     <p className="card-text">{kms} km</p>
                 </div>
             </div>
