@@ -9,14 +9,14 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 const CarsCard = ({
     brand,
     id,
-    image,
     kms,
     model,
+    status
 }) => {
     const [showModal, setShowModal] = useState(false);
     const [carInfo, setCarInfo] = useState(null);
     const [Info, setInfo] = useState(true);
-
+    const image = "https://assets-global.website-files.com/5f79fedc952b4abde5bddcea/5f7ba1e83b1e8c197f4c658a_abarth-min.png"
     const handleClose = () => setShowModal(false);
     const navigate = useNavigate();
 
@@ -83,6 +83,11 @@ const CarsCard = ({
     return (
         <div className="col">
             <div className="card" onClick={ShowInfo} >
+                {/* <div className='car_status car_green'>Car is serviced</div> */}
+                {status == "serviced" ? <div className='car_status car_yellow'>Serviced</div> : null}
+                {status == "need service" ? <div className='car_status car_yellow'>Need service</div> : null}
+                {status == "urgently serviced" ? <div className='car_status car_red '> Urgently service </div> : null}
+
                 <div className="card-body text-center">
                     <img src={image} alt={brand} className="card-img-top" style={{ width: '50px' }} />
                     <h5 className="card-title">{brand}</h5>

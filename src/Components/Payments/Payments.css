@@ -22,8 +22,20 @@
 .invoice{
     color: rgb(182, 51, 46);
 }
-.button_upcoming{
+.button_enroll{
     background: rgb(182, 51, 46);
+    font-size: 1.5rem;
+    color: white;
+    font-weight: 600;
+    margin: 20px -20px -20px -20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.button_upcoming{
+    background: rgb(42 143 65);
     font-size: 1.5rem;
     color: white;
     font-weight: 600;

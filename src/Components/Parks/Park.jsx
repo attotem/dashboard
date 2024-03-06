@@ -6,8 +6,10 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const Park = ({ brandLogo, brandName, distance, name, id, SuperUser }) => {
     const navigate = useNavigate();
-
+    
     const [showEditModal, setShowEditModal] = useState(false);
+
+    
 
     return (
         <div className="col">

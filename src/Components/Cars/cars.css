@@ -1,35 +1,53 @@
 .card-img-top{
     width: 10rem !important;
 }
+
 .car_status {
-    width: 15px;
-    background: green;
-    height: 15px;
     position: absolute;
-    top: 1rem ;
-    right: 1rem;
-    border-radius: 50%;
+    right: 10px;
+    top: 15px;
+    font-size: 1rem;
+    opacity: 0.7;
+    font-weight: 600;
 }
+
+.car_green{
+    color: green;
+}
+
+.car_yellow{
+    color: orange;
+}
+
+.car_red{
+    color: red;
+}
+
+
 .card {
     border: none;
     border-radius: 20px;
+    position: relative;
 }
+
 .card-title{
     font-weight: 900;
     font-size: 1.5rem;
 
 }
+
 .nameInfoCar   {
     font-size: 1rem;
     padding-bottom: 5px;
 }
+
 .infoCar {
     font-size: 1rem;
     margin-left: 8px;
     font-weight: 600;
     padding-bottom: 5px;
-
 }
+
 .header_cars {
     width: 100%;
     display: flex;
@@ -40,4 +58,7 @@
     position: absolute;
     top: 10px;
     right: 10px;
+}
+.card-body{
+    margin-top:30px
 }

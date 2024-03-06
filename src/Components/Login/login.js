@@ -109,6 +109,8 @@ function CustomFormValidation() {
           console.log("seession id")
           setCookie('session_id', data, { path: '/', expires: expiration }); 
           console.log("123")
+          localStorage.setItem('isAuthenticated', true);
+
           navigate("/dashboard");
         })
       .catch(error => {

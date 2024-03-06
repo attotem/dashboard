@@ -7,12 +7,11 @@ import { useNavigate } from 'react-router-dom';
 
 function AddPark() {
 
-
     const [selectedFile, setSelectedFile] = useState(null);
 
     const [parkData, setParkData] = useState({
         name: "",
-        password: "" // Используйте 'password' для хранения ввода от пользователя
+        password: ""
     });
     const cookie = document.cookie;
     let sessionId = cookie.split("=")[1];
@@ -21,6 +20,14 @@ function AddPark() {
         const { name, value } = event.target;
         setParkData(prevData => ({
             ...prevData,
+            [name]: value
+        }));
+    };
+
+    const handleServiceIntervalChange = (event) => {
+        const { name, value } = event.target;
+        setServiceInterval(prevInterval => ({
+            ...prevInterval,
             [name]: value
         }));
     };
@@ -62,6 +69,25 @@ function AddPark() {
     const handleCancel = () => {
         navigate(-1);
     };
+
+    const [serviceInterval, setServiceInterval] = useState({
+        oil_change: 0,
+        air_filter_change: 0,
+        cabin_filter_change: 0,
+        fuel_filter_change: 0,
+        brake_pads_change: 0,
+        brake_disks_change: 0,
+        valvetrain_change: 0,
+        spark_plugs_change: 0,
+        pendant_change: 0,
+        tire_change: 0,
+        brake_fluid_change: 0,
+        antifreeze_change: 0,
+        tire_type_change_0: "",
+        tire_type_change_1: "",
+        air_conditioning_change: ""
+    });
+
     return (
         <>
             <Container>
@@ -87,6 +113,19 @@ function AddPark() {
                             required
                         />
                     </Form.Group>
+
+                    <h3>Service Interval</h3>
+                    {Object.keys(serviceInterval).map(key => (
+                        <Form.Group className="mb-3" key={key}>
+                            <Form.Label>{key.split('_').join(' ').replace(/\b\w/g, l => l.toUpperCase())}</Form.Label>
+                            <Form.Control
+                                type={typeof serviceInterval[key] === "number" ? "number" : "text"}
+                                name={key}
+                                value={serviceInterval[key]}
+                                onChange={handleServiceIntervalChange}
+                            />
+                        </Form.Group>
+                    ))}
 
                     <div className="d-flex justify-content-between">
                         <Button variant="outline-secondary" type="button" onClick={handleCancel} className='cancel_create'>

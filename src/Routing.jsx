@@ -19,9 +19,10 @@ import { useAuth } from "./AuthProvider";
 import ParksAdmin from "./Components/Parks/Admin/ParksAdmin";
 import EditServiceInterval from "./Components/Cars/EditInfo";
 import PaymentsHistory from "./Components/Payments/PaymentsHistory";
-import Upcoming from "./Components/Payments/Upcoming";
+import Calendar from "./Components/Payments/Calendar";
 const Routing = () => {
   const { isAuthenticated } = useAuth();
+
   return (
     <Routes>
       <Route path="/login" element={<CustomFormValidation />} />
@@ -52,15 +53,13 @@ const Routing = () => {
 
       <Route path="/payments_history" element={isAuthenticated ? <DefaultLayout><PaymentsHistory /></DefaultLayout> : <Navigate to="/login" />} />
 
-      <Route path="/calendar" element={isAuthenticated ? <DefaultLayout><Upcoming /></DefaultLayout> : <Navigate to="/login" />} />
+      <Route path="/calendar" element={isAuthenticated ? <DefaultLayout><Calendar /></DefaultLayout> : <Navigate to="/login" />} />
 
       <Route path="/driver_create" element={isAuthenticated ? <DefaultLayout><AddDriver /></DefaultLayout> : <Navigate to="/login" />} />
 
       <Route path="/parks" element={isAuthenticated ? <DefaultLayout><Parks /></DefaultLayout> : <Navigate to="/login" />} />
 
       <Route path="/choose_driver_park" element={isAuthenticated ? <DefaultLayout><ParksAdmin /></DefaultLayout> : <Navigate to="/login" />} />
-
-      <Route path="/123" element={<ImageDropComponent />} />
 
       <Route path="*" element={isAuthenticated ? <DefaultLayout>No directory</DefaultLayout> : <Navigate to="/login" />} />
     </Routes>
