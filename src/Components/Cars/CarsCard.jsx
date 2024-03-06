@@ -11,12 +11,13 @@ const CarsCard = ({
     id,
     kms,
     model,
-    status
+    status,
+    image
 }) => {
     const [showModal, setShowModal] = useState(false);
     const [carInfo, setCarInfo] = useState(null);
     const [Info, setInfo] = useState(true);
-    const image = "https://assets-global.website-files.com/5f79fedc952b4abde5bddcea/5f7ba1e83b1e8c197f4c658a_abarth-min.png"
+    // const image = "https://assets-global.website-files.com/5f79fedc952b4abde5bddcea/5f7ba1e83b1e8c197f4c658a_abarth-min.png"
     const handleClose = () => setShowModal(false);
     const navigate = useNavigate();
 
