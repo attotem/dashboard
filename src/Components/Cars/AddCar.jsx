@@ -146,11 +146,12 @@ function AddCar() {
                                     >
                                         <option value="0">Winter</option>
                                         <option value="1">Summer</option>
+                                        <option value="-1">All seasons</option>
                                     </Form.Select>
                                 </Form.Group>
                             );
                         } else if (key === "driver_id") {
-                            return ( // Додайте return тут
+                            return (
                                 <Form.Group className="mb-3" key={key}>
                                     <Form.Label>Driver</Form.Label>
                                     <Form.Select
@@ -184,19 +185,48 @@ function AddCar() {
                     })}
 
                     <h3>Service Interval</h3>
-                    {Object.keys(serviceInterval).map(key => (
-                        <Form.Group className="mb-3" key={key}>
-                            <Form.Label>{key.split('_').join(' ').replace(/\b\w/g, l => l.toUpperCase())}</Form.Label>
-                            <Form.Control
-                                type={typeof serviceInterval[key] === "number" ? "number" : "text"}
-                                name={key}
-                                value={serviceInterval[key]}
-                                onChange={handleServiceIntervalChange}
-                            />
-                        </Form.Group>
-                    ))}
+                    {Object.keys(serviceInterval).map(key => {
+                        if ((key == "tire_type_change_0")) {
+                            return (
+                                <Form.Group className="mb-3" key={key}>
+                                    <Form.Label>{"Winter"}</Form.Label>
+                                    <Form.Control
+                                        type={typeof serviceInterval[key] === "number" ? "number" : "text"}
+                                        name={key}
+                                        value={serviceInterval[key]}
+                                        onChange={handleServiceIntervalChange}
+                                    />
+                                </Form.Group>
+                            )
 
-
+                        } else if (key == "tire_type_change_1") {
+                            return (
+                                <Form.Group className="mb-3" key={key}>
+                                    <Form.Label>{"Summer"}</Form.Label>
+                                    <Form.Control
+                                        type={typeof serviceInterval[key] === "number" ? "number" : "text"}
+                                        name={key}
+                                        value={serviceInterval[key]}
+                                        onChange={handleServiceIntervalChange}
+                                    />
+                                </Form.Group>
+                            );
+                        }
+                        else {
+                            return (
+                                <Form.Group className="mb-3" key={key}>
+                                    <Form.Label>{key.split('_').join(' ').replace(/\b\w/g, l => l.toUpperCase())}</Form.Label>
+                                    <Form.Control
+                                        type={typeof serviceInterval[key] === "number" ? "number" : "text"}
+                                        name={key}
+                                        value={serviceInterval[key]}
+                                        onChange={handleServiceIntervalChange}
+                                    />
+                                </Form.Group>
+                            )
+                        }
+                    })
+                    }
 
                     <div className="d-flex justify-content-between">
                         <Button variant="outline-secondary" type="button" onClick={handleCancel} className='cancel_create'>

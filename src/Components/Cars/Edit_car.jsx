@@ -95,6 +95,7 @@ function EditCar() {
                                 >
                                     <option value="0">Winter</option>
                                     <option value="1">Summer</option>
+                                    <option value="-1">All seasons</option>
                                 </Form.Select>
                             </Form.Group>
                         );
