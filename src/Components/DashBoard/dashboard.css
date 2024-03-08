@@ -1,13 +1,17 @@
 .chart_wrapper {
-    width: -moz-fit-content;
-    width: fit-content;
     background: white;
     padding: 20px;
     border-radius: 25px;
     border: 1px solid #0000001f;
     box-shadow: 0 0 20px 10px #e7e7e7;
-    display: flex;
     align-items: center;
-    margin-left: 20px;
-    margin-top: 20px;
+    justify-content: center;
+    margin: 20px; /* Adjusted to apply margin uniformly around the charts */
+}
+
+.chart-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three equal columns */
+    grid-template-rows: 2fr 1fr; /* First row is twice the height of the second row */
+    gap: 20px; /* Increased the gap for better spacing */
 }

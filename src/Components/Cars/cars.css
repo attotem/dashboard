@@ -88,3 +88,29 @@
 .card-body{
     margin-top:30px
 }
+
+.green_blambda {
+    background: green;
+    border-radius: 10px;
+    margin-left: 5px;
+    padding: 5px;
+    color: white;
+}
+.yellow_blambda {
+    
+    background: orange;
+    margin-left: 5px;
+    border-radius: 10px;
+
+    padding: 5px;
+    color: white;
+}
+.red_blambda {
+   
+    background: red;
+    margin-left: 5px;
+    border-radius: 10px;
+
+    padding: 5px;
+    color: white;
+}

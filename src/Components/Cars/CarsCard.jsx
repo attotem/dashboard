@@ -86,9 +86,21 @@ const CarsCard = ({
     return (
         <div className="col">
             <div className="card" onClick={ShowInfo} >
-                {status == "serviced" ? <div className='car_status car_green'>Serviced</div> : null}
-                {status == "need service" ? <div className='car_status car_yellow'>Need service</div> : null}
-                {status == "urgently service" ? <div className='car_status car_red '> Urgently service </div> : null}
+                {status == "serviced" ?
+                    <div className='d-flex car_status'>
+                        <div className='green_blambda'>Serviced</div>
+                    </div>
+                    : null}
+                {status == "need service" ?
+                    <div className='d-flex car_status'>
+                        <div className='yellow_blambda'>Need service</div>
+                    </div>
+                    : null}
+                {status == "urgently service" ?
+                    <div className='d-flex car_status'>
+                        <div className='red_blambda'>Urgently service</div>
+                    </div>
+                    : null}
 
                 <div className="card-body text-center">
                     <div className='image_container'>

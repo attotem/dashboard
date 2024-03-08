@@ -33,3 +33,16 @@
   .notification_container{
     font-size: 1.1rem;
   }
+
+  .appoinment_button {
+    background: rgb(182, 51, 46);
+    width: fit-content;
+    padding: 8px;
+    font-size: 1.4rem;
+    border-radius: 10px;
+}
+  .appoinment_button a{
+    text-decoration: none;
+    color: white;
+
+}
