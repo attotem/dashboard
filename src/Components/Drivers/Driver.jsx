@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { Modal } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Modal, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./driver.css";
 import { useNavigate } from 'react-router-dom';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
-const Driver = ({ first_name, phone_number, last_name, experience, categories, park_id, post, salary, tg, id }) => {
+const Driver = ({ first_name, phone_number, last_name, experience, categories, park_id, post, salary, tg, id, car_brand, car_id, car_model, CarsData = [] }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleShow = () => setShowModal(true);
@@ -16,6 +16,8 @@ const Driver = ({ first_name, phone_number, last_name, experience, categories, p
   function EditDriver() {
     navigate(`/edit_driver/${id}`)
   }
+
+
   const cookie = document.cookie
   let sessionId = cookie.split("=")[1];
   function DeleteDriver() {
@@ -37,15 +39,38 @@ const Driver = ({ first_name, phone_number, last_name, experience, categories, p
       });
   };
 
+
+  console.log("CarsData")
+  console.log(CarsData)
+
   return (
     <>
       <tr className='TableRow' >
         <td className="py-3 table_text align-middle">{first_name}</td>
         <td className="py-3 table_text align-middle">{last_name}</td>
         <td className="py-3 table_text align-middle">{phone_number}</td>
+        <td>
+          <Form.Group className="mb-3">
+            <Form.Select
+            >
+              {car_id != null ?
+                <option value={car_id} >{car_brand} {car_model}</option>
+                :
+                <option value={null} >No car selected</option>
+              }
+              {CarsData.map((car, index) => (
+                <option value={car.id} >{car.brand} {car.model}</option>
+
+              ))}
+            </Form.Select>
+          </Form.Group></td>
         <td className="py-3 table_text align-middle">
           <div className='status_active' onClick={handleShow}>See more</div>
         </td>
+
+
+
+
       </tr>
 
       <Modal show={showModal} onHide={handleClose}>

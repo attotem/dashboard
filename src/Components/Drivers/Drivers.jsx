@@ -35,9 +35,29 @@ function Drivers() {
         navigate(`/driver_create`)
 
     }
+
+    const [CarsData, setCarsData] = useState([]);
     const navigate = useNavigate();
 
 
+
+    useEffect(() => {
+        fetch(`https://ttestt.shop/cars/api/getAll_park_cars`, {
+            method: "GET",
+            cache: "no-cache",
+            headers: {
+                "Authorization": `Bearer ${sessionId}`
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                setCarsData(data);
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+            });
+    }, [selectedParkId]);
 
     return (
         <>
@@ -52,10 +72,11 @@ function Drivers() {
                     <table className="table">
                         <thead>
                             <tr>
-                                <th className='table_header'>First name</th>
-                                <th className='table_header'>Last name</th>
-                                <th className='table_header'>Phone number</th>
-                                <th className='table_header'></th>
+                                <th className='table_header '>First name</th>
+                                <th className='table_header '>Last name</th>
+                                <th className='table_header '>Phone number</th>
+                                <th className='table_header '>Car</th>
+                                <th className='table_header '></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -71,6 +92,10 @@ function Drivers() {
                                     tg={customer.tg}
                                     phone_number={customer.phone_number}
                                     id={customer.id}
+                                    car_brand={customer.car_brand}
+                                    car_id={customer.car_id}
+                                    car_model={customer.car_model}
+                                    CarsData={CarsData}
                                 />
                             ))}
                         </tbody>
