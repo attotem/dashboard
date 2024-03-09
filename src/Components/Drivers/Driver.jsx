@@ -50,7 +50,7 @@ const Driver = ({ first_name, phone_number, last_name, experience, categories, p
 
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Driver Details</Modal.Title>
+          <Modal.Title>{last_name} {first_name} </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p>Categories: {categories}</p>

@@ -189,7 +189,7 @@ function AddCar() {
                         if ((key == "tire_type_change_0")) {
                             return (
                                 <Form.Group className="mb-3" key={key}>
-                                    <Form.Label>{"Winter"}</Form.Label>
+                                    <Form.Label>{"Winter tire type change"}</Form.Label>
                                     <Form.Control
                                         type={typeof serviceInterval[key] === "number" ? "number" : "text"}
                                         name={key}
@@ -202,7 +202,7 @@ function AddCar() {
                         } else if (key == "tire_type_change_1") {
                             return (
                                 <Form.Group className="mb-3" key={key}>
-                                    <Form.Label>{"Summer"}</Form.Label>
+                                    <Form.Label>{"Summer tire type change"}</Form.Label>
                                     <Form.Control
                                         type={typeof serviceInterval[key] === "number" ? "number" : "text"}
                                         name={key}

@@ -69,23 +69,34 @@ function EditCar() {
             <Container>
                 <Form onSubmit={handleSubmit} className='w-75'>
                     <h3>Service Interval Information</h3>
-                    {Object.keys(serviceIntervalData).map(key => (
-                        <Form.Group className="mb-3" key={key}>
-                            <Form.Label>{key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name={key}
-                                value={serviceIntervalData[key]}
-                                onChange={handleChangeServiceIntervalData}
-                            />
-                        </Form.Group>
-                    ))}
+                    {serviceIntervalData && Object.keys(serviceIntervalData).map(key => {
+                        let label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()); // Default label transformation
+                        // Customize labels for specific keys
+                        if (key === "tire_type_change_0") {
+                            label = "Winter tire type change";
+                        } else if (key === "tire_type_change_1") {
+                            label = "Summer tire type change";
+                        }
+
+                        return (
+                            <Form.Group className="mb-3" key={key}>
+                                <Form.Label>{label}</Form.Label>
+                                <Form.Control
+                                    type={typeof serviceIntervalData[key] === "number" ? "number" : "text"}
+                                    name={key}
+                                    value={serviceIntervalData[key] || ''} // Ensure the value is not undefined
+                                    onChange={handleChangeServiceIntervalData}
+                                />
+                            </Form.Group>
+                        );
+                    })}
 
                     <div className="d-flex justify-content-between">
                         <Button variant="secondary" onClick={() => navigate(-1)}>Cancel</Button>
                         <Button variant="primary" type="submit">Save Changes</Button>
                     </div>
                 </Form>
+
             </Container>
         </>
     );
