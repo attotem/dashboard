@@ -66,7 +66,7 @@ function AddCar() {
     const cookie = document.cookie;
     let sessionId = cookie.split("=")[1];
     useEffect(() => {
-        fetch(`https://ttestt.shop/cars/api/getAll_drivers`, {
+        fetch(`https://ttestt.shop/cars/api/drivers/getAll`, {
             method: "GET",
             cache: "no-cache",
             headers: {
@@ -103,7 +103,7 @@ function AddCar() {
 
         console.log(combinedData)
 
-        fetch("https://ttestt.shop/cars/api/add_car", {
+        fetch("`https://ttestt.shop/cars/api/cars/add", {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${sessionId}`,

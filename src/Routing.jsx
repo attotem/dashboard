@@ -20,6 +20,8 @@ import ParksAdmin from "./Components/Parks/Admin/ParksAdmin";
 import EditServiceInterval from "./Components/Cars/EditInfo";
 import PaymentsHistory from "./Components/Payments/PaymentsHistory";
 import Calendar from "./Components/Payments/Calendar";
+import ImageUpload from "./Components/Parks/Image";
+
 const Routing = () => {
   const { isAuthenticated } = useAuth();
 
@@ -58,6 +60,9 @@ const Routing = () => {
       <Route path="/driver_create" element={isAuthenticated ? <DefaultLayout><AddDriver /></DefaultLayout> : <Navigate to="/login" />} />
 
       <Route path="/parks" element={isAuthenticated ? <DefaultLayout><Parks /></DefaultLayout> : <Navigate to="/login" />} />
+
+      <Route path="/image" element={isAuthenticated ? <DefaultLayout><ImageUpload /></DefaultLayout> : <Navigate to="/login" />} />
+
 
       <Route path="/choose_driver_park" element={isAuthenticated ? <DefaultLayout><ParksAdmin /></DefaultLayout> : <Navigate to="/login" />} />
 

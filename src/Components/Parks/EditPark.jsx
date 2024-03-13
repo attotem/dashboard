@@ -19,7 +19,7 @@ function EditPark({ parkId, onSave, show, onHide }) {
 
 
     const fetchParkData = () => {
-        fetch(`https://ttestt.shop/cars/api/getAll_parks`, {
+        fetch(`https://ttestt.shop/cars/api/parks/getAll`, {
             method: "GET",
             cache: "no-cache",
             headers: {
@@ -62,7 +62,7 @@ function EditPark({ parkId, onSave, show, onHide }) {
         };
 
         console.log(updatedParkData);
-        fetch(`https://ttestt.shop/cars/api/update_park`, {
+        fetch(`https://ttestt.shop/cars/api/parks/update`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ function EditPark({ parkId, onSave, show, onHide }) {
 
     function DeletePark() {
         settrigger(false)
-        fetch(`https://ttestt.shop/cars/api/remove_park`, {
+        fetch(`https://ttestt.shop/cars/api/parks/remove`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -125,28 +125,17 @@ function EditPark({ parkId, onSave, show, onHide }) {
                                 onChange={handleChange}
                             />
                         </Form.Group>
-                        {/* <Form.Group className="mb-3">
-                            <Form.Label>Owner</Form.Label>
-                            <Form.Control
-                                as="select"
-                                name="owner"
-                                value={parkData.owner}
-                                onChange={handleChange}
-                                required
-                            >
-                                
-                            </Form.Control>
-                        </Form.Group> */}
 
 
-                        <div className='d-flex justify-content-between'>
-                            <button className="cancel_modal" onClick={DeletePark}><DeleteForeverIcon /></button>
 
-                            <Button variant="primary" style={{ background: "rgb(182, 51, 46)", border: "none" }} type="submit">
-                                Save Changes
+                        <div className="d-flex justify-content-between">
+                            <Button variant="outline-secondary" type="button" onClick={DeletePark} className='cancel_modal'>
+                                <DeleteForeverIcon />
+                            </Button>
+                            <Button style={{ background: "rgb(182, 51, 46)", border: "none" }} onClick={handleSubmit} type="submit">
+                                Submit
                             </Button>
                         </div>
-
 
 
                     </Form>

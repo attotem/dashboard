@@ -17,7 +17,6 @@ const CarsCard = ({
     const [showModal, setShowModal] = useState(false);
     const [carInfo, setCarInfo] = useState(null);
     const [Info, setInfo] = useState(true);
-    // const image = "https://assets-global.website-files.com/5f79fedc952b4abde5bddcea/5f7ba1e83b1e8c197f4c658a_abarth-min.png"
     const handleClose = () => setShowModal(false);
     const navigate = useNavigate();
 
@@ -30,7 +29,7 @@ const CarsCard = ({
 
     function ShowInfo() {
         setShowModal(true);
-        fetch(`https://ttestt.shop/cars/api/get_car?id=${id}`, {
+        fetch(`https://ttestt.shop/cars/api/cars/get?id=${id}`, {
             method: "GET",
             cache: "no-cache",
             headers: {
@@ -49,7 +48,7 @@ const CarsCard = ({
     }
     function DeleteCar() {
         setShowModal(false);
-        fetch(`https://ttestt.shop/cars/api/remove_car`, {
+        fetch(`https://ttestt.shop/cars/api/cars/remove`, {
             method: "POST",
             cache: "no-cache",
             headers: {

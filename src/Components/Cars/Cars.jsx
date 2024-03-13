@@ -17,7 +17,7 @@ function Cars() {
 
 
     useEffect(() => {
-        fetch(`https://ttestt.shop/cars/api/getAll_park_cars`, {
+        fetch(`https://ttestt.shop/cars/api/cars/getAll`, {
             method: "GET",
             cache: "no-cache",
             headers: {

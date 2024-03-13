@@ -11,7 +11,7 @@ function EditCar() {
     const [driversData, setDriversData] = useState([]);
 
     useEffect(() => {
-        fetch(`https://ttestt.shop/cars/api/get_car?id=${carId}`, {
+        fetch(`https://ttestt.shop/cars/api/cars/get?id=${carId}`, {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${document.cookie.split("=")[1]}`
@@ -24,7 +24,7 @@ function EditCar() {
             })
             .catch(error => console.error("Error fetching car data:", error));
 
-        fetch(`https://ttestt.shop/cars/api/getAll_drivers`, {
+        fetch(`https://ttestt.shop/cars/api/drivers/getAll`, {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${document.cookie.split("=")[1]}`
@@ -54,7 +54,7 @@ function EditCar() {
         };
         console.log(updatedData)
 
-        fetch(`https://ttestt.shop/cars/api/update_car`, {
+        fetch(`https://ttestt.shop/cars/api/cars/update`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${document.cookie.split("=")[1]}`,

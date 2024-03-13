@@ -12,7 +12,7 @@ function Parks(props) {
     let sessionId = cookie.split("=")[1];
 
     useEffect(() => {
-        fetch("https://ttestt.shop/cars/api/getAll_parks", {
+        fetch("https://ttestt.shop/cars/api/parks/getAll", {
             method: "GET",
             cache: "no-cache",
             headers: {

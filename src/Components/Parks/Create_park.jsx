@@ -1,47 +1,54 @@
 import React, { useState } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Header from '../Header/header';
 import bcrypt from 'bcryptjs';
 import { useNavigate } from 'react-router-dom';
 
 function AddPark() {
-
-
     const [parkData, setParkData] = useState({
         name: "",
-        password: ""
+        password: "",
+        image: null
     });
     const cookie = document.cookie;
     let sessionId = cookie.split("=")[1];
 
     const handleChange = (event) => {
-        const { name, value } = event.target;
-        setParkData(prevData => ({
-            ...prevData,
-            [name]: value
-        }));
+        const { name, value, files } = event.target;
+        if (files) {
+            setParkData(prevData => ({
+                ...prevData,
+                [name]: files[0]
+            }));
+        } else {
+            setParkData(prevData => ({
+                ...prevData,
+                [name]: value
+            }));
+        }
     };
-
- 
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
         const hashedPassword = bcrypt.hashSync(parkData.password, 10);
-        const submissionData = {
-            name: parkData.name,
-            hashed_password: hashedPassword
-        };
 
-        fetch("https://ttestt.shop/cars/api/add_park", {
+        const formData = new FormData();
+        formData.append('data', JSON.stringify(
+            {
+                name: parkData.name,
+                hashed_password: hashedPassword,
+            }));
+        if (parkData.image) {
+            formData.append('image', parkData.image, `${parkData.name}.jpg`);
+        }
+
+        fetch("https://ttestt.shop/cars/api/parks/add", {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json',
                 "Authorization": `Bearer ${sessionId}`
-
             },
-            body: JSON.stringify(submissionData)
+            body: formData
         })
             .then(response => {
                 if (!response.ok) {
@@ -54,15 +61,16 @@ function AddPark() {
                 alert('Park successfully added!');
             })
             .catch(error => {
-                console.error("Ошибка при отправке формы:", error);
+                console.error("Error submitting form:", error);
                 alert('Error: Could not add park.');
             });
     };
+
+
     const navigate = useNavigate();
     const handleCancel = () => {
         navigate(-1);
     };
-
 
     return (
         <>
@@ -87,6 +95,14 @@ function AddPark() {
                             value={parkData.password}
                             onChange={handleChange}
                             required
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Image</Form.Label>
+                        <Form.Control
+                            type="file"
+                            name="image"
+                            onChange={handleChange}
                         />
                     </Form.Group>
 

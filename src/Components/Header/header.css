@@ -36,8 +36,9 @@
 
   .appoinment_button {
     background: rgb(182, 51, 46);
+    width: -moz-fit-content;
     width: fit-content;
-    padding: 8px;
+    padding: 12px;
     font-size: 1.4rem;
     border-radius: 10px;
 }

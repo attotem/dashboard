@@ -5,7 +5,7 @@ import "./driver.css";
 import { useNavigate } from 'react-router-dom';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
-const Driver = ({ first_name, phone_number, last_name, experience, categories, park_id, post, salary, tg, id, car_brand, car_id, car_model, CarsData = [] }) => {
+const Driver = ({ first_name, phone_number, last_name, experience, categories, park_id, post, salary, whatsapp, id, car_brand, car_id, car_model, CarsData = [] }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleShow = () => setShowModal(true);
@@ -21,7 +21,7 @@ const Driver = ({ first_name, phone_number, last_name, experience, categories, p
   const cookie = document.cookie
   let sessionId = cookie.split("=")[1];
   function DeleteDriver() {
-    fetch(`https://ttestt.shop/cars/api/remove_driver`, {
+    fetch(`https://ttestt.shop/cars/api/drivers/remove`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ const Driver = ({ first_name, phone_number, last_name, experience, categories, p
           <p>Experience: {experience}years</p>
           <p>Salary: {salary}$</p>
           <p>Post: {post}</p>
-          <p>Telegram: {tg}</p>
+          <p>Whatsapp: {whatsapp}</p>
           <p>Park id: {park_id}</p>
         </Modal.Body>
         <Modal.Footer className='d-flex justify-content-between'>

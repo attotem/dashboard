@@ -10,7 +10,7 @@ function EditCar() {
     const [changedServiceIntervalData, setChangedServiceIntervalData] = useState({});
 
     useEffect(() => {
-        fetch(`https://ttestt.shop/cars/api/get_car?id=${carId}`, {
+        fetch(`https://ttestt.shop/cars/api/cars/get?id=${carId}`, {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${document.cookie.split("=")[1]}`
@@ -38,7 +38,7 @@ function EditCar() {
             fields: changedServiceIntervalData,
         };
 
-        fetch(`https://ttestt.shop/cars/api/update_service_interval`, {
+        fetch(`https://ttestt.shop/cars/api/cars/update_service_interval`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -70,8 +70,7 @@ function EditCar() {
                 <Form onSubmit={handleSubmit} className='w-75'>
                     <h3>Service Interval Information</h3>
                     {serviceIntervalData && Object.keys(serviceIntervalData).map(key => {
-                        let label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()); // Default label transformation
-                        // Customize labels for specific keys
+                        let label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()); 
                         if (key === "tire_type_change_0") {
                             label = "Winter tire type change";
                         } else if (key === "tire_type_change_1") {
@@ -84,7 +83,7 @@ function EditCar() {
                                 <Form.Control
                                     type={typeof serviceIntervalData[key] === "number" ? "number" : "text"}
                                     name={key}
-                                    value={serviceIntervalData[key] || ''} // Ensure the value is not undefined
+                                    value={serviceIntervalData[key] || ''} 
                                     onChange={handleChangeServiceIntervalData}
                                 />
                             </Form.Group>

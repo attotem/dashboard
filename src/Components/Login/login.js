@@ -48,7 +48,7 @@ function CustomFormValidation() {
     const submit = () => {
       
       console.log(state.park_name)
-      fetch("https://ttestt.shop/cars/api/login", {
+      fetch("https://ttestt.shop/cars/api/parks/login", {
           method: "POST",
           mode: "cors",
           cache: "no-cache",
@@ -96,7 +96,7 @@ function CustomFormValidation() {
     };
     console.log("userData")
     console.log(userData)
-    fetch("https://ttestt.shop/cars/api/add_session", {
+    fetch("https://ttestt.shop/cars/api/parks/sessions/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -2,11 +2,8 @@ import React from "react";
 import { RadialBarChart, RadialBar, PolarAngleAxis } from "recharts";
 
 export default function RadialChart({ servicedCarsPercentage }) {
-    // Function to determine color based on the percentage
     const getColor = (percentage) => {
-        if (percentage <= 33) return "rgb(182, 51, 46)"; // Red
-        if (percentage <= 66) return "orange"; // Yellow
-        return "rgb(34, 139, 34)"; // Green
+        return "rgb(182, 51, 46)";
     };
 
     const fillColor = getColor(servicedCarsPercentage);
@@ -41,10 +38,9 @@ export default function RadialChart({ servicedCarsPercentage }) {
                 background
                 clockWise
                 dataKey="uv"
-                fill={fillColor} // Use dynamic fill color for the bar
+                fill={fillColor} 
             />
-            {/* Use dynamic fill color for the text */}
-            <text x={centerX} y={centerY} fill={fillColor} textAnchor="middle" dominantBaseline="central" fontSize="40">
+            <text x={centerX} y={centerY} fill="black" textAnchor="middle" dominantBaseline="central" fontSize="40">
                 {`${servicedCarsPercentage}%`}
             </text>
         </RadialBarChart>

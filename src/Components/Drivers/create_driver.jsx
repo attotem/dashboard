@@ -11,13 +11,13 @@ function AddDriver() {
     const [experience, setExperience] = useState(0);
     const [categories, setCategories] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
-    const [tg, setTg] = useState('');
+    const [whatsapp, setWhatsapp] = useState('');
     const [parkId, setParkId] = useState('');
     const [parks, setParks] = useState([]);
     const cookie = document.cookie
     let sessionId = cookie.split("=")[1];
     useEffect(() => {
-        fetch("https://ttestt.shop/cars/api/getAll_parks", {
+        fetch("https://ttestt.shop/cars/api/parks/getAll", {
             method: "GET",
             cache: "no-cache",
             headers: {
@@ -45,11 +45,11 @@ function AddDriver() {
             experience: Number(experience),
             categories: categories,
             phone_number: phoneNumber,
-            tg: tg,
+            whatsapp: whatsapp,
             park_id: Number(parkId),
         };
 
-        fetch("https://ttestt.shop/cars/api/add_driver", {
+        fetch("https://ttestt.shop/cars/api/drivers/add", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -160,8 +160,8 @@ function AddDriver() {
                         <Form.Control
                             type="text"
                             placeholder="Enter Telegram ID"
-                            value={tg}
-                            onChange={(e) => setTg(e.target.value)}
+                            value={whatsapp}
+                            onChange={(e) => setWhatsapp(e.target.value)}
                         />
                     </Form.Group>
 

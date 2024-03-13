@@ -18,7 +18,7 @@ function Calendar() {
 
 
     useEffect(() => {
-        fetch(`https://ttestt.shop/cars/api/services/upcoming/car`, {
+        fetch(`https://ttestt.shop/cars/api/services/getAll`, {
             method: "GET",
             cache: "no-cache",
             headers: {

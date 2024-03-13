@@ -33,7 +33,7 @@ function EditDriver() {
 
 
     useEffect(() => {
-        fetch("https://ttestt.shop/cars/api/getAll_parks?user_id=3", {
+        fetch("https://ttestt.shop/cars/api/parks/getAll", {
             method: "GET",
             cache: "no-cache",
             headers: {
@@ -48,7 +48,7 @@ function EditDriver() {
                 console.error("Error fetching parks:", error);
             });
 
-        fetch("https://ttestt.shop/cars/api/getAll_drivers?park_id=1", {
+        fetch("https://ttestt.shop/cars/api/drivers/getAll", {
             method: "GET",
             cache: "no-cache",
             headers: {
@@ -93,7 +93,7 @@ function EditDriver() {
         };
 
         console.log(updatedDriverData);
-        fetch("https://ttestt.shop/cars/api/update_driver", {
+        fetch("https://ttestt.shop/cars/api/drivers/update", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

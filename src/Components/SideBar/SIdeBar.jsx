@@ -72,7 +72,7 @@ const MyProSidebar = () => {
     console.log(sessionId)
 
     useEffect(() => {
-        fetch("https://ttestt.shop/cars/api/getAll_parks", {
+        fetch("https://ttestt.shop/cars/api/parks/getAll", {
             method: "GET",
             cache: "no-cache",
             headers: {
@@ -91,7 +91,7 @@ const MyProSidebar = () => {
     const navigate = useNavigate();
 
     const handleParkSelect = (id) => {
-        fetch("https://ttestt.shop/cars/api/update_session", {
+        fetch("https://ttestt.shop/cars/api/parks/sessions/update", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -123,7 +123,7 @@ const MyProSidebar = () => {
 
 
         deleteCookie('session_id');
-        fetch(`https://ttestt.shop/cars/api/remove_session`, {
+        fetch(`https://ttestt.shop/cars/api/parks/sessions/remove`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${sessionId}`,

@@ -91,7 +91,7 @@ export default function CustomActiveShapePieChart() {
     );
 
     return (
-        <PieChart width={400} height={400}>
+        <PieChart width={400} height={300}>
             <Pie
                 activeIndex={activeIndex}
                 activeShape={renderActiveShape}

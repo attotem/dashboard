@@ -14,7 +14,7 @@ function Drivers() {
 
 
     useEffect(() => {
-        fetch(`https://ttestt.shop/cars/api/getAll_drivers`, {
+        fetch(`https://ttestt.shop/cars/api/drivers/getAll`, {
             method: "GET",
             cache: "no-cache",
             headers: {
@@ -42,7 +42,7 @@ function Drivers() {
 
 
     useEffect(() => {
-        fetch(`https://ttestt.shop/cars/api/getAll_park_cars`, {
+        fetch(`https://ttestt.shop/cars/api/cars/getAll`, {
             method: "GET",
             cache: "no-cache",
             headers: {
@@ -89,7 +89,7 @@ function Drivers() {
                                     park_id={customer.park_id}
                                     post={customer.post}
                                     salary={customer.salary}
-                                    tg={customer.tg}
+                                    whatsapp={customer.whatsapp}
                                     phone_number={customer.phone_number}
                                     id={customer.id}
                                     car_brand={customer.car_brand}

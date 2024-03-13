@@ -7,6 +7,7 @@
     align-items: center;
     justify-content: center;
     margin: 20px; /* Adjusted to apply margin uniformly around the charts */
+    position: relative;
 }
 
 .chart-grid {
@@ -14,4 +15,15 @@
     grid-template-columns: repeat(3, 1fr); /* Three equal columns */
     grid-template-rows: 2fr 1fr; /* First row is twice the height of the second row */
     gap: 20px; /* Increased the gap for better spacing */
+}
+.text_dashboard{
+    position: absolute;
+    text-align: center;
+    display: flex;
+    top: 20px;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    font-weight: 600;
+    font-size: 1.5rem;
 }
