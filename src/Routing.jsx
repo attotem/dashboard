@@ -14,7 +14,6 @@ import EditCar from "./Components/Cars/Edit_car";
 import EditPark from "./Components/Parks/EditPark";
 import EditDriver from "./Components/Drivers/EditDriver";
 import EditUser from "./Components/Users/EditUser";
-import ImageDropComponent from "./ImageDropComponent";
 import { useAuth } from "./AuthProvider";
 import ParksAdmin from "./Components/Parks/Admin/ParksAdmin";
 import EditServiceInterval from "./Components/Cars/EditInfo";

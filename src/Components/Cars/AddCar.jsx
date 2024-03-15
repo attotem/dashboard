@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../Header/header';
-import ImageDropComponent from '../../ImageDropComponent';
 import { useNavigate } from 'react-router-dom';
 function AddCar() {
     const [driversData, setDriversData] = useState([]);

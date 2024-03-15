@@ -6,15 +6,15 @@
     box-shadow: 0 0 20px 10px #e7e7e7;
     align-items: center;
     justify-content: center;
-    margin: 20px; /* Adjusted to apply margin uniformly around the charts */
+    margin: 20px; 
     position: relative;
 }
 
 .chart-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Three equal columns */
-    grid-template-rows: 2fr 1fr; /* First row is twice the height of the second row */
-    gap: 20px; /* Increased the gap for better spacing */
+    grid-template-columns: repeat(3, 1fr); 
+    grid-template-rows: 2fr 1fr; 
+    gap: 20px; 
 }
 .text_dashboard{
     position: absolute;
@@ -26,4 +26,10 @@
     width: 90%;
     font-weight: 600;
     font-size: 1.5rem;
+}
+
+.segment_select{
+    width: 20%;
+    z-index: 1000;
+    position: relative;
 }

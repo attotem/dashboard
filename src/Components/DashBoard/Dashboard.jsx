@@ -9,6 +9,7 @@ import { useSelectedPark } from '../../SelectedParkContext';
 function Dashboard() {
     const [chartData, setChartData] = useState([]);
     const [LastInvoices, setLastInvoices] = useState([]);
+    const [Segment, setSegment] = useState("week");
 
     const { selectedParkId } = useSelectedPark();
 
@@ -17,12 +18,11 @@ function Dashboard() {
         return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     };
 
-
     useEffect(() => {
         const cookie = document.cookie;
         let sessionId = cookie.split("=")[1];
 
-        fetch(`https://ttestt.shop/cars/api/analytics/week`, {
+        fetch(`https://ttestt.shop/cars/api/analytics/${Segment}`, {
             method: "GET",
             cache: "no-cache",
             headers: {
@@ -33,7 +33,7 @@ function Dashboard() {
             .then(data => {
                 console.log(data);
                 const formattedData = data.map(item => ({
-                    date: item.date,
+                    date: formatDate(item.date), // Assuming you want to format the date here as well.
                     dailySpending: item.daily_spending,
                     servicedCarsPercentage: item.serviced_cars_percentage,
                 }));
@@ -56,7 +56,7 @@ function Dashboard() {
                 setLastInvoices(data);
             })
             .catch(error => console.error("Error updating payment status:", error));
-    }, [selectedParkId]);
+    }, [Segment, selectedParkId]); // Added Date to useEffect dependencies array
 
     const lastDayData = chartData.length > 0 ? chartData[chartData.length - 1] : null;
 
@@ -64,6 +64,10 @@ function Dashboard() {
         <>
             <div className="ml-5">
                 <div className='d-flex'>
+
+
+
+
                     <div>
                         <div className='chart_wrapper'>
                             <div className='text_dashboard'>Title</div>
@@ -71,6 +75,13 @@ function Dashboard() {
                         </div>
 
                         <div className='chart_wrapper'>
+                            <div className="mb-3 segment_select">
+                                <select className="form-select" value={Segment} onChange={e => setSegment(e.target.value)}>
+                                    <option value="week">Week</option>
+                                    <option value="month">Month</option>
+                                </select>
+                            </div>
+
                             <div className='text_dashboard'>Expenses</div>
                             <Linechart data={chartData} />
                         </div>
@@ -79,7 +90,6 @@ function Dashboard() {
                     <div className='chart_wrapper'>
                         <div className='text_dashboard'>Serviced vehicles</div>
                         {lastDayData && <RadialChart servicedCarsPercentage={lastDayData.servicedCarsPercentage} />}
-
 
                         <table className="table">
                             <thead>
@@ -100,20 +110,7 @@ function Dashboard() {
                             </tbody>
                         </table>
                     </div>
-
                 </div>
-
-                {/* Display Last Invoices here */}
-                {/* <div className='last-invoices'>
-                    <h3>Last Invoices</h3>
-                    {LastInvoices.map((invoice, index) => (
-                        <div key={index} className='invoice-detail'>
-                            <p>Date Issued: {invoice.issued_on}</p>
-                            <p>Note: {invoice.note}</p>
-                            <p>Total Amount: {invoice.total_amount}</p>
-                        </div>
-                    ))}
-                </div> */}
             </div>
         </>
     );

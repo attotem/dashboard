@@ -7,9 +7,8 @@ function EditPark({ parkId, onSave, show, onHide }) {
     const navigate = useNavigate();
     const [parkData, setParkData] = useState({ name: "", owner: "" });
     const [changedData, setChangedData] = useState({});
-    const [trigger, settrigger] = useState(true);
+    const [trigger, setTrigger] = useState(true);
     const sessionId = document.cookie.split("=")[1];
-    const [users, setUsers] = useState([]);
 
     useEffect(() => {
         if (show) {
@@ -39,36 +38,52 @@ function EditPark({ parkId, onSave, show, onHide }) {
     };
 
     const handleChange = (event) => {
-        const { name, value, type, checked } = event.target;
-        const updatedValue = type === 'checkbox' ? checked : value;
-
-        setParkData(prevData => ({
-            ...prevData,
-            [name]: updatedValue
-        }));
-
-        setChangedData(prevData => ({
-            ...prevData,
-            [name]: updatedValue
-        }));
+        const { name, value, type, checked, files } = event.target;
+        if (name === 'image') {
+            setParkData(prevData => ({
+                ...prevData,
+                image: files[0]
+            }));
+        } else {
+            const updatedValue = type === 'checkbox' ? checked : value;
+            setParkData(prevData => ({
+                ...prevData,
+                [name]: updatedValue
+            }));
+            setChangedData(prevData => ({
+                ...prevData,
+                [name]: updatedValue
+            }));
+        }
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const updatedParkData = {
+        const dataObject = {
             id: parkId,
             fields: changedData,
         };
 
-        console.log(updatedParkData);
+        const formData = new FormData();
+        formData.append('data', JSON.stringify(dataObject));
+
+        if (parkData.image && parkData.image instanceof File) {
+            formData.append('image', parkData.image, `${parkData.name}.jpg`);
+        } else {
+            console.log("No image or invalid image file");
+        }
+
+        for (let [key, value] of formData.entries()) {
+            console.log(`${key}:`, value instanceof Blob ? `File: ${value.name}, size: ${value.size}` : value);
+        }
+
         fetch(`https://ttestt.shop/cars/api/parks/update`, {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json',
                 "Authorization": `Bearer ${sessionId}`,
             },
-            body: JSON.stringify(updatedParkData),
+            body: formData,
         })
             .then(response => {
                 if (!response.ok) {
@@ -86,8 +101,11 @@ function EditPark({ parkId, onSave, show, onHide }) {
             });
     };
 
+
+
+
     function DeletePark() {
-        settrigger(false)
+        setTrigger(false)
         fetch(`https://ttestt.shop/cars/api/parks/remove`, {
             method: "POST",
             headers: {
@@ -125,19 +143,22 @@ function EditPark({ parkId, onSave, show, onHide }) {
                                 onChange={handleChange}
                             />
                         </Form.Group>
-
-
-
+                        <Form.Group className="mb-3">
+                            <Form.Label>Image</Form.Label>
+                            <Form.Control
+                                type="file"
+                                name="image"
+                                onChange={handleChange}
+                            />
+                        </Form.Group>
                         <div className="d-flex justify-content-between">
-                            <Button variant="outline-secondary" type="button" onClick={DeletePark} className='cancel_modal'>
+                            <Button variant="outline-secondary" type="button" onClick={DeletePark}>
                                 <DeleteForeverIcon />
                             </Button>
-                            <Button style={{ background: "rgb(182, 51, 46)", border: "none" }} onClick={handleSubmit} type="submit">
+                            <Button style={{ background: "rgb(182, 51, 46)", border: "none" }} type="submit">
                                 Submit
                             </Button>
                         </div>
-
-
                     </Form>
                 </Modal.Body>
             </Modal>
