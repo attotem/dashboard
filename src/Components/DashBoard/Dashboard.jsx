@@ -3,13 +3,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import CustomActiveShapePieChart from './CustomActiveShapePieChart';
 import Linechart from './linechart';
 import RadialChart from './RadialChart';
+import { useNavigate } from 'react-router-dom';
 import "./dashboard.css";
 import { useSelectedPark } from '../../SelectedParkContext';
+import { Container, Form, Button } from 'react-bootstrap';
 
 function Dashboard() {
     const [chartData, setChartData] = useState([]);
     const [LastInvoices, setLastInvoices] = useState([]);
     const [Segment, setSegment] = useState("week");
+    const navigate = useNavigate();
 
     const { selectedParkId } = useSelectedPark();
 
@@ -17,6 +20,22 @@ function Dashboard() {
         const date = new Date(dateString);
         return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     };
+
+    function translate(text) {
+        return translations[text] || text;
+    }
+
+    const translations = {
+        "Title": "Název",
+        "Expenses": "Výdaje",
+        "Serviced vehicles": "Servisovaná vozidla",
+        "Week": "Týden",
+        "Month": "Měsíc",
+        "Date": "Datum",
+        "Note": "Poznámka",
+        "Price": "Cena",
+    };
+
 
     useEffect(() => {
         const cookie = document.cookie;
@@ -56,7 +75,7 @@ function Dashboard() {
                 setLastInvoices(data);
             })
             .catch(error => console.error("Error updating payment status:", error));
-    }, [Segment, selectedParkId]); // Added Date to useEffect dependencies array
+    }, [Segment, selectedParkId]);
 
     const lastDayData = chartData.length > 0 ? chartData[chartData.length - 1] : null;
 
@@ -64,39 +83,35 @@ function Dashboard() {
         <>
             <div className="ml-5">
                 <div className='d-flex'>
-
-
-
-
                     <div>
                         <div className='chart_wrapper'>
-                            <div className='text_dashboard'>Title</div>
+                            <div className='text_dashboard'>{translate("Title")}</div>
                             <CustomActiveShapePieChart />
                         </div>
 
                         <div className='chart_wrapper'>
                             <div className="mb-3 segment_select">
                                 <select className="form-select" value={Segment} onChange={e => setSegment(e.target.value)}>
-                                    <option value="week">Week</option>
-                                    <option value="month">Month</option>
+                                    <option value="week">{translate("Week")}</option>
+                                    <option value="month">{translate("Month")}</option>
                                 </select>
                             </div>
 
-                            <div className='text_dashboard'>Expenses</div>
+                            <div className='text_dashboard'>{translate("Expenses")}</div>
                             <Linechart data={chartData} />
                         </div>
                     </div>
 
                     <div className='chart_wrapper'>
-                        <div className='text_dashboard'>Serviced vehicles</div>
+                        <div className='text_dashboard'>{translate("Serviced vehicles")}</div>
                         {lastDayData && <RadialChart servicedCarsPercentage={lastDayData.servicedCarsPercentage} />}
 
                         <table className="table">
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Note</th>
-                                    <th>Price</th>
+                                    <th>{translate("Date")}</th>
+                                    <th>{translate("Note")}</th>
+                                    <th>{translate("Price")}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -112,8 +127,11 @@ function Dashboard() {
                     </div>
                 </div>
             </div>
+
+
         </>
     );
+
 }
 
 export default Dashboard;

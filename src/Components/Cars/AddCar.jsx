@@ -55,6 +55,42 @@ function AddCar() {
         air_conditioning_change: ""
     });
 
+    const translations = {
+        brand: "Značka",
+        model: "Model",
+        year: "Rok",
+        VIN_number: "VIN číslo",
+        kms: "Kilometry",
+        engine: "Motor",
+        transmission: "Převodovka",
+        fuel_type: "Typ paliva",
+        ti_expiration: "Expirace technické inspekce",
+        insurance_info: "Informace o pojištění",
+        tire_size: "Velikost pneumatik",
+        color: "Barva",
+        kms_per_day: "Kilometry za den",
+        driver_id: "ID řidiče",
+        tire_type: "Typ pneumatik",
+        oil_change: "Výměna oleje",
+        air_filter_change: "Výměna vzduchového filtru",
+        cabin_filter_change: "Výměna filtru kabiny",
+        fuel_filter_change: "Výměna palivového filtru",
+        brake_pads_change: "Výměna brzdových destiček",
+        brake_disks_change: "Výměna brzdových disků",
+        valvetrain_change: "Výměna rozvodů",
+        spark_plugs_change: "Výměna zapalovacích svíček",
+        pendant_change: "Výměna závěsů",
+        tire_change: "Výměna pneumatik",
+        brake_fluid_change: "Výměna brzdové kapaliny",
+        antifreeze_change: "Výměna antifrizu",
+        tire_type_change_0: "Změna typu pneumatik (zimní)",
+        tire_type_change_1: "Změna typu pneumatik (letní)",
+        air_conditioning_change: "Servis klimatizace",
+    };
+
+    function translate(key) {
+        return translations[key] || key;
+    }
     const handleServiceIntervalChange = (event) => {
         const { name, value } = event.target;
         setServiceInterval(prevInterval => ({
@@ -118,11 +154,11 @@ function AddCar() {
             })
             .then(data => {
                 console.log(data);
-                alert('Car with service interval successfully added!');
+                alert('Auto s úspěšně přidaným servisním intervalem!');
             })
             .catch(error => {
                 console.error("Error while submitting the form:", error);
-                alert('Error: Could not add car with service interval.');
+                alert('Chyba: Nelze přidat vůz se servisním intervalem.');
             });
     };
     const navigate = useNavigate();
@@ -137,28 +173,28 @@ function AddCar() {
                         if (key === "tire_type") {
                             return (
                                 <Form.Group className="mb-3" key={key}>
-                                    <Form.Label>Tire Type</Form.Label>
+                                    <Form.Label>{translate("tire_type")}</Form.Label>
                                     <Form.Select
                                         name={key}
                                         value={carData[key]}
                                         onChange={handleChange}
                                     >
-                                        <option value="0">Winter</option>
-                                        <option value="1">Summer</option>
-                                        <option value="-1">All seasons</option>
+                                        <option value="0">Zimní</option>
+                                        <option value="1">Letní</option>
+                                        <option value="-1">Všechna roční období</option>
                                     </Form.Select>
                                 </Form.Group>
                             );
                         } else if (key === "driver_id") {
                             return (
                                 <Form.Group className="mb-3" key={key}>
-                                    <Form.Label>Driver</Form.Label>
+                                    <Form.Label>Řidič</Form.Label>
                                     <Form.Select
                                         name={key}
                                         value={carData[key]}
                                         onChange={handleChange}
                                     >
-                                        <option value="">Select a driver</option>
+                                        <option value="">Výběr ovladače</option>
                                         {driversData.map((driver) => (
                                             <option key={driver.id} value={driver.id}>
                                                 {driver.first_name} {driver.last_name}
@@ -170,11 +206,11 @@ function AddCar() {
                         } else {
                             return (
                                 <Form.Group className="mb-3" key={key}>
-                                    <Form.Label>{key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</Form.Label>
+                                    <Form.Label>{translate(key)}</Form.Label>
                                     <Form.Control
                                         type="text"
                                         name={key}
-                                        placeholder={`Enter ${key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}`}
+                                        placeholder={`Vstupte na ${translate(key)}`}
                                         value={carData[key]}
                                         onChange={handleChange}
                                     />
@@ -183,12 +219,12 @@ function AddCar() {
                         }
                     })}
 
-                    <h3>Service Interval</h3>
+                    <h3>Servisní interval</h3>
                     {Object.keys(serviceInterval).map(key => {
                         if ((key == "tire_type_change_0")) {
                             return (
                                 <Form.Group className="mb-3" key={key}>
-                                    <Form.Label>{"Winter tire type change"}</Form.Label>
+                                    <Form.Label>{"Změna typu zimních pneumatik"}</Form.Label>
                                     <Form.Control
                                         type={typeof serviceInterval[key] === "number" ? "number" : "text"}
                                         name={key}
@@ -201,7 +237,7 @@ function AddCar() {
                         } else if (key == "tire_type_change_1") {
                             return (
                                 <Form.Group className="mb-3" key={key}>
-                                    <Form.Label>{"Summer tire type change"}</Form.Label>
+                                    <Form.Label>{"Změna typu letních pneumatik"}</Form.Label>
                                     <Form.Control
                                         type={typeof serviceInterval[key] === "number" ? "number" : "text"}
                                         name={key}
@@ -214,7 +250,7 @@ function AddCar() {
                         else {
                             return (
                                 <Form.Group className="mb-3" key={key}>
-                                    <Form.Label>{key.split('_').join(' ').replace(/\b\w/g, l => l.toUpperCase())}</Form.Label>
+                                    <Form.Label>{translate(key)}</Form.Label>
                                     <Form.Control
                                         type={typeof serviceInterval[key] === "number" ? "number" : "text"}
                                         name={key}
@@ -228,11 +264,11 @@ function AddCar() {
                     }
 
                     <div className="d-flex justify-content-between">
-                        <Button variant="outline-secondary" type="button" onClick={handleCancel} className='cancel_create'>
-                            Cancel
+                        <Button variant="outline-secondary" type="button" onClick={() => navigate(-1)} className='cancel_create'>
+                            Zrušit
                         </Button>
                         <Button style={{ background: "rgb(182, 51, 46)", border: "none" }} type="submit">
-                            Submit
+                            Odeslat
                         </Button>
                     </div>
                 </Form>

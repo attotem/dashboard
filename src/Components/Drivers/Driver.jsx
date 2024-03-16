@@ -16,6 +16,24 @@ const Driver = ({ first_name, phone_number, last_name, experience, categories, p
   function EditDriver() {
     navigate(`/edit_driver/${id}`)
   }
+  const translations = {
+    "See more": "Více informací",
+    "Categories": "Kategorie",
+    "Experience": "Zkušenosti",
+    "years": "let",
+    "Salary": "Plat",
+    "Post": "Pozice",
+    "Whatsapp": "Whatsapp",
+    "Park id": "ID parkoviště",
+    "No car selected": "Žádné auto nevybráno",
+    "Edit driver": "Upravit řidiče",
+    "Delete": "Odstranit",
+  };
+
+  function translate(key) {
+    return translations[key] || key;
+  }
+
 
 
   const cookie = document.cookie
@@ -75,19 +93,19 @@ const Driver = ({ first_name, phone_number, last_name, experience, categories, p
 
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{last_name} {first_name} </Modal.Title>
+          <Modal.Title>{last_name} {first_name}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Categories: {categories}</p>
-          <p>Experience: {experience}years</p>
-          <p>Salary: {salary}$</p>
-          <p>Post: {post}</p>
-          <p>Whatsapp: {whatsapp}</p>
-          <p>Park id: {park_id}</p>
+          <p>{translate("Categories")}: {categories}</p>
+          <p>{translate("Experience")}: {experience} {translate("years")}</p>
+          <p>{translate("Salary")}: {salary}$</p>
+          <p>{translate("Post")}: {post}</p>
+          <p>{translate("Whatsapp")}: {whatsapp}</p>
+          <p>{translate("Park id")}: {park_id}</p>
         </Modal.Body>
         <Modal.Footer className='d-flex justify-content-between'>
-          <button className="cancel_modal" onClick={DeleteDriver}><DeleteForeverIcon /></button>
-          <button className='edit_modal' onClick={EditDriver}>Edit driver</button>
+          <button className="cancel_modal" onClick={DeleteDriver}><DeleteForeverIcon /> {translate("Delete")}</button>
+          <button className='edit_modal' onClick={EditDriver}>{translate("Edit driver")}</button>
         </Modal.Footer>
       </Modal>
     </>

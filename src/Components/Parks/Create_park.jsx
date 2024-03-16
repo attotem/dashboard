@@ -12,6 +12,19 @@ function AddPark() {
     });
     const cookie = document.cookie;
     let sessionId = cookie.split("=")[1];
+    const translations = {
+        "Enter Park Name": "Zadejte název parku",
+        "Enter Password": "Zadejte heslo",
+        "Cancel": "Zrušit",
+        "Submit": "Odeslat",
+        "Name": "Název",
+        "Password": "Heslo",
+        "Image": "Obrázek",
+    };
+
+    function translate(key) {
+        return translations[key] || key;
+    }
 
     const handleChange = (event) => {
         const { name, value, files } = event.target;
@@ -77,28 +90,28 @@ function AddPark() {
             <Container>
                 <Form onSubmit={handleSubmit} className='w-75'>
                     <Form.Group className="mb-3">
-                        <Form.Label>Name</Form.Label>
+                        <Form.Label>{translate("Name")}</Form.Label>
                         <Form.Control
                             type="text"
                             name="name"
-                            placeholder="Enter Park Name"
+                            placeholder={translate("Enter Park Name")}
                             value={parkData.name}
                             onChange={handleChange}
                         />
                     </Form.Group>
                     <Form.Group className="mb-3">
-                        <Form.Label>Password</Form.Label>
+                        <Form.Label>{translate("Password")}</Form.Label>
                         <Form.Control
                             type="password"
                             name="password"
-                            placeholder="Enter Password"
+                            placeholder={translate("Enter Password")}
                             value={parkData.password}
                             onChange={handleChange}
                             required
                         />
                     </Form.Group>
                     <Form.Group className="mb-3">
-                        <Form.Label>Image</Form.Label>
+                        <Form.Label>{translate("Image")}</Form.Label>
                         <Form.Control
                             type="file"
                             name="image"
@@ -108,16 +121,17 @@ function AddPark() {
 
                     <div className="d-flex justify-content-between">
                         <Button variant="outline-secondary" type="button" onClick={handleCancel} className='cancel_create'>
-                            Cancel
+                            {translate("Cancel")}
                         </Button>
                         <Button style={{ background: "rgb(182, 51, 46)", border: "none" }} type="submit">
-                            Submit
+                            {translate("Submit")}
                         </Button>
                     </div>
                 </Form>
             </Container>
         </>
     );
+
 }
 
 export default AddPark;

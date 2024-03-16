@@ -1,60 +1,56 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
-import "./Payments.css"; // Make sure to create a Payment.css file for custom styles
+import "./Payments.css";
+const translations = {
+    "Service №": "Servis č.",
+    "Note": "Poznámka",
+    "Deadline": "Termín",
+    "Car": "Auto",
+    "Details": "Detaily",
+    "Enroll": "Zapsat",
+    "Urgently": "Naléhavě",
+};
+function translate(key) {
+    return translations[key] || key;
+}
+
 
 const Service = ({ id, deadline, car_brand, car_model, name, quantity, status }) => {
     return (
         <div className="payment-card my-3 card_calendar">
-            <Card.Title className=''>Service №{id}</Card.Title>
+            <Card.Title className=''>{translate("Service №")}{id}</Card.Title>
             <hr className='hr_info'></hr>
 
             <div className='d-flex justify-content-between'>
-
                 <div className='d-flex flex-column'>
-                    <div className='d-flex flex-column'>
-                        <div className='info_card_label' >Note</div>
-                        <div className='info_card_info'>{name}</div>
-                    </div>
-                    <div className='d-flex flex-column'>
-                        <div className='info_card_label'>Deadline</div>
-                        <div className='info_card_info'>{deadline}</div>
-                    </div>
+                    <div className='info_card_label'>{translate("Note")}</div>
+                    <div className='info_card_info'>{name}</div>
+                    <div className='info_card_label'>{translate("Deadline")}</div>
+                    <div className='info_card_info'>{deadline}</div>
                 </div>
                 <div className='d-flex flex-column'>
-
-                    <div className='d-flex flex-column'>
-                        <div className='info_card_label'>Car</div>
-                        <div className='info_card_info'>{car_brand} {car_model}</div>
-                    </div>
-                    {/* <div className='d-flex flex-column'>
-                        <div className='info_card_label'>Quantity</div>
-                        <div className='info_card_info'>{quantity}</div>
-                    </div> */}
+                    <div className='info_card_label'>{translate("Car")}</div>
+                    <div className='info_card_info'>{car_brand} {car_model}</div>
                 </div>
             </div>
-            {status == "upcoming" ?
+            {status === "upcoming" ?
                 <div className='button_upcoming'>
-                    Details
+                    {translate("Details")}
                 </div>
-                :
-                null}
-
-            {status == "enroll" ?
+                : null}
+            {status === "enroll" ?
                 <div className='button_enroll'>
-                    Enroll
+                    {translate("Enroll")}
                 </div>
-                :
-                null}
-
-            {status == "urgently" ?
+                : null}
+            {status === "urgently" ?
                 <div className='button_urgently'>
-                    Urgently
+                    {translate("Urgently")}
                 </div>
-                :
-                null}
-
-        </div >
+                : null}
+        </div>
     );
+
 };
 
 export default Service;

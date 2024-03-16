@@ -12,6 +12,17 @@ function Drivers() {
     const { selectedParkId } = useSelectedPark();
 
 
+    const translations = {
+        "All Drivers": "Všichni řidiči",
+        "First name": "Jméno",
+        "Last name": "Příjmení",
+        "Phone number": "Telefonní číslo",
+        "Car": "Auto",
+    };
+
+    function translate(key) {
+        return translations[key] || key;
+    }
 
     useEffect(() => {
         fetch(`https://ttestt.shop/cars/api/drivers/getAll`, {
@@ -63,7 +74,7 @@ function Drivers() {
         <>
             <div className="container mt-5">
                 <div className='d-flex justify-content-between'>
-                    <h2>All Drivers</h2>
+                    <h2>{translate("All Drivers")}</h2>
                     <div className='add_button' onClick={handleNavigate}>
                         <AddIcon style={{ fontSize: '2rem', color: "white", fontWeight: "600" }} />
                     </div>
@@ -72,10 +83,10 @@ function Drivers() {
                     <table className="table">
                         <thead>
                             <tr>
-                                <th className='table_header '>First name</th>
-                                <th className='table_header '>Last name</th>
-                                <th className='table_header '>Phone number</th>
-                                <th className='table_header '>Car</th>
+                                <th className='table_header '>{translate("First name")}</th>
+                                <th className='table_header '>{translate("Last name")}</th>
+                                <th className='table_header '>{translate("Phone number")}</th>
+                                <th className='table_header '>{translate("Car")}</th>
                                 <th className='table_header '></th>
                             </tr>
                         </thead>
@@ -104,6 +115,7 @@ function Drivers() {
             </div>
         </>
     );
+
 }
 
 export default Drivers;

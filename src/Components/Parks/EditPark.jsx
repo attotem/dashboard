@@ -36,6 +36,16 @@ function EditPark({ parkId, onSave, show, onHide }) {
                 console.error("Error fetching park data:", error);
             });
     };
+    const translations = {
+        "Edit Park": "Upravit park",
+        "Park Name": "Název parku",
+        "Enter park name": "Zadejte název parku",
+        "Image": "Obrázek",
+        "Submit": "Odeslat",
+    };
+    function translate(text) {
+        return translations[text] || text;
+    }
 
     const handleChange = (event) => {
         const { name, value, type, checked, files } = event.target;
@@ -129,22 +139,22 @@ function EditPark({ parkId, onSave, show, onHide }) {
         <>
             <Modal show={show} onHide={onHide}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Edit Park</Modal.Title>
+                    <Modal.Title>{translate("Edit Park")}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group className="mb-3">
-                            <Form.Label>Park Name</Form.Label>
+                            <Form.Label>{translate("Park Name")}</Form.Label>
                             <Form.Control
                                 type="text"
                                 name="name"
-                                placeholder="Enter park name"
+                                placeholder={translate("Enter park name")}
                                 value={parkData.name}
                                 onChange={handleChange}
                             />
                         </Form.Group>
                         <Form.Group className="mb-3">
-                            <Form.Label>Image</Form.Label>
+                            <Form.Label>{translate("Image")}</Form.Label>
                             <Form.Control
                                 type="file"
                                 name="image"
@@ -153,15 +163,16 @@ function EditPark({ parkId, onSave, show, onHide }) {
                         </Form.Group>
                         <div className="d-flex justify-content-between">
                             <Button variant="outline-secondary" type="button" onClick={DeletePark}>
-                                <DeleteForeverIcon />
+                                <DeleteForeverIcon /> {translate("Delete")}
                             </Button>
                             <Button style={{ background: "rgb(182, 51, 46)", border: "none" }} type="submit">
-                                Submit
+                                {translate("Submit")}
                             </Button>
                         </div>
                     </Form>
                 </Modal.Body>
             </Modal>
+
         </>
     );
 }

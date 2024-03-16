@@ -6,6 +6,48 @@ function EditCar() {
     let { carId } = useParams();
     const navigate = useNavigate();
 
+    const translations = {
+        brand: "Značka",
+        model: "Model",
+        year: "Rok",
+        VIN_number: "VIN číslo",
+        kms: "Kilometry",
+        engine: "Motor",
+        transmission: "Převodovka",
+        fuel_type: "Typ paliva",
+        ti_expiration: "Expirace technické inspekce",
+        insurance_info: "Informace o pojištění",
+        tire_size: "Velikost pneumatik",
+        color: "Barva",
+        kms_per_day: "Kilometry za den",
+        driver_id: "ID řidiče",
+        tire_type: "Typ pneumatik",
+        oil_change: "Výměna oleje",
+        air_filter_change: "Výměna vzduchového filtru",
+        cabin_filter_change: "Výměna filtru kabiny",
+        fuel_filter_change: "Výměna palivového filtru",
+        brake_pads_change: "Výměna brzdových destiček",
+        brake_disks_change: "Výměna brzdových disků",
+        valvetrain_change: "Výměna rozvodů",
+        spark_plugs_change: "Výměna zapalovacích svíček",
+        pendant_change: "Výměna závěsů",
+        tire_change: "Výměna pneumatik",
+        brake_fluid_change: "Výměna brzdové kapaliny",
+        antifreeze_change: "Výměna antifrizu",
+        tire_type_change_0: "Změna typu pneumatik (zimní)",
+        tire_type_change_1: "Změna typu pneumatik (letní)",
+        air_conditioning_change: "Servis klimatizace",
+        // Исключаемые поля
+        image: "Obrázek",
+        park_id: "ID parkoviště",
+        service_interval_id: "ID servisního intervalu",
+        id: "ID",
+    };
+
+    function translate(text) {
+        return translations[text] || text.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    }
+
     const [carData, setCarData] = useState({});
     const [serviceIntervalData, setServiceIntervalData] = useState({});
     const [driversData, setDriversData] = useState([]);
@@ -37,11 +79,9 @@ function EditCar() {
 
     const handleChangeCarData = (event) => {
         const { name, value } = event.target;
-        const updatedValue = name === "driver_id" && value === "" ? null : value;
-        const finalValue = name === "tire_type" ? Number(value) : updatedValue;
         setCarData(prevData => ({
             ...prevData,
-            [name]: finalValue
+            [name]: value
         }));
     };
 
@@ -52,7 +92,6 @@ function EditCar() {
             id: carId,
             fields: { ...carData },
         };
-        console.log(updatedData)
 
         fetch(`https://ttestt.shop/cars/api/cars/update`, {
             method: "POST",
@@ -69,74 +108,65 @@ function EditCar() {
                 return response.json();
             })
             .then(() => {
-                alert('Car successfully updated!');
+                alert('Auto bylo úspěšně aktualizováno!');
                 navigate(-1);
             })
             .catch(error => {
-                console.error("Error updating car:", error);
-                alert('Error: Could not update car.');
+                console.error("Chyba při aktualizaci auta:", error);
+                alert('Chyba: Auto nebylo možné aktualizovat.');
             });
     };
 
-    if (!carData || !serviceIntervalData) return <div>Loading...</div>;
+    if (!carData || !serviceIntervalData) return <div>Načítání...</div>;
+
+    const excludedFields = ['image', 'park_id', 'service_interval_id', 'id']; // Исключаемые поля
 
     return (
         <Container>
             <Form onSubmit={handleSubmit} className='w-75'>
-                {Object.keys(carData).map(key => {
-                    if (key === "tire_type") {
-                        return (
-                            <Form.Group className="mb-3" key={key}>
-                                <Form.Label>Tire Type</Form.Label>
+                {Object.keys(carData).filter(key => !excludedFields.includes(key)).map(key => {
+                    const label = translate(key);
+                    const isSelectField = key === "tire_type" || key === "driver_id";
+                    const selectOptions = key === "tire_type" ? [
+                        { value: "0", label: translate("Winter") },
+                        { value: "1", label: translate("Summer") },
+                        { value: "-1", label: translate("All seasons") },
+                    ] : driversData.map(driver => ({
+                        value: driver.id.toString(),
+                        label: `${driver.first_name} ${driver.last_name}`
+                    }));
+
+                    return (
+                        <Form.Group className="mb-3" key={key}>
+                            <Form.Label>{label}</Form.Label>
+                            {isSelectField ? (
                                 <Form.Select
                                     name={key}
                                     value={carData[key]}
                                     onChange={handleChangeCarData}
                                 >
-                                    <option value="0">Winter</option>
-                                    <option value="1">Summer</option>
-                                    <option value="-1">All seasons</option>
-                                </Form.Select>
-                            </Form.Group>
-                        );
-                    } else if (key === "driver_id") {
-                        return (
-                            <Form.Group className="mb-3" key={key}>
-                                <Form.Label>Driver</Form.Label>
-                                <Form.Select
-                                    name={key}
-                                    value={carData[key] || ''}
-                                    onChange={handleChangeCarData}
-                                >
-                                    <option value="">Select a driver</option>
-                                    {driversData.map(driver => (
-                                        <option key={driver.id} value={driver.id}>
-                                            {driver.first_name} {driver.last_name}
+                                    {selectOptions.map(option => (
+                                        <option key={option.value} value={option.value}>
+                                            {option.label}
                                         </option>
                                     ))}
                                 </Form.Select>
-                            </Form.Group>
-                        );
-                    } else {
-                        return (
-                            <Form.Group className="mb-3" key={key}>
-                                <Form.Label>{key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</Form.Label>
+                            ) : (
                                 <Form.Control
                                     type="text"
                                     name={key}
-                                    placeholder={`Enter ${key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}`}
+                                    placeholder={`Zadejte ${label}`}
                                     value={carData[key]}
                                     onChange={handleChangeCarData}
                                 />
-                            </Form.Group>
-                        );
-                    }
+                            )}
+                        </Form.Group>
+                    );
                 })}
 
-
                 <div className="d-flex justify-content-between">
-                    <Button variant="secondary" onClick={() => navigate(-1)}>Cancel</Button>
-                    <Button variant="primary" type="submit">Save Changes</Button>
+                    <Button variant="outline-secondary" onClick={() => navigate(-1)}>Zrušit</Button>
+                    <Button variant="primary" type="submit">Uložit změny</Button>
                 </div>
             </Form>
         </Container>

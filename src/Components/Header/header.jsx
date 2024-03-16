@@ -32,7 +32,7 @@ function Header() {
   return (
     <div className="container-fluid pb-3 d-flex justify-content-end">
 
-      <div className='appoinment_button'> <a href='https://rezervace.drivelab.cz' target="_blank">Make an appointment</a> </div>
+      <div className='appoinment_button'> <a href='https://rezervace.drivelab.cz' target="_blank">Sjednejte si schůzku</a> </div>
 
     </div >
   );

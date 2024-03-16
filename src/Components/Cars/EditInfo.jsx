@@ -8,6 +8,31 @@ function EditCar() {
 
     const [serviceIntervalData, setServiceIntervalData] = useState(null);
     const [changedServiceIntervalData, setChangedServiceIntervalData] = useState({});
+    const translationsCZ = {
+        "Oil Change": "Výměna oleje",
+        "Air Filter Change": "Výměna vzduchového filtru",
+        "Cabin Filter Change": "Výměna filtru kabiny",
+        "Fuel Filter Change": "Výměna palivového filtru",
+        "Brake Pads Change": "Výměna brzdových destiček",
+        "Brake Disks Change": "Výměna brzdových disků",
+        "Valvetrain Change": "Výměna rozvodů",
+        "Spark Plugs Change": "Výměna zapalovacích svíček",
+        "Pendant Change": "Výměna závěsu",
+        "Tire Change": "Výměna pneumatik",
+        "Brake Fluid Change": "Výměna brzdové kapaliny",
+        "Antifreeze Change": "Výměna chladicí kapaliny",
+        "Winter tire type change": "Změna typu pneumatik (zimní)",
+        "Summer tire type change": "Změna typu pneumatik (letní)",
+        "Air Conditioning Change": "Servis klimatizace",
+        "Service Interval Information": "Informace o servisním intervalu",
+        "Cancel": "Zrušit",
+        "Save Changes": "Uložit změny",
+    };
+
+    function translate(key) {
+        return translationsCZ[key] || key;
+    }
+
 
     useEffect(() => {
         fetch(`https://ttestt.shop/cars/api/cars/get?id=${carId}`, {
@@ -68,13 +93,14 @@ function EditCar() {
         <>
             <Container>
                 <Form onSubmit={handleSubmit} className='w-75'>
-                    <h3>Service Interval Information</h3>
+                    <h3>{translate("Service Interval Information")}</h3>
                     {serviceIntervalData && Object.keys(serviceIntervalData).map(key => {
-                        let label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()); 
+                        let baseLabel = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                        let label = translate(baseLabel);
                         if (key === "tire_type_change_0") {
-                            label = "Winter tire type change";
+                            label = translate("Winter tire type change");
                         } else if (key === "tire_type_change_1") {
-                            label = "Summer tire type change";
+                            label = translate("Summer tire type change");
                         }
 
                         return (
@@ -83,7 +109,7 @@ function EditCar() {
                                 <Form.Control
                                     type={typeof serviceIntervalData[key] === "number" ? "number" : "text"}
                                     name={key}
-                                    value={serviceIntervalData[key] || ''} 
+                                    value={serviceIntervalData[key] || ''}
                                     onChange={handleChangeServiceIntervalData}
                                 />
                             </Form.Group>
@@ -91,14 +117,15 @@ function EditCar() {
                     })}
 
                     <div className="d-flex justify-content-between">
-                        <Button variant="secondary" onClick={() => navigate(-1)}>Cancel</Button>
-                        <Button variant="primary" type="submit">Save Changes</Button>
+                        <Button variant="secondary" onClick={() => navigate(-1)}>{translate("Cancel")}</Button>
+                        <Button variant="primary" type="submit">{translate("Save Changes")}</Button>
                     </div>
                 </Form>
 
             </Container>
         </>
     );
+
 }
 
 export default EditCar;

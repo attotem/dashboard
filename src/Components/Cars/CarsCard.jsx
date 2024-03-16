@@ -24,8 +24,47 @@ const CarsCard = ({
         navigate(`/edit_car/${id}`)
     }
 
-    const cookie = document.cookie
+    const cookie = document.cookie;
     let sessionId = cookie.split("=")[1];
+
+    const translations = {
+        brand: "Značka",
+        model: "Model",
+        kms: "Kilometry",
+        year: "Rok",
+        VIN_number: "VIN číslo",
+        engine: "Motor",
+        transmission: "Převodovka",
+        fuel_type: "Typ paliva",
+        ti_expiration: "Expirace TI",
+        insurance_info: "Informace o pojištění",
+        tire_size: "Velikost pneumatik",
+        color: "Barva",
+        kms_per_day: "Kilometry na den",
+        driver_id: "ID řidiče",
+        tire_type: "Typ pneumatik",
+        oil_change: "Výměna oleje",
+        air_filter_change: "Výměna vzduchového filtru",
+        cabin_filter_change: "Výměna filtru kabiny",
+        fuel_filter_change: "Výměna palivového filtru",
+        brake_pads_change: "Výměna brzdových destiček",
+        brake_disks_change: "Výměna brzdových disků",
+        valvetrain_change: "Výměna rozvodů",
+        spark_plugs_change: "Výměna zapalovacích svíček",
+        pendant_change: "Výměna závěsu",
+        tire_change: "Výměna pneumatik",
+        brake_fluid_change: "Výměna brzdové kapaliny",
+        antifreeze_change: "Výměna chladicí kapaliny",
+        tire_type_change: "Změna typu pneumatik",
+        air_conditioning_change: "Servis klimatizace",
+    };
+
+    function translate(key) {
+        const formattedKey = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        return translations[key] ? translations[key] : formattedKey;
+    }
+
+
 
     function ShowInfo() {
         setShowModal(true);
@@ -43,7 +82,7 @@ const CarsCard = ({
 
             })
             .catch(error => {
-                console.error("Error fetching data:", error);
+                console.error("Chyba při získávání dat:", error);
             });
     }
     function DeleteCar() {
@@ -62,7 +101,7 @@ const CarsCard = ({
                 console.log(data)
             })
             .catch(error => {
-                console.error("Error fetching data:", error);
+                console.error("Chyba při získávání dat:", error);
             });
     }
 
@@ -71,11 +110,12 @@ const CarsCard = ({
 
         return filteredEntries.map(([key, value], index) => (
             <div className="d-flex" key={index}>
-                <div className="nameInfoCar">{key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}:</div>
+                <div className="nameInfoCar">{translate(key)}:</div>
                 <div className="infoCar">{value}</div>
             </div>
         ));
     };
+
     function swap() {
         setInfo(!Info)
     }
@@ -85,89 +125,78 @@ const CarsCard = ({
     return (
         <div className="col">
             <div className="card" onClick={ShowInfo} >
-                {status == "serviced" ?
+                {status === "serviced" ?
                     <div className='d-flex car_status'>
-                        <div className='green_blambda'>Serviced</div>
+                        <div className='green_blambda'>Proveden servis</div>
                     </div>
                     : null}
-                {status == "need service" ?
+                {status === "need service" ?
                     <div className='d-flex car_status'>
-                        <div className='yellow_blambda'>Need service</div>
+                        <div className='yellow_blambda'>Potřeba servisu</div>
                     </div>
                     : null}
-                {status == "urgently service" ?
+                {status === "urgently service" ?
                     <div className='d-flex car_status'>
-                        <div className='red_blambda'>Urgently service</div>
+                        <div className='red_blambda'>Naléhavě potřeba servisu</div>
                     </div>
                     : null}
 
                 <div className="card-body text-center">
                     <div className='image_container'>
                         <img src={image} alt={brand} className="card-img-top" />
-
                     </div>
                     <h5 className="card-title">{brand} {model}</h5>
-                    <h5 className="card-title"></h5>
-                    <p className="card-text" style={{ fontSize: "1rem" }} >{kms} kms</p>
+                    <p className="card-text" style={{ fontSize: "1rem" }}>{kms} km</p>
                 </div>
             </div>
 
             <Modal show={showModal} onHide={handleClose} size="lg">
                 {carInfo && (
                     <>
-                        <>
-                            <Modal.Header closeButton>
-                                <Modal.Title>{carInfo.car.brand} {carInfo.car.model}</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
+                        <Modal.Header closeButton>
+                            <Modal.Title>{carInfo.car.brand} {carInfo.car.model}</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            {Info ?
+                                <div onClick={swap} className='Switch_container'>Přepnout na interval servisu <SwapHorizIcon /></div>
+                                :
+                                <div onClick={swap} className='Switch_container'>Přepnout na informace o autě <SwapHorizIcon /></div>
+                            }
+
+                            <div className="row">
                                 {Info ?
                                     <>
-                                        <div onClick={swap} className='Switch_container'>Switch to service interval <SwapHorizIcon /></div>
-
-                                    </> : <>
-                                        <div onClick={swap} className='Switch_container'>Switch to car information <SwapHorizIcon /></div>
-
-                                    </>}
-
-
-                                <div className="row">
-                                    {Info ?
-                                        <>
-                                            <h3>Car Info</h3>
-                                            <div className="col-md-6">
-                                                {renderCarInfo(carInfo.car).slice(0, Math.ceil(Object.keys(carInfo.car).length / 2))}
-                                            </div>
-                                            <div className="col-md-6">
-                                                {renderCarInfo(carInfo.car).slice(Math.ceil(Object.keys(carInfo.car).length / 2))}
-                                            </div>
-                                        </> : <>
-                                            <h3>Service interval</h3>
-                                            <div className="col-md-6">
-                                                {renderCarInfo(carInfo.serviceInterval)}
-                                            </div>
-                                        </>}
-
-                                </div>
-                            </Modal.Body>
-                        </>
+                                        <h3>Informace o autě</h3>
+                                        <div className="col-md-6">
+                                            {renderCarInfo(carInfo.car).slice(0, Math.ceil(Object.keys(carInfo.car).length / 2))}
+                                        </div>
+                                        <div className="col-md-6">
+                                            {renderCarInfo(carInfo.car).slice(Math.ceil(Object.keys(carInfo.car).length / 2))}
+                                        </div>
+                                    </>
+                                    :
+                                    <>
+                                        <h3>Interval servisu</h3>
+                                        <div className="col-md-6">
+                                            {renderCarInfo(carInfo.serviceInterval)}
+                                        </div>
+                                    </>
+                                }
+                            </div>
+                        </Modal.Body>
                         <Modal.Footer className='d-flex justify-content-between'>
                             <button className="cancel_modal" onClick={DeleteCar}><DeleteForeverIcon /></button>
 
                             {Info ?
-                                <>
-                                    <button className='edit_modal' onClick={EditCar}>Edit car</button>
-
-                                </> : <>
-                                    <button className='edit_modal' onClick={() => EditInfo(carInfo.car.id)}>Edit info</button>
-
-                                </>}
+                                <button className='edit_modal' onClick={EditCar}>Upravit auto</button>
+                                :
+                                <button className='edit_modal' onClick={() => EditInfo(carInfo.car.id)}>Upravit info</button>
+                            }
                         </Modal.Footer>
-
                     </>
                 )}
-
             </Modal>
-        </div >
+        </div>
     );
 };
 

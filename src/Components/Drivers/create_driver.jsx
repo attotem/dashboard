@@ -33,6 +33,31 @@ function AddDriver() {
                 console.error("Error fetching parks:", error);
             });
     }, []);
+    const translations = {
+        "First Name": "Jméno",
+        "Enter First Name": "Zadejte jméno",
+        "Last Name": "Příjmení",
+        "Enter Last Name": "Zadejte příjmení",
+        "Post": "Pozice",
+        "Enter Post": "Zadejte pozici",
+        "Salary": "Plat",
+        "Enter Salary": "Zadejte plat",
+        "Experience": "Zkušenosti",
+        "Enter Experience": "Zadejte zkušenosti",
+        "Categories": "Kategorie",
+        "Enter Categories": "Zadejte kategorie",
+        "Phone Number": "Telefonní číslo",
+        "Enter Phone Number": "Zadejte telefonní číslo",
+        "Telegram": "Telegram",
+        "Enter Telegram ID": "Zadejte Telegram ID",
+        "Cancel": "Zrušit",
+        "Submit": "Odeslat",
+    };
+
+    function translate(key) {
+        // Предполагается использование чешского языка в приложении
+        return translations[key] || key;
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -83,100 +108,98 @@ function AddDriver() {
             <Container>
                 <Form onSubmit={handleSubmit} className='w-75'>
                     <Form.Group className="mb-3">
-                        <Form.Label>First Name</Form.Label>
+                        <Form.Label>{translate("First Name")}</Form.Label>
                         <Form.Control
                             type="text"
-                            placeholder="Enter First Name"
+                            placeholder={translate("Enter First Name")}
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
                         />
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                        <Form.Label>Last Name</Form.Label>
+                        <Form.Label>{translate("Last Name")}</Form.Label>
                         <Form.Control
                             type="text"
-                            placeholder="Enter Last Name"
+                            placeholder={translate("Enter Last Name")}
                             value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
                         />
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                        <Form.Label>Post</Form.Label>
+                        <Form.Label>{translate("Post")}</Form.Label>
                         <Form.Control
                             type="text"
-                            placeholder="Enter Post"
+                            placeholder={translate("Enter Post")}
                             value={post}
                             onChange={(e) => setPost(e.target.value)}
                         />
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                        <Form.Label>Salary</Form.Label>
+                        <Form.Label>{translate("Salary")}</Form.Label>
                         <Form.Control
                             type="number"
-                            placeholder="Enter Salary"
+                            placeholder={translate("Enter Salary")}
                             value={salary}
                             onChange={(e) => setSalary(e.target.value)}
                         />
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                        <Form.Label>Experience</Form.Label>
+                        <Form.Label>{translate("Experience")}</Form.Label>
                         <Form.Control
                             type="number"
-                            placeholder="Enter Experience"
+                            placeholder={translate("Enter Experience")}
                             value={experience}
                             onChange={(e) => setExperience(e.target.value)}
                         />
                     </Form.Group>
 
-                    {/* Категории */}
                     <Form.Group className="mb-3">
-                        <Form.Label>Categories</Form.Label>
+                        <Form.Label>{translate("Categories")}</Form.Label>
                         <Form.Control
                             type="text"
-                            placeholder="Enter Categories"
+                            placeholder={translate("Enter Categories")}
                             value={categories}
                             onChange={(e) => setCategories(e.target.value)}
                         />
                     </Form.Group>
 
-                    {/* Номер телефона */}
                     <Form.Group className="mb-3">
-                        <Form.Label>Phone Number</Form.Label>
+                        <Form.Label>{translate("Phone Number")}</Form.Label>
                         <Form.Control
                             type="text"
-                            placeholder="Enter Phone Number"
+                            placeholder={translate("Enter Phone Number")}
                             value={phoneNumber}
                             onChange={(e) => setPhoneNumber(e.target.value)}
                         />
                     </Form.Group>
 
-                    {/* Telegram */}
                     <Form.Group className="mb-3">
-                        <Form.Label>Telegram</Form.Label>
+                        <Form.Label>{translate("Telegram")}</Form.Label>
                         <Form.Control
                             type="text"
-                            placeholder="Enter Telegram ID"
+                            placeholder={translate("Enter Telegram ID")}
                             value={whatsapp}
                             onChange={(e) => setWhatsapp(e.target.value)}
                         />
                     </Form.Group>
 
                     <div className="d-flex justify-content-between">
-                        <Button variant="outline-secondary" type="button" onClick={handleCancel} className='cancel_create'>
-                            Cancel
+                        <Button variant="outline-secondary" type="button" onClick={handleCancel}>
+                            {translate("Cancel")}
                         </Button>
                         <Button style={{ background: "rgb(182, 51, 46)", border: "none" }} type="submit">
-                            Submit
+                            {translate("Submit")}
                         </Button>
                     </div>
                 </Form>
             </Container>
         </>
     );
+
 }
 
 export default AddDriver;

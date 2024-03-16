@@ -2,10 +2,8 @@ import { useState, useEffect } from "react";
 import { Menu, Sidebar, MenuItem, SubMenu } from "react-pro-sidebar";
 import { useProSidebar } from "react-pro-sidebar";
 import { useSidebarContext } from "./sidebarContext";
-import { Link } from "react-router-dom";
 import { tokens } from "./Theme";
 import { useTheme, Box, Typography } from "@mui/material";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import DirectionsCarFilledRoundedIcon from '@mui/icons-material/DirectionsCarFilledRounded';
@@ -16,8 +14,6 @@ import WarehouseIcon from '@mui/icons-material/Warehouse';
 import logo from "./logo.png"
 import { useNavigate } from "react-router-dom";
 import { useSelectedPark } from "../../SelectedParkContext";
-import { Remove } from "@mui/icons-material";
-import { useCookies } from 'react-cookie'
 
 const Item = ({ title, to, icon, selected, setSelected, newColor, onclick }) => {
     const navigate = useNavigate();
@@ -35,6 +31,20 @@ const Item = ({ title, to, icon, selected, setSelected, newColor, onclick }) => 
         navigate(to);
     };
 
+    const translations = {
+        "Dashboard": "Přístrojová deska",
+        "Cars": "Auta",
+        "Parks": "Parky",
+        "Drivers": "Řidiči",
+        "Payments": "Platby",
+        "Calendar": "Kalendář",
+        "Log out": "Odhlásit se",
+        "Select a park": "Vyberte park",
+    };
+
+    function translate(key) {
+        return translations[key] || key;
+    }
 
     return (
         <div className={selected === title ? "selected" : ""} onClick={onclick}>
@@ -58,7 +68,6 @@ const MyProSidebar = () => {
     const [selected, setSelected] = useState("");
     const { sidebarRTL, sidebarImage } = useSidebarContext();
     const { collapsed } = useProSidebar();
-    // const storedIsSuperuser = localStorage.getItem('isSuperuser');
     const storedIsSuperuser = JSON.parse(localStorage.getItem('isSuperuser'));
 
     const [selectedPark, setSelectedPark] = useState('');
@@ -210,7 +219,7 @@ const MyProSidebar = () => {
                                     onChange={handleParkChange}
                                     style={{ width: '100%', padding: '10px', marginBottom: '1rem', zIndex: "10000" }}
                                 >
-                                    <option value="" disabled >Select a park</option>
+                                    <option value="" disabled >Výběr parku</option>
                                     {parks.map((park) => (
                                         <option key={park.id} value={park.id}>
                                             {park.name}
@@ -221,7 +230,7 @@ const MyProSidebar = () => {
                         )}
 
                         <Item
-                            title="Dashboard"
+                            title="Přístrojová deska"
                             to="/dashboard"
                             icon={<HomeRoundedIcon />}
                             selected={selected}
@@ -229,7 +238,7 @@ const MyProSidebar = () => {
                         />
 
                         < Item
-                            title="Cars"
+                            title="Automobily"
                             to="/cars"
                             selected={selected}
                             setSelected={setSelected}
@@ -239,7 +248,7 @@ const MyProSidebar = () => {
 
                         {storedIsSuperuser ? <>
                             < Item
-                                title="Parks"
+                                title="Parky"
                                 icon={<WarehouseIcon />}
                                 to="/parks"
                                 selected={selected}
@@ -251,7 +260,7 @@ const MyProSidebar = () => {
 
                         < Item
                             icon={<PeopleRoundedIcon />}
-                            title="Drivers"
+                            title="Řidiči"
                             to="/drivers"
                             selected={selected}
                             setSelected={setSelected}
@@ -259,7 +268,7 @@ const MyProSidebar = () => {
 
 
                         < Item
-                            title="Payments"
+                            title="Platby"
                             icon={<PaymentIcon />}
                             to="/payments_history"
                             selected={selected}
@@ -269,7 +278,7 @@ const MyProSidebar = () => {
 
                         < Item
                             icon={<CalendarMonthRoundedIcon />}
-                            title="Calendar"
+                            title="Kalendář"
                             to="/calendar"
                             selected={selected}
                             setSelected={setSelected}
@@ -287,7 +296,7 @@ const MyProSidebar = () => {
 
                         >
                             <Item
-                                title="Log out"
+                                title="Odhlášení"
                                 icon={<LogoutIcon />}
                                 setSelected={setSelected}
                                 newColor="red"
