@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
+import translations from "../translations.json"
 
 function EditCar() {
     let { carId } = useParams();
@@ -8,29 +9,9 @@ function EditCar() {
 
     const [serviceIntervalData, setServiceIntervalData] = useState(null);
     const [changedServiceIntervalData, setChangedServiceIntervalData] = useState({});
-    const translationsCZ = {
-        "Oil Change": "Výměna oleje",
-        "Air Filter Change": "Výměna vzduchového filtru",
-        "Cabin Filter Change": "Výměna filtru kabiny",
-        "Fuel Filter Change": "Výměna palivového filtru",
-        "Brake Pads Change": "Výměna brzdových destiček",
-        "Brake Disks Change": "Výměna brzdových disků",
-        "Valvetrain Change": "Výměna rozvodů",
-        "Spark Plugs Change": "Výměna zapalovacích svíček",
-        "Pendant Change": "Výměna závěsu",
-        "Tire Change": "Výměna pneumatik",
-        "Brake Fluid Change": "Výměna brzdové kapaliny",
-        "Antifreeze Change": "Výměna chladicí kapaliny",
-        "Winter tire type change": "Změna typu pneumatik (zimní)",
-        "Summer tire type change": "Změna typu pneumatik (letní)",
-        "Air Conditioning Change": "Servis klimatizace",
-        "Service Interval Information": "Informace o servisním intervalu",
-        "Cancel": "Zrušit",
-        "Save Changes": "Uložit změny",
-    };
 
     function translate(key) {
-        return translationsCZ[key] || key;
+        return translations[key] || key;
     }
 
 

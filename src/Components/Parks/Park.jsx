@@ -29,7 +29,6 @@ const Park = ({ brandLogo, brandName, distance, name, id, SuperUser, image }) =>
                     }
 
 
-                    {/* <img src={image} alt={brandName} className="card-img-top" /> */}
                     <h5 className="card-title">{name}</h5>
                 </div>
             </div>

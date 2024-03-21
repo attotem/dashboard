@@ -3,6 +3,10 @@ import { Container, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../Header/header';
 import { useNavigate } from 'react-router-dom';
+// import translations from '../../translations.json';
+import translations from "../translations.json"
+
+
 function AddCar() {
     const [driversData, setDriversData] = useState([]);
     const [carData, setCarData] = useState({
@@ -55,39 +59,7 @@ function AddCar() {
         air_conditioning_change: ""
     });
 
-    const translations = {
-        brand: "Značka",
-        model: "Model",
-        year: "Rok",
-        VIN_number: "VIN číslo",
-        kms: "Kilometry",
-        engine: "Motor",
-        transmission: "Převodovka",
-        fuel_type: "Typ paliva",
-        ti_expiration: "Expirace technické inspekce",
-        insurance_info: "Informace o pojištění",
-        tire_size: "Velikost pneumatik",
-        color: "Barva",
-        kms_per_day: "Kilometry za den",
-        driver_id: "ID řidiče",
-        tire_type: "Typ pneumatik",
-        oil_change: "Výměna oleje",
-        air_filter_change: "Výměna vzduchového filtru",
-        cabin_filter_change: "Výměna filtru kabiny",
-        fuel_filter_change: "Výměna palivového filtru",
-        brake_pads_change: "Výměna brzdových destiček",
-        brake_disks_change: "Výměna brzdových disků",
-        valvetrain_change: "Výměna rozvodů",
-        spark_plugs_change: "Výměna zapalovacích svíček",
-        pendant_change: "Výměna závěsů",
-        tire_change: "Výměna pneumatik",
-        brake_fluid_change: "Výměna brzdové kapaliny",
-        antifreeze_change: "Výměna antifrizu",
-        tire_type_change_0: "Změna typu pneumatik (zimní)",
-        tire_type_change_1: "Změna typu pneumatik (letní)",
-        air_conditioning_change: "Servis klimatizace",
-    };
-
+    
     function translate(key) {
         return translations[key] || key;
     }

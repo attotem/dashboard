@@ -4,7 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./driver.css";
 import { useNavigate } from 'react-router-dom';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-
+import translations from "../translations.json"
+import photo from "./avatar.webp"
 const Driver = ({ first_name, phone_number, last_name, experience, categories, park_id, post, salary, whatsapp, id, car_brand, car_id, car_model, CarsData = [] }) => {
   const [showModal, setShowModal] = useState(false);
 
@@ -16,19 +17,7 @@ const Driver = ({ first_name, phone_number, last_name, experience, categories, p
   function EditDriver() {
     navigate(`/edit_driver/${id}`)
   }
-  const translations = {
-    "See more": "Více informací",
-    "Categories": "Kategorie",
-    "Experience": "Zkušenosti",
-    "years": "let",
-    "Salary": "Plat",
-    "Post": "Pozice",
-    "Whatsapp": "Whatsapp",
-    "Park id": "ID parkoviště",
-    "No car selected": "Žádné auto nevybráno",
-    "Edit driver": "Upravit řidiče",
-    "Delete": "Odstranit",
-  };
+
 
   function translate(key) {
     return translations[key] || key;
@@ -64,11 +53,12 @@ const Driver = ({ first_name, phone_number, last_name, experience, categories, p
   return (
     <>
       <tr className='TableRow' >
+        <td className="py-3 table_text align-middle center_photo"><img className='driver_photo' src={photo}></img></td>
         <td className="py-3 table_text align-middle">{first_name}</td>
         <td className="py-3 table_text align-middle">{last_name}</td>
         <td className="py-3 table_text align-middle">{phone_number}</td>
-        <td>
-          <Form.Group className="mb-3">
+        <td className="py-3 table_text align-middle">
+          <Form.Group>
             <Form.Select
             >
               {car_id != null ?
@@ -85,10 +75,6 @@ const Driver = ({ first_name, phone_number, last_name, experience, categories, p
         <td className="py-3 table_text align-middle">
           <div className='status_active' onClick={handleShow}>See more</div>
         </td>
-
-
-
-
       </tr>
 
       <Modal show={showModal} onHide={handleClose}>

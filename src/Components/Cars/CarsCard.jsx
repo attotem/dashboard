@@ -5,6 +5,7 @@ import "./cars.css";
 import { useNavigate } from 'react-router-dom';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import translations from "../translations.json"
 
 const CarsCard = ({
     brand,
@@ -27,37 +28,7 @@ const CarsCard = ({
     const cookie = document.cookie;
     let sessionId = cookie.split("=")[1];
 
-    const translations = {
-        brand: "Značka",
-        model: "Model",
-        kms: "Kilometry",
-        year: "Rok",
-        VIN_number: "VIN číslo",
-        engine: "Motor",
-        transmission: "Převodovka",
-        fuel_type: "Typ paliva",
-        ti_expiration: "Expirace TI",
-        insurance_info: "Informace o pojištění",
-        tire_size: "Velikost pneumatik",
-        color: "Barva",
-        kms_per_day: "Kilometry na den",
-        driver_id: "ID řidiče",
-        tire_type: "Typ pneumatik",
-        oil_change: "Výměna oleje",
-        air_filter_change: "Výměna vzduchového filtru",
-        cabin_filter_change: "Výměna filtru kabiny",
-        fuel_filter_change: "Výměna palivového filtru",
-        brake_pads_change: "Výměna brzdových destiček",
-        brake_disks_change: "Výměna brzdových disků",
-        valvetrain_change: "Výměna rozvodů",
-        spark_plugs_change: "Výměna zapalovacích svíček",
-        pendant_change: "Výměna závěsu",
-        tire_change: "Výměna pneumatik",
-        brake_fluid_change: "Výměna brzdové kapaliny",
-        antifreeze_change: "Výměna chladicí kapaliny",
-        tire_type_change: "Změna typu pneumatik",
-        air_conditioning_change: "Servis klimatizace",
-    };
+
 
     function translate(key) {
         const formattedKey = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
@@ -125,7 +96,7 @@ const CarsCard = ({
     return (
         <div className="col">
             <div className="card" onClick={ShowInfo} >
-                {status === "serviced" ?
+                {status === "services" ?
                     <div className='d-flex car_status'>
                         <div className='green_blambda'>Proveden servis</div>
                     </div>
@@ -135,7 +106,7 @@ const CarsCard = ({
                         <div className='yellow_blambda'>Potřeba servisu</div>
                     </div>
                     : null}
-                {status === "urgently service" ?
+                {status === "urgenly service" ?
                     <div className='d-flex car_status'>
                         <div className='red_blambda'>Naléhavě potřeba servisu</div>
                     </div>

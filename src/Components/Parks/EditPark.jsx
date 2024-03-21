@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import translations from "../translations.json"
 
 function EditPark({ parkId, onSave, show, onHide }) {
     const navigate = useNavigate();
@@ -36,13 +37,7 @@ function EditPark({ parkId, onSave, show, onHide }) {
                 console.error("Error fetching park data:", error);
             });
     };
-    const translations = {
-        "Edit Park": "Upravit park",
-        "Park Name": "Název parku",
-        "Enter park name": "Zadejte název parku",
-        "Image": "Obrázek",
-        "Submit": "Odeslat",
-    };
+   
     function translate(text) {
         return translations[text] || text;
     }

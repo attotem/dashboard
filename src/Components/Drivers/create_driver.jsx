@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
+import translations from "../translations.json"
 
 function AddDriver() {
     const [firstName, setFirstName] = useState('');
@@ -33,29 +34,9 @@ function AddDriver() {
                 console.error("Error fetching parks:", error);
             });
     }, []);
-    const translations = {
-        "First Name": "Jméno",
-        "Enter First Name": "Zadejte jméno",
-        "Last Name": "Příjmení",
-        "Enter Last Name": "Zadejte příjmení",
-        "Post": "Pozice",
-        "Enter Post": "Zadejte pozici",
-        "Salary": "Plat",
-        "Enter Salary": "Zadejte plat",
-        "Experience": "Zkušenosti",
-        "Enter Experience": "Zadejte zkušenosti",
-        "Categories": "Kategorie",
-        "Enter Categories": "Zadejte kategorie",
-        "Phone Number": "Telefonní číslo",
-        "Enter Phone Number": "Zadejte telefonní číslo",
-        "Telegram": "Telegram",
-        "Enter Telegram ID": "Zadejte Telegram ID",
-        "Cancel": "Zrušit",
-        "Submit": "Odeslat",
-    };
+   
 
     function translate(key) {
-        // Предполагается использование чешского языка в приложении
         return translations[key] || key;
     }
 

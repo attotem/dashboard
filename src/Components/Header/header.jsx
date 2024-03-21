@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Avatar from '@mui/material/Avatar';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './header.css';
-import avatar from "./avatar.jpg";
 
 function Header() {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
-  const notificationRef = useRef(null); // Ref for the notification menu
+  const notificationRef = useRef(null); 
 
   const toggleNotifications = () => {
     setIsNotificationsOpen(!isNotificationsOpen);

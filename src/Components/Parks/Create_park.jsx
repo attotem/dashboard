@@ -3,6 +3,7 @@ import { Container, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import bcrypt from 'bcryptjs';
 import { useNavigate } from 'react-router-dom';
+import translations from "../translations.json"
 
 function AddPark() {
     const [parkData, setParkData] = useState({
@@ -12,15 +13,7 @@ function AddPark() {
     });
     const cookie = document.cookie;
     let sessionId = cookie.split("=")[1];
-    const translations = {
-        "Enter Park Name": "Zadejte název parku",
-        "Enter Password": "Zadejte heslo",
-        "Cancel": "Zrušit",
-        "Submit": "Odeslat",
-        "Name": "Název",
-        "Password": "Heslo",
-        "Image": "Obrázek",
-    };
+   
 
     function translate(key) {
         return translations[key] || key;

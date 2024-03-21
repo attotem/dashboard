@@ -16,4 +16,11 @@
     border-radius: 5px;
     
 }
-
+.driver_photo{
+    width: 40px;
+    border-radius: 20px;
+}
+.center_photo{
+    display: flex;
+    justify-content: center;
+}

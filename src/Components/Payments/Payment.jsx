@@ -1,9 +1,22 @@
-import React, { useState } from 'react';
-import { Card, Form } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Card, Form, Modal, Button } from 'react-bootstrap';
 import "./Payments.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import translations from "../translations.json"
 
 const Payment = ({ id, issued_on, total_amount, note, number, client_name, status }) => {
-    const [currentStatus, setCurrentStatus] = useState(status);
+    const [invoiceData, setInvoiceData] = useState({
+        client_name: "",
+        issued_on: "",
+        total_amount: 0,
+        note: "",
+        number: "",
+        status: "",
+    });
+
+    const [showModal, setShowModal] = useState(false);
+    const handleShowModal = () => setShowModal(true);
+    const handleCloseModal = () => setShowModal(false);
 
     const updateStatus = (newStatus) => {
         fetch(`https://ttestt.shop/cars/api/invoices/update`, {
@@ -22,31 +35,36 @@ const Payment = ({ id, issued_on, total_amount, note, number, client_name, statu
             .then(response => response.json())
             .then(data => {
                 console.log("Status updated:", data);
+                setInvoiceData(prevData => ({ ...prevData, status: newStatus }));
             })
             .catch(error => console.error("Error updating payment status:", error));
     };
 
+    useEffect(() => {
+        fetch(`https://ttestt.shop/cars/api/invoices/get?id=${id}`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${document.cookie.split("=")[1]}`
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                setInvoiceData(data);
+            })
+            .catch(error => console.error("Error fetching invoice details:", error));
+    }, [id]);
+
     const handleStatusChange = (event) => {
         const newStatus = event.target.value;
-        setCurrentStatus(newStatus);
         updateStatus(newStatus);
     };
 
-    const translations = {
-        "Client": "Klient",
-        "Issued on": "Vystaveno",
-        "Note": "Poznámka",
-        "Total amount": "Celková částka",
-        "Details": "Detaily",
-        "Paid": "Zaplaceno",
-        "Unpaid": "Nezaplaceno",
-    };
-
+   
 
     function translate(key) {
         return translations[key] || key;
     }
-
 
     return (
         <div className="payment-card my-3 card_calendar">
@@ -54,10 +72,10 @@ const Payment = ({ id, issued_on, total_amount, note, number, client_name, statu
                 <Card.Title>{number}</Card.Title>
                 <Card.Header>
                     <Form.Select
-                        value={currentStatus}
+                        value={status}
                         onChange={handleStatusChange}
                         style={{
-                            color: currentStatus === "paid" ? 'green' : 'rgb(182, 51, 46)',
+                            color: status === "paid" ? 'green' : 'rgb(182, 51, 46)',
                             fontWeight: 600
                         }}
                     >
@@ -83,11 +101,28 @@ const Payment = ({ id, issued_on, total_amount, note, number, client_name, statu
                     <div className='info_card_info'>{total_amount}</div>
                 </div>
             </div>
-            <div className='button_upcoming'>
+
+            <Modal show={showModal} onHide={handleCloseModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Payment Details</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>Client Name: {invoiceData.client_name}</p>
+                    <p>Issued On: {invoiceData.issued_on}</p>
+                    <p>Note: {invoiceData.note}</p>
+                    <p>Total Amount: {invoiceData.total_amount}</p>
+                    <p>Status: {invoiceData.status}</p>
+                </Modal.Body>
+
+            </Modal>
+
+
+            <div className='button_upcoming' onClick={handleShowModal}>
                 {translate("Details")}
             </div>
         </div>
     );
+
 
 };
 

@@ -13,6 +13,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 10px;
 }
 
 .card {
@@ -57,12 +58,12 @@
 }
 
 .card-title{
-    font-weight: 900;
+    font-weight: 600;
     font-size: 1.2rem;
 
 }
 
-.nameInfoCar   {
+.nameInfoCar{
     font-size: 1rem;
     padding-bottom: 5px;
 }
@@ -97,20 +98,16 @@
     color: white;
 }
 .yellow_blambda {
-    
     background: orange;
     margin-left: 5px;
     border-radius: 10px;
-
     padding: 5px;
     color: white;
 }
 .red_blambda {
-   
     background: red;
     margin-left: 5px;
     border-radius: 10px;
-
     padding: 5px;
     color: white;
 }

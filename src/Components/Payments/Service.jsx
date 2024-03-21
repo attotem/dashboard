@@ -1,15 +1,9 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import "./Payments.css";
-const translations = {
-    "Service №": "Servis č.",
-    "Note": "Poznámka",
-    "Deadline": "Termín",
-    "Car": "Auto",
-    "Details": "Detaily",
-    "Enroll": "Zapsat",
-    "Urgently": "Naléhavě",
-};
+import translations from "../translations.json"
+
+
 function translate(key) {
     return translations[key] || key;
 }

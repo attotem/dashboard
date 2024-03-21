@@ -4,21 +4,13 @@ import Driver from './Driver';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 import { useSelectedPark } from '../../SelectedParkContext';
+import translations from "../translations.json"
 
 function Drivers() {
     const [customersData, setCustomersData] = useState([]);
     const cookie = document.cookie
     let sessionId = cookie.split("=")[1];
     const { selectedParkId } = useSelectedPark();
-
-
-    const translations = {
-        "All Drivers": "Všichni řidiči",
-        "First name": "Jméno",
-        "Last name": "Příjmení",
-        "Phone number": "Telefonní číslo",
-        "Car": "Auto",
-    };
 
     function translate(key) {
         return translations[key] || key;
@@ -83,6 +75,7 @@ function Drivers() {
                     <table className="table">
                         <thead>
                             <tr>
+                                <th className='table_header '></th>
                                 <th className='table_header '>{translate("First name")}</th>
                                 <th className='table_header '>{translate("Last name")}</th>
                                 <th className='table_header '>{translate("Phone number")}</th>

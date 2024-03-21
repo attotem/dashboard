@@ -17,11 +17,15 @@
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^5.3.2",
+    "date-fns": "^3.6.0",
+    "jquery": "^3.7.1",
     "md5": "^2.3.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.0",
     "react-bootstrap-icons": "^1.10.3",
     "react-cookie": "^7.1.0",
+    "react-date-range": "^2.0.0-alpha.4",
+    "react-datepicker": "^6.4.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
     "react-pro-sidebar": "^1.1.0-alpha.2",
@@ -44,7 +48,8 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
+      ">= 0.5%",
+      "last 2 versions",
       "not dead",
       "not op_mini all"
     ],
