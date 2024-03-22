@@ -16,9 +16,10 @@
     border-radius: 5px;
     
 }
-.driver_photo{
+.driver_photo {
     width: 40px;
     border-radius: 20px;
+    height: 40px;
 }
 .center_photo{
     display: flex;

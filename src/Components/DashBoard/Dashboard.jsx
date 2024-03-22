@@ -111,8 +111,21 @@ function Dashboard() {
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data)
                 setLastInvoices(data)
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+            });
+        fetch(`https://ttestt.shop/cars/api/analytics/serviced`, {
+            method: "GET",
+            cache: "no-cache",
+            headers: {
+                "Authorization": `Bearer ${sessionId}`
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                setTodayPercentage(data)
             })
             .catch(error => {
                 console.error("Error fetching data:", error);
@@ -164,7 +177,7 @@ function Dashboard() {
 
                     <div className='chart_wrapper'>
                         <div className='text_dashboard'>{translate("Serviced vehicles")}</div>
-                        {lastDayData && <RadialChart servicedCarsPercentage={lastDayData.servicedCarsPercentage} />}
+                        {todayPercentage && <RadialChart servicedCarsPercentage={todayPercentage} />}
 
                         <table className="table">
                             <thead>

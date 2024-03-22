@@ -1,20 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 function EditDriver() {
     const navigate = useNavigate();
-
-    let { driverId } = useParams();
-    const [changedData, setChangedData] = useState({});
-
+    const { driverId } = useParams();
     const [driverData, setDriverData] = useState({
         first_name: '',
         last_name: '',
-        lastName: '',
         post: '',
         salary: 0,
         experience: 0,
@@ -22,84 +16,69 @@ function EditDriver() {
         phone_number: '',
         tg: '',
         parkId: '',
+        image: null,
     });
-    const [parks, setParks] = useState([]);
+    const [changedData, setChangedData] = useState({});
     const cookie = document.cookie;
     const sessionId = cookie.split("=")[1];
+
+    useEffect(() => {
+        fetch(`https://ttestt.shop/cars/api/drivers/get?id=${driverId}`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${sessionId}`,
+            },
+        })
+            .then(response => response.json())
+            .then(data => setDriverData(data))
+            .catch(error => console.error("Error fetching driver data:", error));
+    }, [driverId, sessionId]);
+
+    const handleChange = (event) => {
+        const { name, value, type, checked, files } = event.target;
+        if (name === 'image') {
+            setDriverData(prevData => ({
+                ...prevData,
+                image: files[0]
+            }));
+        } else {
+            const updatedValue = type === 'checkbox' ? checked : value;
+            setDriverData(prevData => ({
+                ...prevData,
+                [name]: updatedValue
+            }));
+            setChangedData(prevData => ({
+                ...prevData,
+                [name]: updatedValue
+            }));
+        }
+    };
 
     const handleCancel = () => {
         navigate(-1);
     };
 
-
-    useEffect(() => {
-        fetch("https://ttestt.shop/cars/api/parks/getAll", {
-            method: "GET",
-            cache: "no-cache",
-            headers: {
-                "Authorization": `Bearer ${sessionId}`
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                setParks(data);
-            })
-            .catch(error => {
-                console.error("Error fetching parks:", error);
-            });
-
-        fetch("https://ttestt.shop/cars/api/drivers/getAll", {
-            method: "GET",
-            cache: "no-cache",
-            headers: {
-                "Authorization": `Bearer ${sessionId}`
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                for (let i = 0; i < data.length; i++) {
-                    if (data[i].id == driverId) {
-                        setDriverData(data[i])
-                    }
-                }
-
-            })
-            .catch(error => {
-                console.error("Error fetching data:", error);
-            });
-    }, [driverId, sessionId]);
-
-    const handleChange = (event) => {
-        const { name, value, type, checked } = event.target;
-        const updatedValue = type === 'checkbox' ? checked : value;
-
-        setDriverData(prevData => ({
-            ...prevData,
-            [name]: updatedValue
-        }));
-
-        setChangedData(prevData => ({
-            ...prevData,
-            [name]: updatedValue
-        }));
-    };
-
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const updatedDriverData = {
+        const formData = new FormData();
+        const dataObject = {
             id: driverId,
             fields: changedData,
         };
 
-        console.log(updatedDriverData);
-        fetch("https://ttestt.shop/cars/api/drivers/update", {
+        formData.append('data', JSON.stringify(dataObject));
+
+        if (driverData.image && driverData.image instanceof File) {
+            formData.append('image', driverData.image, driverData.image.name);
+        }
+
+        fetch(`https://ttestt.shop/cars/api/drivers/update`, {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json',
                 "Authorization": `Bearer ${sessionId}`,
             },
-            body: JSON.stringify(updatedDriverData),
+            body: formData,
         })
             .then(response => {
                 if (!response.ok) {
@@ -107,8 +86,7 @@ function EditDriver() {
                 }
                 return response.json();
             })
-            .then(data => {
-                console.log(data);
+            .then(() => {
                 alert('Driver data updated successfully');
                 navigate(-1);
             })
@@ -158,20 +136,18 @@ function EditDriver() {
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                        <Form.Label>Telegram</Form.Label>
-                        <Form.Control type="text" placeholder="Enter Telegram ID" name="tg" value={driverData.tg} onChange={handleChange} />
+                        <Form.Label>WhatsApp</Form.Label>
+                        <Form.Control type="text" placeholder="Enter WhatsApp " name="tg" value={driverData.tg} onChange={handleChange} />
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                        <Form.Label>Park</Form.Label>
-                        <Form.Control as="select" name="parkId" value={driverData.parkId} onChange={handleChange} required>
-                            <option value="">Select Park</option>
-                            {parks.map(park => (
-                                <option key={park.id} value={park.id}>{park.name}</option>
-                            ))}
-                        </Form.Control>
+                        <Form.Label>Image</Form.Label>
+                        <Form.Control
+                            type="file"
+                            name="image"
+                            onChange={handleChange}
+                        />
                     </Form.Group>
-
 
 
 

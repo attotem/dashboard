@@ -99,6 +99,7 @@ function Drivers() {
                                     car_brand={customer.car_brand}
                                     car_id={customer.car_id}
                                     car_model={customer.car_model}
+                                    photo={customer.photo}
                                     CarsData={CarsData}
                                 />
                             ))}

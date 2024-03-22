@@ -5,8 +5,8 @@ import "./driver.css";
 import { useNavigate } from 'react-router-dom';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import translations from "../translations.json"
-import photo from "./avatar.webp"
-const Driver = ({ first_name, phone_number, last_name, experience, categories, park_id, post, salary, whatsapp, id, car_brand, car_id, car_model, CarsData = [] }) => {
+import nophoto from "./nophoto.jpg"
+const Driver = ({ first_name, phone_number, last_name, experience, categories, park_id, post, salary, whatsapp, id, car_brand, car_id, car_model, photo, CarsData = [] }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleShow = () => setShowModal(true);
@@ -47,13 +47,14 @@ const Driver = ({ first_name, phone_number, last_name, experience, categories, p
   };
 
 
-  console.log("CarsData")
-  console.log(CarsData)
+  console.log(photo)
 
   return (
     <>
       <tr className='TableRow' >
-        <td className="py-3 table_text align-middle center_photo"><img className='driver_photo' src={photo}></img></td>
+        <td className="py-3 table_text align-middle center_photo">
+          <img className='driver_photo' src={photo == null ? nophoto : photo} alt="Driver"></img>
+        </td>
         <td className="py-3 table_text align-middle">{first_name}</td>
         <td className="py-3 table_text align-middle">{last_name}</td>
         <td className="py-3 table_text align-middle">{phone_number}</td>
