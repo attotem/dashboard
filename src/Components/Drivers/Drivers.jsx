@@ -42,9 +42,7 @@ function Drivers() {
     const [CarsData, setCarsData] = useState([]);
     const navigate = useNavigate();
 
-
-
-    useEffect(() => {
+    const fetchDrivers = () => {
         fetch(`https://ttestt.shop/cars/api/cars/getAll`, {
             method: "GET",
             cache: "no-cache",
@@ -60,6 +58,10 @@ function Drivers() {
             .catch(error => {
                 console.error("Error fetching data:", error);
             });
+    }
+
+    useEffect(() => {
+        fetchDrivers();
     }, [selectedParkId]);
 
     return (
@@ -101,6 +103,7 @@ function Drivers() {
                                     car_model={customer.car_model}
                                     photo={customer.photo}
                                     CarsData={CarsData}
+                                    onDriverUpdated={fetchDrivers}
                                 />
                             ))}
                         </tbody>

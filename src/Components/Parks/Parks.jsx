@@ -11,7 +11,9 @@ function Parks(props) {
     const cookie = document.cookie;
     let sessionId = cookie.split("=")[1];
 
-    useEffect(() => {
+
+
+    const fetchParks = () => {
         fetch("https://ttestt.shop/cars/api/parks/getAll", {
             method: "GET",
             cache: "no-cache",
@@ -27,8 +29,16 @@ function Parks(props) {
             .catch(error => {
                 console.error("Error fetching data:", error);
             });
+    };
+
+
+    useEffect(() => {
+        fetchParks()
     }, []);
 
+    const onParkUpdated = () => {
+        fetchParks();
+    };
     function AddPark() {
         navigate(`/add_park`)
     }
@@ -38,7 +48,7 @@ function Parks(props) {
             <div className="container">
                 <div className="row row-cols-1 row-cols-md-4 g-4">
                     {customersData.map((park, index) => (
-                        <Park SuperUser={1} key={index} {...park} />
+                        <Park onParkUpdated={onParkUpdated} SuperUser={1} key={index} {...park} />
                     ))}
                     {SuperUser == 1 ? <></> : <>
                         <div className="col" onClick={AddPark} style={{ cursor: 'pointer' }}>

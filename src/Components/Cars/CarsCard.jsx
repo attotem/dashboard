@@ -13,7 +13,9 @@ const CarsCard = ({
     kms,
     model,
     status,
-    image
+    image,
+    fetchCars
+
 }) => {
     const [showModal, setShowModal] = useState(false);
     const [carInfo, setCarInfo] = useState(null);
@@ -49,15 +51,21 @@ const CarsCard = ({
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                setCarInfo(data);
+                const roundedCarData = roundNumericValues(data.car);
+                const roundedServiceIntervalData = roundNumericValues(data.serviceInterval);
 
+                setCarInfo({
+                    ...data,
+                    car: roundedCarData,
+                    serviceInterval: roundedServiceIntervalData
+                });
             })
             .catch(error => {
                 console.error("Chyba při získávání dat:", error);
             });
     }
+
     function DeleteCar() {
-        setShowModal(false);
         fetch(`https://ttestt.shop/cars/api/cars/remove`, {
             method: "POST",
             cache: "no-cache",
@@ -69,23 +77,44 @@ const CarsCard = ({
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data)
+                console.log(data);
+                setShowModal(false);
+                fetchCars()
             })
             .catch(error => {
-                console.error("Chyba při získávání dat:", error);
+                console.error("Ошибка при удалении машины:", error);
             });
     }
 
-    const renderCarInfo = (car) => {
-        const filteredEntries = Object.entries(car).filter(([key, value]) => !['id', 'image', 'driver_id'].includes(key));
 
-        return filteredEntries.map(([key, value], index) => (
+    const renderCarInfo = (car) => {
+        const excludedFields = ['id', 'image', 'driver_id', 'photo'];
+        const filteredEntries = Object.entries(car).filter(([key, _]) => !excludedFields.includes(key));
+        const halfwayPoint = Math.ceil(filteredEntries.length / 2);
+
+        const firstHalf = filteredEntries.slice(0, halfwayPoint).map(([key, value], index) => (
             <div className="d-flex" key={index}>
                 <div className="nameInfoCar">{translate(key)}:</div>
                 <div className="infoCar">{value}</div>
             </div>
         ));
+
+        const secondHalf = filteredEntries.slice(halfwayPoint).map(([key, value], index) => (
+            <div className="d-flex" key={index}>
+                <div className="nameInfoCar">{translate(key)}:</div>
+                <div className="infoCar">{value}</div>
+            </div>
+        ));
+
+        return { firstHalf, secondHalf };
     };
+    function roundNumericValues(obj) {
+        const roundedObj = {};
+        Object.entries(obj).forEach(([key, value]) => {
+            roundedObj[key] = typeof value === 'number' ? Math.round(value) : value;
+        });
+        return roundedObj;
+    }
 
     function swap() {
         setInfo(!Info)
@@ -98,7 +127,7 @@ const CarsCard = ({
             <div className="card" onClick={ShowInfo} >
                 <div className='d-flex car_status justify-content-center'>
 
-                    {status === "services" ?
+                    {status === "serviced" ?
                         <div className='green_blambda'>Proveden servis</div>
                         : null}
                     {status === "need service" ?
@@ -126,6 +155,11 @@ const CarsCard = ({
                             <Modal.Title>{carInfo.car.brand} {carInfo.car.model}</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
+                            <div className='img_container'>
+                                <img className='img_car' src={carInfo.car.photo}></img>
+
+                            </div>
+
                             {Info ?
                                 <div onClick={swap} className='Switch_container'>Přepnout na interval servisu <SwapHorizIcon /></div>
                                 :
@@ -137,18 +171,26 @@ const CarsCard = ({
                                     <>
                                         <h3>Informace o autě</h3>
                                         <div className="col-md-6">
-                                            {renderCarInfo(carInfo.car).slice(0, Math.ceil(Object.keys(carInfo.car).length / 2))}
+                                            {renderCarInfo(carInfo.car).firstHalf}
                                         </div>
                                         <div className="col-md-6">
-                                            {renderCarInfo(carInfo.car).slice(Math.ceil(Object.keys(carInfo.car).length / 2))}
+                                            {renderCarInfo(carInfo.car).secondHalf}
                                         </div>
                                     </>
                                     :
                                     <>
                                         <h3>Interval servisu</h3>
+
                                         <div className="col-md-6">
-                                            {renderCarInfo(carInfo.serviceInterval)}
+                                            {renderCarInfo(carInfo.serviceInterval).firstHalf}
                                         </div>
+                                        <div className="col-md-6">
+                                            {renderCarInfo(carInfo.serviceInterval).secondHalf}
+                                        </div>
+
+                                        {/* <div className="col-md-6">
+                                            {renderCarInfo(carInfo.serviceInterval)}
+                                        </div> */}
                                     </>
                                 }
                             </div>

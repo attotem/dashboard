@@ -79,10 +79,11 @@
     justify-content: flex-end;
     margin-bottom: 20px;
 }
-.Switch_container{
+.Switch_container {
     position: absolute;
     top: 10px;
     right: 10px;
+    cursor: pointer;
 }
 .card-body{
     margin-top:30px
@@ -108,4 +109,12 @@
     border-radius: 10px;
     padding: 5px;
     color: white;
+}
+.img_container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.img_car{
+    max-height: 200px;
 }

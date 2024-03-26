@@ -7,12 +7,10 @@ function EditCar() {
     let { carId } = useParams();
     const navigate = useNavigate();
 
-
-
     function translate(text) {
         return translations[text] || text.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
     }
-
+    const [changedData, setChangedData] = useState({});
     const [carData, setCarData] = useState({});
     const [serviceIntervalData, setServiceIntervalData] = useState({});
     const [driversData, setDriversData] = useState([]);
@@ -43,28 +41,63 @@ function EditCar() {
     }, [carId]);
 
     const handleChangeCarData = (event) => {
-        const { name, value } = event.target;
-        setCarData(prevData => ({
-            ...prevData,
-            [name]: value
-        }));
+        const { name, value, files } = event.target;
+        if (name === 'image') {
+            setCarData(prevData => ({
+                ...prevData,
+                [name]: files[0]
+            }));
+            setChangedData(prevData => ({
+                ...prevData,
+                [name]: files[0]
+            }));
+        } else {
+            setCarData(prevData => ({
+                ...prevData,
+                [name]: value
+            }));
+            setChangedData(prevData => ({
+                ...prevData,
+                [name]: value
+            }));
+        }
     };
+
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const updatedData = {
-            id: carId,
-            fields: { ...carData },
-        };
+        const formData = new FormData();
 
+        const dataObject = {
+            id: carId,
+            fields: { ...changedData },
+        }; 
+
+        delete dataObject.fields.image;
+
+        formData.append('data', JSON.stringify(dataObject));
+
+        if (changedData.image instanceof File) {
+            formData.append('image', changedData.image, changedData.image.name);
+        }
+
+
+
+        for (let [key, value] of formData.entries()) {
+            // if (value instanceof File) {
+            //     console.log(`File: ${key}, name: ${value.name}, type: ${value.type}, size: ${value.size} bytes`);
+            // } else {
+            console.log(`${key}: ${value}`);
+            // }
+        }
         fetch(`https://ttestt.shop/cars/api/cars/update`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${document.cookie.split("=")[1]}`,
-                "Content-Type": "application/json"
             },
-            body: JSON.stringify(updatedData)
+            body: formData,
         })
             .then(response => {
                 if (!response.ok) {
@@ -73,18 +106,19 @@ function EditCar() {
                 return response.json();
             })
             .then(() => {
-                alert('Auto bylo úspěšně aktualizováno!');
+                alert('Car data updated successfully');
                 navigate(-1);
             })
             .catch(error => {
-                console.error("Chyba při aktualizaci auta:", error);
-                alert('Chyba: Auto nebylo možné aktualizovat.');
+                console.error("Error updating car data:", error);
+                alert('Error: Could not update car data.');
             });
     };
 
+
     if (!carData || !serviceIntervalData) return <div>Načítání...</div>;
 
-    const excludedFields = ['image', 'park_id', 'service_interval_id', 'id']; // Исключаемые поля
+    const excludedFields = ['image', 'park_id', 'service_interval_id', 'id'];
 
     return (
         <Container>
@@ -128,6 +162,16 @@ function EditCar() {
                         </Form.Group>
                     );
                 })}
+
+                <Form.Group className="mb-3">
+                    <Form.Label>Image</Form.Label>
+                    <Form.Control
+                        type="file"
+                        name="image"
+                        onChange={handleChangeCarData}
+                    />
+                </Form.Group>
+
 
                 <div className="d-flex justify-content-between">
                     <Button variant="outline-secondary" onClick={() => navigate(-1)}>Zrušit</Button>

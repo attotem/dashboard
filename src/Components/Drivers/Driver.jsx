@@ -7,7 +7,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import translations from "../translations.json"
 import nophoto from "./nophoto.jpg"
 import VisibilityIcon from '@mui/icons-material/Visibility';
-const Driver = ({ first_name, phone_number, last_name, experience, categories, park_id, post, salary, whatsapp, id, car_brand, car_id, car_model, photo, CarsData = [] }) => {
+const Driver = ({ first_name, phone_number, last_name, experience, categories, park_id, post, salary, whatsapp, id, car_brand, car_id, car_model, photo, CarsData = [], onDriverUpdated }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleShow = () => setShowModal(true);
@@ -28,6 +28,7 @@ const Driver = ({ first_name, phone_number, last_name, experience, categories, p
 
   const cookie = document.cookie
   let sessionId = cookie.split("=")[1];
+
   function DeleteDriver() {
     fetch(`https://ttestt.shop/cars/api/drivers/remove`, {
       method: "POST",
@@ -37,15 +38,17 @@ const Driver = ({ first_name, phone_number, last_name, experience, categories, p
       },
       body: JSON.stringify({ id: id }),
     })
-      .then(response => {
-
-      })
+      .then(response => response.json())
       .then(data => {
+        console.log(data);
+        alert('Driver deleted');
+        onDriverUpdated(); // Вызов функции для обновления списка водителей
       })
       .catch(error => {
-
+        console.log(error);
       });
-  };
+  }
+
 
 
   console.log(photo)
@@ -95,7 +98,6 @@ const Driver = ({ first_name, phone_number, last_name, experience, categories, p
           <Button variant="outline-secondary" type="button" className='d-flex align-items-center' onClick={DeleteDriver}>
             <DeleteForeverIcon /> {translate("Delete")}
           </Button>
-          {/* <button className="cancel_modal" onClick={DeleteDriver}><DeleteForeverIcon /> {translate("Delete")}</button> */}
           <button className='edit_modal' onClick={EditDriver}>{translate("Edit driver")}</button>
         </Modal.Footer>
       </Modal>

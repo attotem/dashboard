@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import translations from "../translations.json"
 
-function EditPark({ parkId, onSave, show, onHide }) {
+function EditPark({ parkId, show, onHide, onParkUpdated }) {
     const navigate = useNavigate();
     const [parkData, setParkData] = useState({ name: "", owner: "" });
     const [changedData, setChangedData] = useState({});
@@ -99,6 +99,7 @@ function EditPark({ parkId, onSave, show, onHide }) {
             .then(data => {
                 console.log(data);
                 alert('Park data updated successfully');
+                onParkUpdated();
             })
             .catch(error => {
                 console.error("Error updating park:", error);
@@ -123,6 +124,9 @@ function EditPark({ parkId, onSave, show, onHide }) {
 
             })
             .then(data => {
+                console.log(data)
+                alert('Park deleted');
+                onParkUpdated();
             })
             .catch(error => {
 

@@ -13,8 +13,7 @@ function Cars() {
 
     const { selectedParkId } = useSelectedPark();
 
-
-    useEffect(() => {
+    const fetchCars = () => {
         fetch(`https://ttestt.shop/cars/api/cars/getAll`, {
             method: "GET",
             cache: "no-cache",
@@ -30,6 +29,9 @@ function Cars() {
             .catch(error => {
                 console.error("Error fetching data:", error);
             });
+    }
+    useEffect(() => {
+        fetchCars()
     }, [selectedParkId]);
 
 
@@ -41,7 +43,7 @@ function Cars() {
             <div className="container">
                 <div className="row row-cols-1 row-cols-md-4 g-4">
                     {customersData.map((car, index) => (
-                        <CarsCard key={index} {...car} />
+                        <CarsCard fetchCars={fetchCars} key={index} {...car} />
                     ))}
                     <div className="col" onClick={AddCar} style={{ cursor: 'pointer' }}>
                         <div className="card h-100 d-flex justify-content-center align-items-center">

@@ -102,6 +102,8 @@ function AddDriver() {
             .then(data => {
                 console.log(data);
                 alert('Driver successfully added!');
+                navigate(-1);
+
             })
             .catch(error => {
                 console.error("Error submitting form:", error);

@@ -13,7 +13,7 @@ function AddPark() {
     });
     const cookie = document.cookie;
     let sessionId = cookie.split("=")[1];
-   
+
 
     function translate(key) {
         return translations[key] || key;
@@ -65,6 +65,8 @@ function AddPark() {
             .then(data => {
                 console.log(data);
                 alert('Park successfully added!');
+                navigate(-1);
+
             })
             .catch(error => {
                 console.error("Error submitting form:", error);

@@ -22,7 +22,7 @@ function AddCar() {
         insurance_info: "",
         tire_size: "",
         color: "",
-        kms_per_day: 0,
+        kms_per_month: 0,
         driver_id: null,
         tire_type: 0,
         oil_change: 0,
@@ -39,6 +39,7 @@ function AddCar() {
         antifreeze_change: 0,
         tire_type_change: "",
         air_conditioning_change: "",
+        image: null
     });
 
     const [serviceInterval, setServiceInterval] = useState({
@@ -59,7 +60,7 @@ function AddCar() {
         air_conditioning_change: ""
     });
 
-    
+
     function translate(key) {
         return translations[key] || key;
     }
@@ -89,34 +90,49 @@ function AddCar() {
                 console.error("Error fetching data:", error);
             });
     }, [])
+
     const handleChange = (event) => {
-        const { name, value } = event.target;
+        const { name, value, files } = event.target;
         const updatedValue = name === "driver_id" && value === "" ? null : value;
         const finalValue = name === "tire_type" ? Number(value) : updatedValue;
-        setCarData(prevData => ({
-            ...prevData,
-            [name]: finalValue
-        }));
+        if (files) {
+            setCarData(prevData => ({
+                ...prevData,
+                [name]: files[0]
+            }));
+        } else {
+            setCarData(prevData => ({
+                ...prevData,
+                [name]: finalValue
+            }));
+        }
     };
-
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const combinedData = {
+        const formData = new FormData();
+
+        formData.append('data', JSON.stringify({
             car: { ...carData },
-            serviceInterval: { ...serviceInterval }
-        };
+            serviceInterval: { ...serviceInterval },
+        }));
 
-        console.log(combinedData)
+        if (carData.image) {
+            formData.append('image', carData.image, carData.image.name);
+        }
 
-        fetch("`https://ttestt.shop/cars/api/cars/add", {
+        for (let [key, value] of formData.entries()) {
+
+            console.log(`${key}: ${value}`);
+        }
+
+        fetch("https://ttestt.shop/cars/api/cars/add", {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${sessionId}`,
-                "Content-Type": "application/json"
             },
-            body: JSON.stringify(combinedData)
+            body: formData,
         })
             .then(response => {
                 if (!response.ok) {
@@ -126,13 +142,15 @@ function AddCar() {
             })
             .then(data => {
                 console.log(data);
-                alert('Auto s úspěšně přidaným servisním intervalem!');
+                alert('Auto successfully added with service interval!');
+                navigate(-1);
             })
             .catch(error => {
                 console.error("Error while submitting the form:", error);
-                alert('Chyba: Nelze přidat vůz se servisním intervalem.');
+                alert('Error: Could not add the car with service interval.');
             });
     };
+
     const navigate = useNavigate();
     const handleCancel = () => {
         navigate(-1);
@@ -173,6 +191,17 @@ function AddCar() {
                                             </option>
                                         ))}
                                     </Form.Select>
+                                </Form.Group>
+                            );
+                        } else if (key === "image") {
+                            return (
+                                <Form.Group className="mb-3">
+                                    <Form.Label>{translate("Image")}</Form.Label>
+                                    <Form.Control
+                                        type="file"
+                                        name="image"
+                                        onChange={handleChange}
+                                    />
                                 </Form.Group>
                             );
                         } else {
@@ -234,6 +263,7 @@ function AddCar() {
                         }
                     })
                     }
+
 
                     <div className="d-flex justify-content-between">
                         <Button variant="outline-secondary" type="button" onClick={() => navigate(-1)} className='cancel_create'>

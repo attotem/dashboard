@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import nophoto from "./nophoto.jpg"
 
-const Park = ({ brandLogo, brandName, distance, name, id, SuperUser, image }) => {
+const Park = ({ brandName, name, id, image, onParkUpdated }) => {
     const navigate = useNavigate();
 
     const [showEditModal, setShowEditModal] = useState(false);
@@ -32,7 +32,7 @@ const Park = ({ brandLogo, brandName, distance, name, id, SuperUser, image }) =>
                     <h5 className="card-title">{name}</h5>
                 </div>
             </div>
-            {showEditModal && <EditPark parkId={id} show={showEditModal} onHide={() => setShowEditModal(false)} />}
+            {showEditModal && <EditPark onParkUpdated={onParkUpdated} parkId={id} show={showEditModal} onHide={() => setShowEditModal(false)} />}
 
         </div>
     );
