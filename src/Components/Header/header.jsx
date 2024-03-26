@@ -4,7 +4,7 @@ import './header.css';
 
 function Header() {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
-  const notificationRef = useRef(null); 
+  const notificationRef = useRef(null);
 
   const toggleNotifications = () => {
     setIsNotificationsOpen(!isNotificationsOpen);
@@ -29,7 +29,7 @@ function Header() {
   return (
     <div className="container-fluid pb-3 d-flex justify-content-end">
 
-      <div className='appoinment_button'> <a href='https://rezervace.drivelab.cz' target="_blank">Sjednejte si schůzku</a> </div>
+      <div className='appoinment_button'> <a href='https://rezervace.drivelab.cz' target="_blank">On-line Rezervace</a> </div>
 
     </div >
   );

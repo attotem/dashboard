@@ -40,7 +40,13 @@
     background: #e9e9e9;
     border-radius: 10px;
 }
-.date_selector_button{
+.date_selector_button {
     position: relative;
     z-index: 1000;
+    background: rgb(182, 51, 46);
+    border: none;
+    font-weight: 500;
+    color: white;
 }
+
+

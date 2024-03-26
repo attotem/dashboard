@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Form } from 'react-bootstrap';
+import { Button, Form, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./driver.css";
 import { useNavigate } from 'react-router-dom';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import translations from "../translations.json"
 import nophoto from "./nophoto.jpg"
+import VisibilityIcon from '@mui/icons-material/Visibility';
 const Driver = ({ first_name, phone_number, last_name, experience, categories, park_id, post, salary, whatsapp, id, car_brand, car_id, car_model, photo, CarsData = [] }) => {
   const [showModal, setShowModal] = useState(false);
 
@@ -74,7 +75,7 @@ const Driver = ({ first_name, phone_number, last_name, experience, categories, p
             </Form.Select>
           </Form.Group></td>
         <td className="py-3 table_text align-middle">
-          <div className='status_active' onClick={handleShow}>See more</div>
+          <div className='status_active' onClick={handleShow}><VisibilityIcon /></div>
         </td>
       </tr>
 
@@ -91,7 +92,10 @@ const Driver = ({ first_name, phone_number, last_name, experience, categories, p
           <p>{translate("Park id")}: {park_id}</p>
         </Modal.Body>
         <Modal.Footer className='d-flex justify-content-between'>
-          <button className="cancel_modal" onClick={DeleteDriver}><DeleteForeverIcon /> {translate("Delete")}</button>
+          <Button variant="outline-secondary" type="button" className='d-flex align-items-center' onClick={DeleteDriver}>
+            <DeleteForeverIcon /> {translate("Delete")}
+          </Button>
+          {/* <button className="cancel_modal" onClick={DeleteDriver}><DeleteForeverIcon /> {translate("Delete")}</button> */}
           <button className='edit_modal' onClick={EditDriver}>{translate("Edit driver")}</button>
         </Modal.Footer>
       </Modal>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./cars.css";
 import { useNavigate } from 'react-router-dom';
@@ -96,21 +96,19 @@ const CarsCard = ({
     return (
         <div className="col">
             <div className="card" onClick={ShowInfo} >
-                {status === "services" ?
-                    <div className='d-flex car_status'>
+                <div className='d-flex car_status justify-content-center'>
+
+                    {status === "services" ?
                         <div className='green_blambda'>Proveden servis</div>
-                    </div>
-                    : null}
-                {status === "need service" ?
-                    <div className='d-flex car_status'>
+                        : null}
+                    {status === "need service" ?
                         <div className='yellow_blambda'>Potřeba servisu</div>
-                    </div>
-                    : null}
-                {status === "urgenly service" ?
-                    <div className='d-flex car_status'>
+                        : null}
+                    {status === "urgenly service" ?
                         <div className='red_blambda'>Naléhavě potřeba servisu</div>
-                    </div>
-                    : null}
+                        : null}
+                </div>
+
 
                 <div className="card-body text-center">
                     <div className='image_container'>
@@ -156,8 +154,9 @@ const CarsCard = ({
                             </div>
                         </Modal.Body>
                         <Modal.Footer className='d-flex justify-content-between'>
-                            <button className="cancel_modal" onClick={DeleteCar}><DeleteForeverIcon /></button>
-
+                            <Button variant="outline-secondary" type="button" className='d-flex align-items-center' onClick={DeleteCar}>
+                                <DeleteForeverIcon /> {translate("Delete")}
+                            </Button>
                             {Info ?
                                 <button className='edit_modal' onClick={EditCar}>Upravit auto</button>
                                 :

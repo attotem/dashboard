@@ -37,7 +37,7 @@ function EditPark({ parkId, onSave, show, onHide }) {
                 console.error("Error fetching park data:", error);
             });
     };
-   
+
     function translate(text) {
         return translations[text] || text;
     }
@@ -156,8 +156,8 @@ function EditPark({ parkId, onSave, show, onHide }) {
                                 onChange={handleChange}
                             />
                         </Form.Group>
-                        <div className="d-flex justify-content-between">
-                            <Button variant="outline-secondary" type="button" onClick={DeletePark}>
+                        <div className="d-flex justify-content-between align-items-center">
+                            <Button variant="outline-secondary" type="button" className='d-flex align-items-center' onClick={DeletePark}>
                                 <DeleteForeverIcon /> {translate("Delete")}
                             </Button>
                             <Button style={{ background: "rgb(182, 51, 46)", border: "none" }} type="submit">

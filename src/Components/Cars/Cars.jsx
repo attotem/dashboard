@@ -3,8 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import CarsCard from './CarsCard';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
-import ParksAdmin from '../Parks/Admin/ParksAdmin';
 import { useSelectedPark } from '../../SelectedParkContext';
 
 function Cars() {

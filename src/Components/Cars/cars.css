@@ -2,11 +2,11 @@
 
 .car_status {
     position: absolute;
-    right: 10px;
     top: 15px;
     font-size: 1rem;
     opacity: 0.7;
     font-weight: 600;
+    width: 100%;
 }
 .image_container {
     height: 100px;
@@ -37,7 +37,6 @@
     max-width: 100%;
 }
 
-
 .car_green{
     color: green;
 }
@@ -49,7 +48,6 @@
 .car_red{
     color: red;
 }
-
 
 .card {
     border: none;

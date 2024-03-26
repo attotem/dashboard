@@ -10,8 +10,10 @@ import { addDays } from 'date-fns';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import translations from "../translations.json"
+import { Button } from 'react-bootstrap';
 
 function Dashboard() {
+
     const [chartData, setChartData] = useState([]);
     const [showDateSelector, setShowDateSelector] = useState(true);
     const [LastInvoices, setLastInvoices] = useState([]);
@@ -130,7 +132,7 @@ function Dashboard() {
             .catch(error => {
                 console.error("Error fetching data:", error);
             });
-    }, [])
+    }, [selectedParkId])
 
     useEffect(() => {
         fetchData();
@@ -143,17 +145,17 @@ function Dashboard() {
             <div className="ml-5">
                 <div className='d-flex'>
                     <div>
-                        <div className='chart_wrapper'>
+                        <div className='chart_wrapper' style={{ width: "50vw", height: "38vh" }}>
                             <div className='text_dashboard'>{translate("Title")}</div>
                             <CustomActiveShapePieChart />
                         </div>
 
-                        <div className='chart_wrapper'>
+                        <div className='chart_wrapper' style={{ width: "50vw", height: "38vh" }} >
                             <div className="mb-3">
-                                {showDateSelector ? null :
-                                    <button className="btn btn-primary date_selector_button" onClick={toggleDateSelector}>
-                                        Show Date Selector
-                                    </button>}
+                                <Button variant="outline-secondary date_selector_button" type="button" className='d-flex align-items-center' onClick={toggleDateSelector}>
+                                    Zvolte datum
+                                </Button>
+
                             </div>
 
                             {showDateSelector && (
@@ -165,6 +167,8 @@ function Dashboard() {
                                         moveRangeOnFirstSelection={false}
                                         months={1}
                                         direction="horizontal"
+                                        rangeColors={['rgb(182, 51, 46)']}
+
                                     />
                                 </div>
                             )}
@@ -175,9 +179,12 @@ function Dashboard() {
                         </div>
                     </div>
 
-                    <div className='chart_wrapper'>
+                    <div className='chart_wrapper' >
                         <div className='text_dashboard'>{translate("Serviced vehicles")}</div>
-                        {todayPercentage && <RadialChart servicedCarsPercentage={todayPercentage} />}
+                        <div style={{ width: "25vw", height: "40vh" }}>
+                            {todayPercentage && <RadialChart servicedCarsPercentage={todayPercentage} />}
+
+                        </div>
 
                         <table className="table">
                             <thead>
