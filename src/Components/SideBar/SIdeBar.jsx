@@ -181,7 +181,7 @@ const MyProSidebar = () => {
                             },
                         }}
                     >
-                        <img src={logo} alt="Logo" />
+                        <img src="https://petpunch.xyz/media/drivelab2.png" alt="Logo" />
                     </Box>
 
                     <Box
