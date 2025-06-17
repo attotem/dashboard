@@ -1,4 +1,4 @@
-const URL = "https://obidkarp.work/api/";
+const URL = "https://apparent-hugely-parakeet.ngrok-free.app/";
 
 const getSessionIdFromCookie = () => {
   const cookies = document.cookie.split('; ');
