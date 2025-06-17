@@ -368,7 +368,7 @@ function Dashboard() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {LastInvoices.length > 0 ? (
+                                {(Array.isArray(LastInvoices) && LastInvoices.length > 0) ? (
                                     LastInvoices.map((invoice, index) => (
                                         <tr key={index}>
                                             <td>{formatDateTable(invoice.issued_on)}</td>

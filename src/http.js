@@ -160,7 +160,7 @@ export const fetchAnalytics = async (startFormat,endFormat) => {
 };
 export const fetchLastInvoices = async () => {
   const response = await fetchData(`analytics/custom`);
-  return response;
+  return response || [];
 };
 export const fetchServiced = async () => {
   const response = await fetchData(`analytics/serviced`);
